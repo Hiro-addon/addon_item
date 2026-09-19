@@ -136,6 +136,12 @@ font-size:11px;
 color:#888;
 }
 
+.component-required{
+font-size:11px;
+color:#999;
+white-space:nowrap;
+}
+
 .component-body{
 display:none;
 padding:0 12px 12px;
@@ -224,7 +230,7 @@ display:none!important;
 }
 
 .component.disabled{
-opacity:.45;
+opacity:.55;
 }
 
 .component.disabled .component-header{
@@ -233,7 +239,7 @@ cursor:not-allowed;
 
 .component.disabled .component-name,
 .component.disabled .component-version{
-color:#666;
+color:#777;
 }
 
 @media(max-width:700px){
@@ -759,6 +765,7 @@ grid-template-columns:1fr;
 <input type="checkbox">
 <span class="component-name">使用時間・移動速度</span>
 <span class="component-version">1.20.50+</span>
+<span class="component-required hidden">🔒 必須</span>
 </div>
 <div class="component-body">
 
@@ -860,17 +867,6 @@ const current=document.getElementById("version").value;
 return versionOrder.indexOf(current)>=versionOrder.indexOf(min);
 }
 
-function refreshComponents(){
-document.querySelectorAll(".component").forEach(component=>{
-component.classList.toggle(
-"hidden",
-!versionOK(component.dataset.min)
-);
-});
-
-updateComponentLocks();
-}
-
 const dependencies={
 "minecraft:food":[
 "minecraft:use_modifiers"
@@ -890,13 +886,15 @@ const conflicts=[
 ]
 ];
 
+const autoEnabledDependencies=new Set();
+
 function getComponent(id){
 return document.querySelector(
 `.component[data-id="${id}"]`
 );
 }
 
-function setComponentState(id,checked){
+function setComponentState(id,checked,automatic=false){
 const component=getComponent(id);
 
 if(!component){
@@ -917,6 +915,16 @@ return;
 
 checkbox.checked=checked;
 component.classList.toggle("active",checked);
+
+if(checked){
+if(automatic){
+autoEnabledDependencies.add(id);
+}else{
+autoEnabledDependencies.delete(id);
+}
+}else{
+autoEnabledDependencies.delete(id);
+}
 }
 
 function enableDependencies(id,visited=new Set()){
@@ -929,7 +937,20 @@ visited.add(id);
 const required=dependencies[id]||[];
 
 required.forEach(requiredId=>{
-setComponentState(requiredId,true);
+const requiredComponent=getComponent(requiredId);
+
+if(!requiredComponent){
+return;
+}
+
+const requiredCheckbox=requiredComponent.querySelector(
+"input[type=checkbox]"
+);
+
+if(!requiredCheckbox.checked){
+setComponentState(requiredId,true,true);
+}
+
 enableDependencies(requiredId,visited);
 });
 }
@@ -966,9 +987,49 @@ collect(component.dataset.id);
 return required;
 }
 
-function updateComponentLocks(){
+function disableUnusedAutoDependencies(){
+let changed=true;
+
+while(changed){
+changed=false;
+
 const required=getRequiredComponents();
 
+for(const id of [...autoEnabledDependencies]){
+if(required.has(id)){
+continue;
+}
+
+const component=getComponent(id);
+
+if(component){
+const checkbox=component.querySelector(
+"input[type=checkbox]"
+);
+
+checkbox.checked=false;
+component.classList.remove("active");
+}
+
+autoEnabledDependencies.delete(id);
+changed=true;
+}
+}
+}
+
+function refreshComponents(){
+document.querySelectorAll(".component").forEach(component=>{
+component.classList.toggle(
+"hidden",
+!versionOK(component.dataset.min)
+);
+});
+
+disableUnusedAutoDependencies();
+updateComponentLocks();
+}
+
+function updateComponentLocks(){
 const conflictDisabled=new Set();
 
 conflicts.forEach(group=>{
@@ -991,18 +1052,37 @@ const checkbox=component.querySelector(
 "input[type=checkbox]"
 );
 
+const requiredLabel=component.querySelector(
+".component-required"
+);
+
 if(component.classList.contains("hidden")){
 checkbox.disabled=false;
 component.classList.remove("disabled");
+
+if(requiredLabel){
+requiredLabel.classList.add("hidden");
+}
+
 return;
 }
 
+const autoRequired=autoEnabledDependencies.has(id);
+const conflictLocked=conflictDisabled.has(id);
+
 const locked=
-required.has(id) ||
-conflictDisabled.has(id);
+autoRequired ||
+conflictLocked;
 
 checkbox.disabled=locked;
 component.classList.toggle("disabled",locked);
+
+if(requiredLabel){
+requiredLabel.classList.toggle(
+"hidden",
+!autoRequired
+);
+}
 });
 }
 
@@ -1029,13 +1109,16 @@ if(checkbox.disabled){
 return;
 }
 
-component.classList.toggle(
-"active",
-checkbox.checked
-);
+const id=component.dataset.id;
 
 if(checkbox.checked){
-enableDependencies(component.dataset.id);
+autoEnabledDependencies.delete(id);
+component.classList.add("active");
+enableDependencies(id);
+}else{
+autoEnabledDependencies.delete(id);
+component.classList.remove("active");
+disableUnusedAutoDependencies();
 }
 
 updateComponentLocks();
