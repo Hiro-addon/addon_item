@@ -1,354 +1,77 @@
 <!DOCTYPE html>
-<html lang="ja"> 
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Hiro Addon Tools</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-background:#111;
-color:#fff;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
-}
-
-.container{
-max-width:1000px;
-margin:auto;
-padding:24px 16px 50px
-}
-
-h1{
-margin:0;
-font-size:28px
-}
-
-.subtitle{
-margin:6px 0 28px;
-color:#888
-}
-
-.section{
-background:#1a1a1a;
-border:1px solid #292929;
-border-radius:14px;
-padding:18px;
-margin-bottom:16px
-}
-
-.section h2{
-margin:0 0 16px;
-font-size:18px
-}
-
-.field{
-margin-bottom:15px
-}
-
-.field:last-child{
-margin-bottom:0
-}
-
-label{
-display:block;
-margin-bottom:7px;
-color:#bbb;
-font-size:14px
-}
-
-input,select,textarea{
-width:100%;
-padding:12px 14px;
-border-radius:9px;
-border:1px solid #333;
-background:#111;
-color:#fff;
-outline:none;
-font-size:15px
-}
-
-textarea{
-min-height:90px;
-resize:vertical
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#666
-}
-
-input::placeholder,
-textarea::placeholder{
-color:#777;
-opacity:.55
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px
-}
-
-.component-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px
-}
-
-.component{
-border:1px solid #333;
-border-radius:10px;
-background:#111;
-overflow:hidden
-}
-
-.component.active{
-border-color:#666
-}
-
-.component-head{
-display:flex;
-align-items:center;
-gap:10px;
-padding:12px
-}
-
-.component-head>input{
-width:18px;
-height:18px;
-padding:0;
-margin:0;
-flex:none
-}
-
-.component-name{
-font-size:14px;
-word-break:break-all
-}
-
-.component-version{
-margin-left:auto;
-font-size:11px;
-color:#777;
-white-space:nowrap
-}
-
-.component-body{
-display:none;
-padding:0 12px 12px
-}
-
-.component.active .component-body{
-display:block
-}
-
-.component-body input,
-.component-body select,
-.component-body textarea{
-margin-bottom:8px
-}
-
-.component-body label{
-margin-top:10px
-}
-
-.boolean-setting{
-display:flex;
-align-items:center;
-gap:8px;
-margin-top:12px;
-padding:10px;
-border-radius:8px;
-background:#181818;
-border:1px solid #292929
-}
-
-.boolean-setting input{
-width:18px;
-height:18px;
-margin:0;
-padding:0
-}
-
-.boolean-setting span{
-color:#fff;
-font-size:14px
-}
-
-.help{
-font-size:11px;
-color:#777;
-margin-top:3px;
-line-height:1.5
-}
-
-.required{
-background:#181818;
-border:1px solid #333;
-border-radius:10px;
-padding:13px;
-margin-bottom:10px
-}
-
-.required-title{
-font-size:14px;
-font-weight:bold;
-margin-bottom:10px
-}
-
-.required-name{
-font-size:12px;
-color:#aaa;
-margin-bottom:6px
-}
-
-.sub-title{
-font-size:13px;
-font-weight:bold;
-margin:14px 0 8px
-}
-
-.digger-row{
-display:grid;
-grid-template-columns:1fr 150px 42px;
-gap:8px;
-margin-bottom:8px;
-align-items:end
-}
-
-.digger-label{
-font-size:11px;
-color:#777;
-margin-bottom:5px
-}
-
-.digger-row input{
-margin:0
-}
-
-.remove-row{
-width:42px;
-height:42px;
-border:1px solid #444;
-border-radius:8px;
-background:#181818;
-color:#fff;
-cursor:pointer;
-font-size:18px
-}
-
-.add-row{
-width:100%;
-padding:10px;
-border:1px solid #444;
-border-radius:8px;
-background:#181818;
-color:#fff;
-cursor:pointer;
-font-size:13px
-}
-
-.generate{
-width:100%;
-padding:14px;
-border:0;
-border-radius:10px;
-background:#fff;
-color:#111;
-font-size:16px;
-font-weight:bold;
-cursor:pointer
-}
-
-.result{
-margin-top:16px
-}
-
-.result-box{
-background:#0d0d0d;
-border:1px solid #292929;
-border-radius:12px;
-overflow:hidden
-}
-
-.result-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:12px 14px;
-border-bottom:1px solid #292929;
-font-weight:bold
-}
-
-.copy-btn{
-padding:7px 12px;
-border:1px solid #444;
-border-radius:7px;
-background:#1a1a1a;
-color:#fff;
-cursor:pointer;
-font-size:12px
-}
-
-pre{
-margin:0;
-padding:15px;
-overflow-x:auto;
-white-space:pre-wrap;
-word-break:break-word;
-color:#ddd;
-font-size:13px;
-line-height:1.6
-}
-
+body{margin:0;background:#111;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.container{max-width:1000px;margin:auto;padding:24px 16px 50px}
+h1{margin:0;font-size:28px}
+.subtitle{margin:6px 0 28px;color:#888}
+.section{background:#1a1a1a;border:1px solid #292929;border-radius:14px;padding:18px;margin-bottom:16px}
+.section h2{margin:0 0 16px;font-size:18px}
+.field{margin-bottom:15px}
+.field:last-child{margin-bottom:0}
+label{display:block;margin-bottom:7px;color:#bbb;font-size:14px}
+input,select,textarea{width:100%;padding:12px 14px;border-radius:9px;border:1px solid #333;background:#111;color:#fff;outline:none;font-size:15px}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#666}
+input::placeholder,textarea::placeholder{color:#777;opacity:.55}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.component-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.component{border:1px solid #333;border-radius:10px;background:#111;overflow:hidden}
+.component.active{border-color:#666}
+.component-head{display:flex;align-items:center;gap:10px;padding:12px}
+.component-head>input{width:18px;height:18px;padding:0;margin:0;flex:none}
+.component-head>input:disabled{opacity:.25;cursor:not-allowed}
+.component-name{font-size:14px;word-break:break-all}
+.component-version{margin-left:auto;font-size:11px;color:#777;white-space:nowrap}
+.component-body{display:none;padding:0 12px 12px}
+.component.active .component-body{display:block}
+.component-body input,.component-body select,.component-body textarea{margin-bottom:8px}
+.component-body label{margin-top:10px}
+.boolean-setting{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px;border-radius:8px;background:#181818;border:1px solid #292929}
+.boolean-setting input{width:18px;height:18px;margin:0;padding:0}
+.boolean-setting span{color:#fff;font-size:14px}
+.help{font-size:11px;color:#777;margin-top:3px;line-height:1.5}
+.required{background:#181818;border:1px solid #333;border-radius:10px;padding:13px;margin-bottom:10px}
+.required-title{font-size:14px;font-weight:bold;margin-bottom:10px}
+.required-name{font-size:12px;color:#aaa;margin-bottom:6px}
+.sub-title{font-size:13px;font-weight:bold;margin:14px 0 8px}
+.digger-row{display:grid;grid-template-columns:1fr 150px 42px;gap:8px;margin-bottom:8px;align-items:end}
+.digger-label{font-size:11px;color:#777;margin-bottom:5px}
+.digger-row input{margin:0}
+.remove-row{width:42px;height:42px;border:1px solid #444;border-radius:8px;background:#181818;color:#fff;cursor:pointer;font-size:18px}
+.add-row{width:100%;padding:10px;border:1px solid #444;border-radius:8px;background:#181818;color:#fff;cursor:pointer;font-size:13px}
+.generate{width:100%;padding:14px;border:0;border-radius:10px;background:#fff;color:#111;font-size:16px;font-weight:bold;cursor:pointer}
+.result{margin-top:16px}
+.result-box{background:#0d0d0d;border:1px solid #292929;border-radius:12px;overflow:hidden}
+.result-title{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #292929;font-weight:bold}
+.copy-btn{padding:7px 12px;border:1px solid #444;border-radius:7px;background:#1a1a1a;color:#fff;cursor:pointer;font-size:12px}
+pre{margin:0;padding:15px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;color:#ddd;font-size:13px;line-height:1.6}
 @media(max-width:700px){
-
-.grid,
-.component-grid{
-grid-template-columns:1fr
-}
-
-h1{
-font-size:24px
-}
-
-.component-version{
-display:none
-}
-
-.digger-row{
-grid-template-columns:1fr 110px 42px
-}
-
+.grid,.component-grid{grid-template-columns:1fr}
+h1{font-size:24px}
+.component-version{display:none}
+.digger-row{grid-template-columns:1fr 110px 42px}
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
 
 <h1>Hiro Addon Tools</h1>
-
-<div class="subtitle">
-Minecraft Bedrock Addon Item JSON Generator
-</div>
+<div class="subtitle">Minecraft Bedrock Addon Item JSON Generator</div>
 
 <div class="section">
-
 <h2>基本設定</h2>
-
 <div class="grid">
 
 <div class="field">
 <label>フォーマットバージョン</label>
-
 <select id="formatVersion">
-
 <option value="1.20.0">1.20.0</option>
 <option value="1.20.10">1.20.10</option>
 <option value="1.20.30">1.20.30</option>
@@ -368,7 +91,6 @@ Minecraft Bedrock Addon Item JSON Generator
 <option value="1.26.10">1.26.10</option>
 <option value="1.26.20">1.26.20</option>
 <option value="1.26.30" selected>1.26.30</option>
-
 </select>
 </div>
 
@@ -378,9 +100,7 @@ Minecraft Bedrock Addon Item JSON Generator
 </div>
 
 <div class="field">
-
 <label>クリエイティブカテゴリ</label>
-
 <select id="category">
 <option value="none">なし</option>
 <option value="items">アイテム</option>
@@ -388,7 +108,6 @@ Minecraft Bedrock Addon Item JSON Generator
 <option value="nature">自然</option>
 <option value="construction">建築</option>
 </select>
-
 </div>
 
 <div class="field">
@@ -400,75 +119,38 @@ Minecraft Bedrock Addon Item JSON Generator
 </div>
 
 <div class="section">
-
 <h2>基本コンポーネント</h2>
 
 <div class="required">
-
-<div class="required-title">
-minecraft:icon
-</div>
-
-<div class="required-name">
-テクスチャ名
-</div>
-
+<div class="required-title">minecraft:icon</div>
+<div class="required-name">テクスチャ名</div>
 <input id="iconTexture" type="text" placeholder="test_item">
-
-<div class="help">
-resource_pack/textures/item_texture.json の texture_data に登録した名前
-</div>
-
+<div class="help">resource_pack/textures/item_texture.json の texture_data に登録した名前</div>
 </div>
 
 <div class="required">
-
-<div class="required-title">
-minecraft:max_stack_size
-</div>
-
-<div class="required-name">
-最大スタック数
-</div>
-
+<div class="required-title">minecraft:max_stack_size</div>
+<div class="required-name">最大スタック数</div>
 <input id="maxStack" type="number" min="1" max="64" value="64">
-
 </div>
 
 </div>
 
 <div class="section">
-
 <h2>使うコンポーネント</h2>
-
 <div id="componentGrid" class="component-grid"></div>
-
 </div>
 
-<button class="generate" id="generate">
-JSONを生成
-</button>
+<button class="generate" id="generate">JSONを生成</button>
 
 <div class="result">
-
 <div class="result-box">
-
 <div class="result-title">
-
-<span>
-生成結果
-</span>
-
-<button class="copy-btn" id="copy">
-コピー
-</button>
-
+<span>生成結果</span>
+<button class="copy-btn" id="copy">コピー</button>
 </div>
-
 <pre id="result">{}</pre>
-
 </div>
-
 </div>
 
 </div>
@@ -497,7 +179,7 @@ use_on:[],
 aligned_placement:false,
 replace_block_item:false
 },
-help:"使用したときに指定したブロックを設置できるようにします。複数の使用先ブロックは , で区切ります。"
+help:"使用したときに指定したブロックを設置できるようにします。"
 },
 
 {
@@ -515,7 +197,7 @@ name:"クリエイティブ破壊",
 min:"1.20.0",
 type:"boolean",
 default:true,
-help:"クリエイティブモードで、このアイテムを使ってブロックを破壊できるようにします。"
+help:"クリエイティブモードでブロックを破壊できるようにします。"
 },
 
 {
@@ -524,7 +206,7 @@ name:"コンポスター",
 min:"1.20.0",
 type:"number",
 default:0.3,
-help:"コンポスターに入れたときに堆肥化される確率を設定します。"
+help:"コンポスターに入れたときの堆肥化確率を設定します。"
 },
 
 {
@@ -537,7 +219,7 @@ category:"example",
 duration:1,
 type:"use"
 },
-help:"アイテム使用後のクールダウンを設定します。1.21.130以降では使用時・攻撃時を選択できます。"
+help:"アイテム使用後のクールダウンを設定します。"
 },
 
 {
@@ -567,7 +249,7 @@ default:{
 destroy_speeds:[],
 use_efficiency:false
 },
-help:"指定したブロックを速く破壊できる採掘ツールにします。破壊時間を秒で指定するとspeedに変換します。"
+help:"指定したブロックを速く破壊できる採掘ツールにします。"
 },
 
 {
@@ -621,7 +303,7 @@ default:{
 slot:"sword",
 value:10
 },
-help:"アイテムに付けられるエンチャントの種類とエンチャント値を設定します。"
+help:"アイテムに付けられるエンチャントの種類と値を設定します。"
 },
 
 {
@@ -666,7 +348,7 @@ name:"燃料",
 min:"1.20.0",
 type:"number",
 default:1,
-help:"かまどなどの燃料として使用できます。値は燃焼時間です。"
+help:"燃料として使用したときの燃焼時間を設定します。"
 },
 
 {
@@ -684,7 +366,7 @@ name:"手持ちツール表示",
 min:"1.20.0",
 type:"boolean",
 default:true,
-help:"手に持ったときにツールのような持ち方で表示します。"
+help:"手に持ったときにツールのような表示にします。"
 },
 
 {
@@ -693,7 +375,7 @@ name:"ホバーテキスト色",
 min:"1.20.0",
 type:"text",
 default:"#FFFFFF",
-help:"アイテムのホバーテキストに使用する色を設定します。"
+help:"アイテムのホバーテキストの色を設定します。"
 },
 
 {
@@ -702,7 +384,7 @@ name:"操作ボタン",
 min:"1.20.0",
 type:"interact_button",
 default:true,
-help:"タッチ操作で表示する操作ボタンを設定します。"
+help:"タッチ操作時の操作ボタンを表示します。"
 },
 
 {
@@ -741,7 +423,7 @@ default:{
 projectile_entity:"minecraft:arrow",
 minimum_critical_power:0
 },
-help:"アイテムから発射する投射物エンティティを設定します。"
+help:"投射物として発射されるエンティティを設定します。"
 },
 
 {
@@ -774,7 +456,7 @@ type:"repairable",
 default:{
 repair_items:[]
 },
-help:"指定したアイテムを使って修理できるようにします。複数のアイテムは , で区切ります。"
+help:"指定したアイテムを使って修理できるようにします。"
 },
 
 {
@@ -797,7 +479,7 @@ name:"自然消滅",
 min:"1.20.0",
 type:"boolean",
 default:true,
-help:"地面に落ちたアイテムが時間経過で消滅するか設定します。"
+help:"地面に落ちたアイテムを時間経過で消滅させます。"
 },
 
 {
@@ -826,7 +508,7 @@ name:"収納重量制限",
 min:"1.21.110",
 type:"number",
 default:64,
-help:"ストレージ内に入れられるアイテムの最大重量を設定します。"
+help:"ストレージ内に入れられる最大重量を設定します。"
 },
 
 {
@@ -878,7 +560,7 @@ max_launch_power:1,
 min_draw_duration:0,
 scale_power_by_draw_duration:false
 },
-help:"アイテムを投げられるようにします。"
+help:"アイテムを投げられるようにします。minecraft:projectileと組み合わせて使用します。"
 },
 
 {
@@ -919,12 +601,44 @@ help:"アイテムを指定した装備スロットに装備できるように�
 
 ];
 
+const componentConflicts={
+
+"minecraft:block_placer":[
+"minecraft:entity_placer"
+],
+
+"minecraft:entity_placer":[
+"minecraft:block_placer"
+],
+
+"minecraft:food":[
+"minecraft:wearable",
+"minecraft:shooter",
+"minecraft:throwable"
+],
+
+"minecraft:wearable":[
+"minecraft:food",
+"minecraft:shooter",
+"minecraft:throwable"
+],
+
+"minecraft:shooter":[
+"minecraft:food",
+"minecraft:wearable",
+"minecraft:throwable"
+],
+
+"minecraft:throwable":[
+"minecraft:food",
+"minecraft:wearable",
+"minecraft:shooter"
+]
+
+};
+
 function versionNumber(v){
-
-return v
-.split(".")
-.map(Number);
-
+return v.split(".").map(Number);
 }
 
 function versionCompare(a,b){
@@ -943,35 +657,32 @@ if(xv<yv)return -1;
 }
 
 return 0;
-
 }
 
 function available(c,version){
 
-if(versionCompare(version,c.min)<0)
-return false;
+if(versionCompare(version,c.min)<0)return false;
 
-if(c.max&&versionCompare(version,c.max)>0)
-return false;
+if(c.max&&versionCompare(version,c.max)>0)return false;
 
 return true;
+}
+
+function splitValues(value){
+
+return value
+.split(",")
+.map(v=>v.trim())
+.filter(Boolean);
 
 }
 
-function addInput(
-parent,
-label,
-value,
-type="text",
-placeholder=""
-){
+function addInput(parent,label,value,type="text",placeholder=""){
 
 const wrap=document.createElement("div");
-
 wrap.className="field";
 
 const l=document.createElement("label");
-
 l.textContent=label;
 
 const input=document.createElement("input");
@@ -982,26 +693,17 @@ input.placeholder=placeholder;
 
 wrap.appendChild(l);
 wrap.appendChild(input);
-
 parent.appendChild(wrap);
 
 return input;
-
 }
 
-function addSelect(
-parent,
-label,
-options,
-value
-){
+function addSelect(parent,label,options,value){
 
 const wrap=document.createElement("div");
-
 wrap.className="field";
 
 const l=document.createElement("label");
-
 l.textContent=label;
 
 const select=document.createElement("select");
@@ -1021,21 +723,14 @@ select.value=value;
 
 wrap.appendChild(l);
 wrap.appendChild(select);
-
 parent.appendChild(wrap);
 
 return select;
-
 }
 
-function addCheckbox(
-parent,
-label,
-checked=false
-){
+function addCheckbox(parent,label,checked=false){
 
 const wrap=document.createElement("div");
-
 wrap.className="boolean-setting";
 
 const input=document.createElement("input");
@@ -1044,41 +739,23 @@ input.type="checkbox";
 input.checked=checked;
 
 const span=document.createElement("span");
-
 span.textContent=label;
 
 wrap.appendChild(input);
 wrap.appendChild(span);
-
 parent.appendChild(wrap);
 
 return input;
-
 }
 
-function splitValues(value){
-
-return value
-.split(",")
-.map(v=>v.trim())
-.filter(Boolean);
-
-}
-
-function createDiggerRow(
-container,
-blockValue="",
-secondsValue=1
-){
+function createDiggerRow(container,blockValue="",secondsValue=1){
 
 const row=document.createElement("div");
-
 row.className="digger-row";
 
 const blockWrap=document.createElement("div");
 
 const blockLabel=document.createElement("div");
-
 blockLabel.className="digger-label";
 blockLabel.textContent="対象ブロックID";
 
@@ -1087,7 +764,6 @@ const block=document.createElement("input");
 block.type="text";
 block.placeholder="minecraft:stone,minecraft:dirt";
 block.value=blockValue;
-
 block.dataset.diggerField="block";
 
 blockWrap.appendChild(blockLabel);
@@ -1096,7 +772,6 @@ blockWrap.appendChild(block);
 const timeWrap=document.createElement("div");
 
 const timeLabel=document.createElement("div");
-
 timeLabel.className="digger-label";
 timeLabel.textContent="破壊時間（秒）";
 
@@ -1106,7 +781,6 @@ seconds.type="number";
 seconds.min="0.01";
 seconds.step="0.01";
 seconds.value=secondsValue;
-
 seconds.dataset.diggerField="seconds";
 
 timeWrap.appendChild(timeLabel);
@@ -1171,7 +845,7 @@ block.dataset.field="block";
 const useOn=addInput(
 parent,
 "使用先ブロックID（,で複数指定）",
-c.default.use_on.join(","),
+"",
 "text",
 "minecraft:dirt,minecraft:grass"
 );
@@ -1256,11 +930,10 @@ c.default.duration,
 "number"
 );
 
-duration.step="any";
 duration.dataset.field="duration";
+duration.step="any";
 
-const version=
-document.getElementById("formatVersion").value;
+const version=document.getElementById("formatVersion").value;
 
 if(versionCompare(version,"1.21.130")>=0){
 
@@ -1461,14 +1134,12 @@ c.default.use_efficiency
 efficiency.dataset.field="use_efficiency";
 
 const title=document.createElement("div");
-
 title.className="sub-title";
 title.textContent="破壊設定";
 
 parent.appendChild(title);
 
 const rows=document.createElement("div");
-
 rows.className="digger-rows";
 
 parent.appendChild(rows);
@@ -1642,7 +1313,7 @@ if(c.type==="tags"){
 const input=addInput(
 parent,
 "タグ（カンマ区切り）",
-c.default.join(","),
+"",
 "text",
 "minecraft:is_food,minecraft:is_tool"
 );
@@ -1793,9 +1464,6 @@ dispensable.dataset.field="dispensable";
 
 if(c.type==="interact_button"){
 
-const version=
-document.getElementById("formatVersion").value;
-
 const input=addInput(
 parent,
 "ボタンの表示文字",
@@ -1843,14 +1511,62 @@ input.dataset.field="value";
 
 }
 
+function updateComponentConflicts(){
+
+const boxes=document.querySelectorAll(".component");
+
+boxes.forEach(box=>{
+
+const id=box.dataset.componentId;
+const checkbox=box.querySelector(".component-head>input");
+
+if(!checkbox)return;
+
+let disabled=false;
+
+const conflicts=componentConflicts[id]||[];
+
+conflicts.forEach(conflictId=>{
+
+const conflictBox=document.querySelector(
+`.component[data-component-id="${conflictId}"]`
+);
+
+if(!conflictBox)return;
+
+const conflictCheckbox=
+conflictBox.querySelector(".component-head>input");
+
+if(
+conflictCheckbox&&
+conflictCheckbox.checked
+){
+disabled=true;
+}
+
+});
+
+if(disabled){
+
+checkbox.checked=false;
+checkbox.disabled=true;
+
+box.classList.remove("active");
+
+}else{
+
+checkbox.disabled=false;
+
+}
+
+});
+
+}
+
 function renderComponents(){
 
-const version=document
-.getElementById("formatVersion")
-.value;
-
-const grid=document
-.getElementById("componentGrid");
+const version=document.getElementById("formatVersion").value;
+const grid=document.getElementById("componentGrid");
 
 grid.innerHTML="";
 
@@ -1859,12 +1575,10 @@ components
 .forEach(c=>{
 
 const box=document.createElement("div");
-
 box.className="component";
 box.dataset.componentId=c.id;
 
 const head=document.createElement("div");
-
 head.className="component-head";
 
 const check=document.createElement("input");
@@ -1872,32 +1586,25 @@ const check=document.createElement("input");
 check.type="checkbox";
 
 const name=document.createElement("div");
-
 name.className="component-name";
 name.textContent=c.name;
 
 const versionText=document.createElement("div");
-
 versionText.className="component-version";
 
-if(c.max){
 versionText.textContent=
-c.min+"～"+c.max;
-}else{
-versionText.textContent=
-c.min+"～";
-}
+c.max
+?c.min+"～"+c.max
+:c.min+"～";
 
 head.appendChild(check);
 head.appendChild(name);
 head.appendChild(versionText);
 
 const body=document.createElement("div");
-
 body.className="component-body";
 
 const help=document.createElement("div");
-
 help.className="help";
 help.textContent=c.help;
 
@@ -1908,32 +1615,39 @@ createFields(c,body);
 box.appendChild(head);
 box.appendChild(body);
 
-check.addEventListener(
-"change",
-()=>{
+check.addEventListener("change",()=>{
+
 box.classList.toggle(
 "active",
 check.checked
 );
-}
-);
+
+updateComponentConflicts();
+
+});
 
 grid.appendChild(box);
 
 });
+
+updateComponentConflicts();
 
 }
 
 function collectComponent(c,box){
 
 if(c.type==="boolean"){
+
 return box.querySelector(
 '[data-field="value"]'
 ).checked;
+
 }
 
 if(c.type==="empty"){
+
 return null;
+
 }
 
 if(c.type==="block_placer"){
@@ -1963,18 +1677,15 @@ box.querySelector(
 '[data-field="aligned_placement"]'
 );
 
-if(aligned){
-
 const version=
-document.getElementById(
-"formatVersion"
-).value;
+document.getElementById("formatVersion").value;
 
-if(versionCompare(version,"1.26.10")>=0){
+if(
+aligned&&
+versionCompare(version,"1.26.10")>=0
+){
 output.aligned_placement=
 aligned.checked;
-}
-
 }
 
 const replace=
@@ -2029,6 +1740,7 @@ category:
 box.querySelector(
 '[data-field="category"]'
 ).value,
+
 duration:
 Number(
 box.querySelector(
@@ -2090,6 +1802,7 @@ slot:
 box.querySelector(
 '[data-field="slot"]'
 ).value,
+
 value:
 Number(
 box.querySelector(
@@ -2140,22 +1853,26 @@ return output;
 if(c.type==="food"){
 
 const output={
+
 nutrition:
 Number(
 box.querySelector(
 '[data-field="nutrition"]'
 ).value
 ),
+
 saturation_modifier:
 Number(
 box.querySelector(
 '[data-field="saturation_modifier"]'
 ).value
 ),
+
 can_always_eat:
 box.querySelector(
 '[data-field="can_always_eat"]'
 ).checked
+
 };
 
 const convert=
@@ -2164,8 +1881,7 @@ box.querySelector(
 ).value.trim();
 
 if(convert){
-output.using_converts_to=
-convert;
+output.using_converts_to=convert;
 }
 
 return output;
@@ -2184,10 +1900,7 @@ box.querySelector(
 
 if(c.type==="digger"){
 
-const rows=box.querySelectorAll(
-".digger-row"
-);
-
+const rows=box.querySelectorAll(".digger-row");
 const destroy_speeds=[];
 
 rows.forEach(row=>{
@@ -2210,14 +1923,10 @@ if(
 blocks.length===0||
 !Number.isFinite(seconds)||
 seconds<=0
-){
-return;
-}
+)return;
 
 const speed=
-Math.round(
-(1/seconds)*100
-)/100;
+Math.round((1/seconds)*100)/100;
 
 blocks.forEach(block=>{
 
@@ -2231,8 +1940,7 @@ speed:speed
 });
 
 return{
-destroy_speeds:
-destroy_speeds,
+destroy_speeds:destroy_speeds,
 use_efficiency:
 box.querySelector(
 '[data-field="use_efficiency"]'
@@ -2248,6 +1956,7 @@ projectile_entity:
 box.querySelector(
 '[data-field="projectile_entity"]'
 ).value,
+
 minimum_critical_power:
 Number(
 box.querySelector(
@@ -2275,12 +1984,14 @@ box.querySelector(
 '[data-field="comparator_signal"]'
 ).value
 ),
+
 duration:
 Number(
 box.querySelector(
 '[data-field="duration"]'
 ).value
 ),
+
 sound_event:
 box.querySelector(
 '[data-field="sound_event"]'
@@ -2315,6 +2026,7 @@ box.querySelector(
 if(c.type==="throwable"){
 
 return{
+
 do_swing_animation:
 box.querySelector(
 '[data-field="do_swing_animation"]'
@@ -2360,6 +2072,7 @@ box.querySelector(
 if(c.type==="use_modifiers"){
 
 return{
+
 use_duration:
 Number(
 box.querySelector(
@@ -2386,6 +2099,7 @@ box.querySelector(
 if(c.type==="wearable"){
 
 return{
+
 slot:
 box.querySelector(
 '[data-field="slot"]'
@@ -2441,8 +2155,8 @@ box.querySelector(
 );
 
 return{
-ammunition:
-ammunition,
+
+ammunition:ammunition,
 
 charge_on_draw:
 box.querySelector(
@@ -2509,28 +2223,22 @@ return{};
 function generate(){
 
 const identifier=
-document
-.getElementById("identifier")
-.value
-.trim()||
+document.getElementById("identifier")
+.value.trim()||
 "hiro:test_item";
 
 const format_version=
-document
-.getElementById("formatVersion")
+document.getElementById("formatVersion")
 .value;
 
 const icon=
-document
-.getElementById("iconTexture")
-.value
-.trim()||
+document.getElementById("iconTexture")
+.value.trim()||
 "test_item";
 
 let maxStack=
 Number(
-document
-.getElementById("maxStack")
+document.getElementById("maxStack")
 .value
 );
 
@@ -2547,15 +2255,12 @@ Math.floor(maxStack)
 );
 
 const category=
-document
-.getElementById("category")
+document.getElementById("category")
 .value;
 
 const group=
-document
-.getElementById("group")
-.value
-.trim();
+document.getElementById("group")
+.value.trim();
 
 const description={
 identifier:identifier
@@ -2598,9 +2303,7 @@ component.id===
 box.dataset.componentId
 );
 
-if(!c){
-return;
-}
+if(!c)return;
 
 componentsOutput[c.id]=
 collectComponent(c,box);
@@ -2609,23 +2312,19 @@ collectComponent(c,box);
 
 const output={
 
-format_version:
-format_version,
+format_version:format_version,
 
 "minecraft:item":{
 
-description:
-description,
+description:description,
 
-components:
-componentsOutput
+components:componentsOutput
 
 }
 
 };
 
-document
-.getElementById("result")
+document.getElementById("result")
 .textContent=
 JSON.stringify(
 output,
@@ -2656,15 +2355,12 @@ document
 async()=>{
 
 const text=
-document
-.getElementById("result")
+document.getElementById("result")
 .textContent;
 
 try{
 
-await navigator.clipboard.writeText(
-text
-);
+await navigator.clipboard.writeText(text);
 
 const button=
 document.getElementById("copy");
@@ -2672,15 +2368,11 @@ document.getElementById("copy");
 const old=
 button.textContent;
 
-button.textContent=
-"コピーしました";
+button.textContent="コピーしました";
 
-setTimeout(
-()=>{
+setTimeout(()=>{
 button.textContent=old;
-},
-1200
-);
+},1200);
 
 }catch{}
 
@@ -2690,6 +2382,5 @@ button.textContent=old;
 renderComponents();
 
 </script>
-
 </body>
 </html>
