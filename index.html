@@ -108,11 +108,12 @@ gap:10px;
 padding:12px
 }
 
-.component-head input{
+.component-head>input{
 width:18px;
 height:18px;
 padding:0;
-margin:0
+margin:0;
+flex:none
 }
 
 .component-name{
@@ -143,6 +144,29 @@ margin-bottom:8px
 
 .component-body label{
 margin-top:10px
+}
+
+.boolean-setting{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:12px;
+padding:10px;
+border-radius:8px;
+background:#181818;
+border:1px solid #292929
+}
+
+.boolean-setting input{
+width:18px;
+height:18px;
+margin:0;
+padding:0
+}
+
+.boolean-setting span{
+color:#fff;
+font-size:14px
 }
 
 .help{
@@ -224,12 +248,6 @@ font-size:13px;
 line-height:1.6
 }
 
-.empty{
-color:#777;
-font-size:14px;
-padding:10px 0
-}
-
 @media(max-width:700px){
 .grid,.component-grid{
 grid-template-columns:1fr
@@ -245,6 +263,7 @@ display:none
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -479,7 +498,11 @@ id:"minecraft:food",
 name:"食べ物",
 min:"1.20.30",
 type:"food",
-default:{nutrition:1,saturation_modifier:0.6,can_always_eat:false},
+default:{
+nutrition:1,
+saturation_modifier:0.6,
+can_always_eat:false
+},
 help:"アイテムを食べられるようにします。"
 },
 {
@@ -551,7 +574,10 @@ id:"minecraft:projectile",
 name:"投射物",
 min:"1.20.10",
 type:"projectile",
-default:{projectile_entity:"minecraft:arrow",minimum_critical_power:0},
+default:{
+projectile_entity:"minecraft:arrow",
+minimum_critical_power:0
+},
 help:"矢などの投射物として扱います。"
 },
 {
@@ -567,7 +593,11 @@ id:"minecraft:record",
 name:"レコード",
 min:"1.20.10",
 type:"record",
-default:{comparator_signal:1,duration:100,sound_event:"13"},
+default:{
+comparator_signal:1,
+duration:100,
+sound_event:"13"
+},
 help:"レコードとして音楽を再生します。"
 },
 {
@@ -583,7 +613,12 @@ id:"minecraft:shooter",
 name:"射撃",
 min:"1.20.10",
 type:"shooter",
-default:{ammunition:[],charge_on_draw:false,max_draw_duration:0,scale_power_by_draw_duration:false},
+default:{
+ammunition:[],
+charge_on_draw:false,
+max_draw_duration:0,
+scale_power_by_draw_duration:false
+},
 help:"弓やクロスボウのような射撃アイテムを作ります。"
 },
 {
@@ -678,7 +713,11 @@ id:"minecraft:use_modifiers",
 name:"使用設定",
 min:"1.20.50",
 type:"use_modifiers",
-default:{use_duration:1.6,movement_modifier:0.35,emit_vibrations:true},
+default:{
+use_duration:1.6,
+movement_modifier:0.35,
+emit_vibrations:true
+},
 help:"使用時間や使用中の移動速度を設定します。"
 },
 {
@@ -686,7 +725,10 @@ id:"minecraft:wearable",
 name:"装備可能",
 min:"1.20.30",
 type:"wearable",
-default:{slot:"slot.armor.head",protection:0},
+default:{
+slot:"slot.armor.head",
+protection:0
+},
 help:"防具などとして装備できるようにします。"
 }
 ];
@@ -711,6 +753,7 @@ return true;
 }
 
 function renderComponents(){
+
 const current=document.getElementById("formatVersion").value;
 const area=document.getElementById("components");
 
@@ -718,17 +761,18 @@ area.innerHTML="";
 
 components
 .filter(c=>versionAtLeast(current,c.min))
-.forEach((c,index)=>{
+.forEach(c=>{
 
 const box=document.createElement("div");
 box.className="component";
+box.dataset.componentId=c.id;
 
 const head=document.createElement("div");
 head.className="component-head";
 
 const check=document.createElement("input");
 check.type="checkbox";
-check.dataset.index=index;
+check.className="component-use";
 
 const name=document.createElement("div");
 name.className="component-name";
@@ -761,10 +805,13 @@ box.classList.toggle("active",check.checked);
 };
 
 area.appendChild(box);
+
 });
+
 }
 
 function addInput(parent,labelText,value,type="text"){
+
 const label=document.createElement("label");
 label.textContent=labelText;
 
@@ -779,6 +826,7 @@ return input;
 }
 
 function addSelect(parent,labelText,options,value){
+
 const label=document.createElement("label");
 label.textContent=labelText;
 
@@ -800,22 +848,18 @@ return select;
 }
 
 function addCheckbox(parent,labelText,value){
-const wrapper=document.createElement("label");
-wrapper.style.display="flex";
-wrapper.style.alignItems="center";
-wrapper.style.gap="8px";
+
+const wrapper=document.createElement("div");
+wrapper.className="boolean-setting";
 
 const input=document.createElement("input");
 input.type="checkbox";
 input.checked=value;
-input.style.width="18px";
-input.style.height="18px";
-
-wrapper.appendChild(input);
 
 const text=document.createElement("span");
 text.textContent=labelText;
 
+wrapper.appendChild(input);
 wrapper.appendChild(text);
 
 parent.appendChild(wrapper);
@@ -826,141 +870,454 @@ return input;
 function createFields(c,parent){
 
 if(c.type==="boolean"){
-const input=addCheckbox(parent,"有効にする",c.default);
+
+const input=addCheckbox(
+parent,
+"有効にする",
+true
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="block"){
-const input=addInput(parent,"ブロックID",c.default);
+
+const input=addInput(
+parent,
+"ブロックID",
+c.default
+);
+
 input.dataset.field="block";
+
 }
 
 if(c.type==="number"){
-const input=addInput(parent,"数値",c.default,"number");
+
+const input=addInput(
+parent,
+"数値",
+c.default,
+"number"
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="text"){
-const input=addInput(parent,"文字列",c.default);
+
+const input=addInput(
+parent,
+"文字列",
+c.default
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="color"){
-const input=addInput(parent,"カラー",c.default.default_color);
+
+const input=addInput(
+parent,
+"カラー",
+c.default.default_color
+);
+
 input.dataset.field="default_color";
+
 }
 
 if(c.type==="entity"){
-const input=addInput(parent,"エンティティID",c.default);
+
+const input=addInput(
+parent,
+"エンティティID",
+c.default
+);
+
 input.dataset.field="entity";
+
 }
 
 if(c.type==="animation"){
-addSelect(
+
+const input=addSelect(
 parent,
 "アニメーション",
-["none","eat","drink","bow","crossbow","block","camera"],
+[
+"none",
+"eat",
+"drink",
+"bow",
+"crossbow",
+"block",
+"camera"
+],
 c.default
-).dataset.field="value";
+);
+
+input.dataset.field="value";
+
 }
 
 if(c.type==="rarity"){
-addSelect(
+
+const input=addSelect(
 parent,
 "レアリティ",
-["common","uncommon","rare","epic"],
+[
+"common",
+"uncommon",
+"rare",
+"epic"
+],
 c.default
-).dataset.field="value";
+);
+
+input.dataset.field="value";
+
 }
 
 if(c.type==="enchantable"){
-addSelect(
+
+const slot=addSelect(
 parent,
 "エンチャントスロット",
-["sword","bow","pickaxe","armor_head","armor_torso","armor_legs","armor_feet"],
+[
+"sword",
+"bow",
+"pickaxe",
+"armor_head",
+"armor_torso",
+"armor_legs",
+"armor_feet"
+],
 c.default.slot
-).dataset.field="slot";
+);
 
-addInput(parent,"エンチャント値",c.default.value,"number").dataset.field="value";
+slot.dataset.field="slot";
+
+const value=addInput(
+parent,
+"エンチャント値",
+c.default.value,
+"number"
+);
+
+value.dataset.field="value";
+
 }
 
 if(c.type==="durability"){
-addInput(parent,"最大耐久値",c.default.max_durability,"number").dataset.field="max_durability";
+
+const input=addInput(
+parent,
+"最大耐久値",
+c.default.max_durability,
+"number"
+);
+
+input.dataset.field="max_durability";
+
 }
 
 if(c.type==="food"){
-addInput(parent,"満腹度",c.default.nutrition,"number").dataset.field="nutrition";
-addInput(parent,"満腹度回復倍率",c.default.saturation_modifier,"number").dataset.field="saturation_modifier";
-addCheckbox(parent,"満腹でも食べられる",c.default.can_always_eat).dataset.field="can_always_eat";
+
+const nutrition=addInput(
+parent,
+"満腹度",
+c.default.nutrition,
+"number"
+);
+
+nutrition.dataset.field="nutrition";
+
+const saturation=addInput(
+parent,
+"満腹度回復倍率",
+c.default.saturation_modifier,
+"number"
+);
+
+saturation.dataset.field="saturation_modifier";
+
+const always=addCheckbox(
+parent,
+"満腹でも食べられる",
+c.default.can_always_eat
+);
+
+always.dataset.field="can_always_eat";
+
 }
 
 if(c.type==="cooldown"){
-addInput(parent,"カテゴリ",c.default.category).dataset.field="category";
-addInput(parent,"時間（秒）",c.default.duration,"number").dataset.field="duration";
+
+const category=addInput(
+parent,
+"カテゴリ",
+c.default.category
+);
+
+category.dataset.field="category";
+
+const duration=addInput(
+parent,
+"時間（秒）",
+c.default.duration,
+"number"
+);
+
+duration.dataset.field="duration";
+
 }
 
 if(c.type==="digger"){
-addCheckbox(parent,"効率強化を使用",c.default.use_efficiency).dataset.field="use_efficiency";
+
+const efficiency=addCheckbox(
+parent,
+"効率強化を使用",
+c.default.use_efficiency
+);
+
+efficiency.dataset.field="use_efficiency";
+
 }
 
 if(c.type==="projectile"){
-addInput(parent,"投射物エンティティ",c.default.projectile_entity).dataset.field="projectile_entity";
-addInput(parent,"クリティカル最小値",c.default.minimum_critical_power,"number").dataset.field="minimum_critical_power";
+
+const entity=addInput(
+parent,
+"投射物エンティティ",
+c.default.projectile_entity
+);
+
+entity.dataset.field="projectile_entity";
+
+const critical=addInput(
+parent,
+"クリティカル最小値",
+c.default.minimum_critical_power,
+"number"
+);
+
+critical.dataset.field="minimum_critical_power";
+
 }
 
 if(c.type==="record"){
-addInput(parent,"コンパレーター出力",c.default.comparator_signal,"number").dataset.field="comparator_signal";
-addInput(parent,"再生時間",c.default.duration,"number").dataset.field="duration";
-addInput(parent,"サウンドイベント",c.default.sound_event).dataset.field="sound_event";
+
+const signal=addInput(
+parent,
+"コンパレーター出力",
+c.default.comparator_signal,
+"number"
+);
+
+signal.dataset.field="comparator_signal";
+
+const duration=addInput(
+parent,
+"再生時間",
+c.default.duration,
+"number"
+);
+
+duration.dataset.field="duration";
+
+const sound=addInput(
+parent,
+"サウンドイベント",
+c.default.sound_event
+);
+
+sound.dataset.field="sound_event";
+
 }
 
 if(c.type==="repairable"){
-addInput(parent,"修理アイテム", "").dataset.field="repair_items";
+
+const input=addInput(
+parent,
+"修理アイテム（カンマ区切り）",
+""
+);
+
+input.dataset.field="repair_items";
+
 }
 
 if(c.type==="shooter"){
-addInput(parent,"弾薬アイテム", "").dataset.field="ammunition";
-addCheckbox(parent,"引くときにチャージ",c.default.charge_on_draw).dataset.field="charge_on_draw";
-addInput(parent,"最大引き時間",c.default.max_draw_duration,"number").dataset.field="max_draw_duration";
-addCheckbox(parent,"引き時間で威力変更",c.default.scale_power_by_draw_duration).dataset.field="scale_power_by_draw_duration";
+
+const ammo=addInput(
+parent,
+"弾薬アイテム（カンマ区切り）",
+""
+);
+
+ammo.dataset.field="ammunition";
+
+const charge=addCheckbox(
+parent,
+"引くときにチャージ",
+c.default.charge_on_draw
+);
+
+charge.dataset.field="charge_on_draw";
+
+const maxDraw=addInput(
+parent,
+"最大引き時間",
+c.default.max_draw_duration,
+"number"
+);
+
+maxDraw.dataset.field="max_draw_duration";
+
+const scale=addCheckbox(
+parent,
+"引き時間で威力変更",
+c.default.scale_power_by_draw_duration
+);
+
+scale.dataset.field="scale_power_by_draw_duration";
+
 }
 
 if(c.type==="storage"){
-addInput(parent,"最大スロット数",c.default.max_slots,"number").dataset.field="max_slots";
+
+const input=addInput(
+parent,
+"最大スロット数",
+c.default.max_slots,
+"number"
+);
+
+input.dataset.field="max_slots";
+
 }
 
 if(c.type==="throwable"){
-addInput(parent,"投射威力倍率",c.default.launch_power_scale,"number").dataset.field="launch_power_scale";
-addInput(parent,"最大投射威力",c.default.max_launch_power,"number").dataset.field="max_launch_power";
-addInput(parent,"最小引き時間",c.default.min_draw_duration,"number").dataset.field="min_draw_duration";
-addInput(parent,"最大引き時間",c.default.max_draw_duration,"number").dataset.field="max_draw_duration";
-addCheckbox(parent,"投げるときに振りアニメーション",c.default.do_swing_animation).dataset.field="do_swing_animation";
-addCheckbox(parent,"引き時間で威力変更",c.default.scale_power_by_draw_duration).dataset.field="scale_power_by_draw_duration";
+
+const launch=addInput(
+parent,
+"投射威力倍率",
+c.default.launch_power_scale,
+"number"
+);
+
+launch.dataset.field="launch_power_scale";
+
+const maxPower=addInput(
+parent,
+"最大投射威力",
+c.default.max_launch_power,
+"number"
+);
+
+maxPower.dataset.field="max_launch_power";
+
+const minDraw=addInput(
+parent,
+"最小引き時間",
+c.default.min_draw_duration,
+"number"
+);
+
+minDraw.dataset.field="min_draw_duration";
+
+const maxDraw=addInput(
+parent,
+"最大引き時間",
+c.default.max_draw_duration,
+"number"
+);
+
+maxDraw.dataset.field="max_draw_duration";
+
+const swing=addCheckbox(
+parent,
+"投げるときに振りアニメーション",
+c.default.do_swing_animation
+);
+
+swing.dataset.field="do_swing_animation";
+
+const scale=addCheckbox(
+parent,
+"引き時間で威力変更",
+c.default.scale_power_by_draw_duration
+);
+
+scale.dataset.field="scale_power_by_draw_duration";
+
 }
 
 if(c.type==="use_modifiers"){
-addInput(parent,"使用時間",c.default.use_duration,"number").dataset.field="use_duration";
-addInput(parent,"移動速度倍率",c.default.movement_modifier,"number").dataset.field="movement_modifier";
-addCheckbox(parent,"振動を発生",c.default.emit_vibrations).dataset.field="emit_vibrations";
+
+const duration=addInput(
+parent,
+"使用時間",
+c.default.use_duration,
+"number"
+);
+
+duration.dataset.field="use_duration";
+
+const movement=addInput(
+parent,
+"移動速度倍率",
+c.default.movement_modifier,
+"number"
+);
+
+movement.dataset.field="movement_modifier";
+
+const vibration=addCheckbox(
+parent,
+"振動を発生",
+c.default.emit_vibrations
+);
+
+vibration.dataset.field="emit_vibrations";
+
 }
 
 if(c.type==="tags"){
-addInput(parent,"タグ（カンマ区切り）",c.default.join(",")).dataset.field="tags";
+
+const input=addInput(
+parent,
+"タグ（カンマ区切り）",
+c.default.join(",")
+);
+
+input.dataset.field="tags";
+
 }
 
 if(c.type==="empty"){
+
 const text=document.createElement("div");
 text.className="help";
-text.textContent="追加設定はありません。";
+text.textContent="このコンポーネントはON/OFFだけで設定できます。";
+
 parent.appendChild(text);
+
 }
 
 if(c.type==="json"){
+
 const text=document.createElement("div");
 text.className="help";
 text.textContent="このコンポーネントは詳細設定が必要です。";
+
 parent.appendChild(text);
+
 }
+
 }
 
 function collectComponent(c,box){
@@ -972,9 +1329,11 @@ return fields[0].checked;
 }
 
 if(c.type==="block"){
+
 return{
 block:fields[0].value.trim()
 };
+
 }
 
 if(c.type==="number"){
@@ -982,125 +1341,160 @@ return Number(fields[0].value);
 }
 
 if(c.type==="text"){
+
 return{
 value:fields[0].value
 };
+
 }
 
 if(c.type==="color"){
+
 return{
 default_color:fields[0].value
 };
+
 }
 
 if(c.type==="entity"){
+
 return{
 entity:fields[0].value.trim()
 };
+
 }
 
 if(c.type==="animation"){
+
 return{
 value:fields[0].value
 };
+
 }
 
 if(c.type==="rarity"){
+
 return{
 value:fields[0].value
 };
+
 }
 
 if(c.type==="enchantable"){
+
 return{
 slot:fields[0].value,
 value:Number(fields[1].value)
 };
+
 }
 
 if(c.type==="durability"){
+
 return{
 max_durability:Number(fields[0].value)
 };
+
 }
 
 if(c.type==="food"){
+
 return{
 nutrition:Number(fields[0].value),
 saturation_modifier:Number(fields[1].value),
 can_always_eat:fields[2].checked
 };
+
 }
 
 if(c.type==="cooldown"){
+
 return{
 category:fields[0].value,
 duration:Number(fields[1].value)
 };
+
 }
 
 if(c.type==="digger"){
+
 return{
 destroy_speeds:[],
 use_efficiency:fields[0].checked
 };
+
 }
 
 if(c.type==="projectile"){
+
 return{
 projectile_entity:fields[0].value.trim(),
 minimum_critical_power:Number(fields[1].value)
 };
+
 }
 
 if(c.type==="record"){
+
 return{
 comparator_signal:Number(fields[0].value),
 duration:Number(fields[1].value),
 sound_event:fields[2].value
 };
+
 }
 
 if(c.type==="repairable"){
+
 const items=fields[0].value
 .split(",")
 .map(v=>v.trim())
 .filter(Boolean);
 
 return{
-repair_items:items.length?[
+repair_items:items.length?
+[
 {
 items:items
 }
-]:[]
+]:
+[]
 };
+
 }
 
 if(c.type==="shooter"){
+
 const ammo=fields[0].value
 .split(",")
 .map(v=>v.trim())
 .filter(Boolean);
 
 return{
-ammunition:ammo.length?[
+ammunition:ammo.length?
+[
 {
 item:ammo
 }
-]:[],
+]:
+[],
 charge_on_draw:fields[1].checked,
 max_draw_duration:Number(fields[2].value),
 scale_power_by_draw_duration:fields[3].checked
 };
+
 }
 
 if(c.type==="storage"){
+
 return{
 max_slots:Number(fields[0].value)
 };
+
 }
 
 if(c.type==="throwable"){
+
 return{
 do_swing_animation:fields[4].checked,
 launch_power_scale:Number(fields[0].value),
@@ -1109,23 +1503,28 @@ max_launch_power:Number(fields[1].value),
 min_draw_duration:Number(fields[2].value),
 scale_power_by_draw_duration:fields[5].checked
 };
+
 }
 
 if(c.type==="use_modifiers"){
+
 return{
 use_duration:Number(fields[0].value),
 movement_modifier:Number(fields[1].value),
 emit_vibrations:fields[2].checked
 };
+
 }
 
 if(c.type==="tags"){
+
 return{
 tags:fields[0].value
 .split(",")
 .map(v=>v.trim())
 .filter(Boolean)
 };
+
 }
 
 if(c.type==="empty"){
@@ -1145,9 +1544,11 @@ renderComponents();
 
 document.getElementById("generate").onclick=()=>{
 
-const formatVersion=document.getElementById("formatVersion").value;
+const formatVersion=
+document.getElementById("formatVersion").value;
 
-let identifier=document.getElementById("identifier").value.trim();
+let identifier=
+document.getElementById("identifier").value.trim();
 
 if(!identifier){
 identifier="hiro:test_item";
@@ -1157,28 +1558,37 @@ if(!identifier.includes(":")){
 identifier="hiro:"+identifier;
 }
 
-let iconTexture=document.getElementById("iconTexture").value.trim();
+let iconTexture=
+document.getElementById("iconTexture").value.trim();
 
 if(!iconTexture){
 iconTexture="test_item";
 }
 
-let maxStack=Number(document.getElementById("maxStack").value);
+let maxStack=
+Number(document.getElementById("maxStack").value);
 
 if(!Number.isFinite(maxStack)||maxStack<1){
 maxStack=64;
 }
 
-maxStack=Math.min(64,Math.floor(maxStack));
+maxStack=Math.min(
+64,
+Math.floor(maxStack)
+);
 
-const category=document.getElementById("category").value;
-const group=document.getElementById("group").value.trim();
+const category=
+document.getElementById("category").value;
+
+const group=
+document.getElementById("group").value.trim();
 
 const description={
 identifier:identifier
 };
 
 if(category!=="none"||group){
+
 description.menu_category={
 category:category
 };
@@ -1186,6 +1596,7 @@ category:category
 if(group){
 description.menu_category.group=group;
 }
+
 }
 
 const result={
@@ -1203,49 +1614,103 @@ texture:iconTexture
 
 document.querySelectorAll(".component").forEach(box=>{
 
-const check=box.querySelector(".component-head input");
+const check=
+box.querySelector(".component-use");
 
 if(!check.checked)return;
 
-const index=Number(check.dataset.index);
-const component=components[index];
+const component=
+components.find(
+c=>c.id===box.dataset.componentId
+);
 
-result["minecraft:item"].components[component.id]=collectComponent(component,box);
+if(!component)return;
+
+result["minecraft:item"].components[
+component.id
+]=collectComponent(
+component,
+box
+);
 
 });
 
-const output=JSON.stringify(result,null,2);
+const output=
+JSON.stringify(
+result,
+null,
+2
+);
 
-const resultArea=document.getElementById("result");
+const resultArea=
+document.getElementById("result");
 
 resultArea.innerHTML="";
 
-const box=document.createElement("div");
+const box=
+document.createElement("div");
+
 box.className="result-box";
 
-const title=document.createElement("div");
+const title=
+document.createElement("div");
+
 title.className="result-title";
 
-const titleText=document.createElement("span");
+const titleText=
+document.createElement("span");
+
 titleText.textContent="アイテムJSON";
 
-const copy=document.createElement("button");
+const copy=
+document.createElement("button");
+
 copy.className="copy-btn";
 copy.textContent="コピー";
 
 copy.onclick=async()=>{
+
+try{
+
 await navigator.clipboard.writeText(output);
+
 copy.textContent="コピーしました";
 
 setTimeout(()=>{
 copy.textContent="コピー";
 },1500);
+
+}catch(e){
+
+const textarea=
+document.createElement("textarea");
+
+textarea.value=output;
+
+document.body.appendChild(textarea);
+
+textarea.select();
+
+document.execCommand("copy");
+
+textarea.remove();
+
+copy.textContent="コピーしました";
+
+setTimeout(()=>{
+copy.textContent="コピー";
+},1500);
+
+}
+
 };
 
 title.appendChild(titleText);
 title.appendChild(copy);
 
-const pre=document.createElement("pre");
+const pre=
+document.createElement("pre");
+
 pre.textContent=output;
 
 box.appendChild(title);
