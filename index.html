@@ -195,7 +195,7 @@ type:"cooldown"
 {
 id:"minecraft:damage",
 name:"攻撃力",
-min:"1.20.30",
+min:"1.20.0",
 type:"damage"
 },
 {
@@ -301,12 +301,6 @@ min:"1.20.0",
 type:"boolean"
 },
 {
-id:"minecraft:max_stack_size",
-name:"最大スタック数",
-min:"1.20.0",
-type:"boolean"
-},
-{
 id:"minecraft:piercing_weapon",
 name:"貫通攻撃",
 min:"1.21.110",
@@ -335,6 +329,12 @@ id:"minecraft:repairable",
 name:"修理可能",
 min:"1.20.10",
 type:"repairable"
+},
+{
+id:"minecraft:shooter",
+name:"発射アイテム",
+min:"1.20.10",
+type:"shooter"
 },
 {
 id:"minecraft:should_despawn",
@@ -393,7 +393,7 @@ type:"throwable"
 {
 id:"minecraft:use_animation",
 name:"使用アニメーション",
-min:"1.20.0",
+min:"1.20.30",
 type:"use_animation"
 },
 {
@@ -408,6 +408,35 @@ name:"装備可能",
 min:"1.20.30",
 type:"wearable"
 }
+];
+
+const dependencyMap={
+"minecraft:food":[
+"minecraft:use_modifiers"
+],
+"minecraft:shooter":[
+"minecraft:use_modifiers",
+"minecraft:projectile"
+],
+"minecraft:throwable":[
+"minecraft:use_modifiers",
+"minecraft:projectile"
+],
+"minecraft:durability_sensor":[
+"minecraft:durability"
+],
+"minecraft:bundle_interaction":[
+"minecraft:storage_item"
+]
+};
+
+const conflictGroups=[
+[
+"minecraft:food",
+"minecraft:wearable",
+"minecraft:shooter",
+"minecraft:throwable"
+]
 ];
 
 function ver(v){
@@ -430,7 +459,7 @@ return true;
 }
 
 function csv(value){
-return value
+return String(value||"")
 .split(",")
 .map(v=>v.trim())
 .filter(Boolean);
@@ -462,6 +491,30 @@ return `
 `;
 }
 
+function safe(id){
+return id.replace(/[^a-zA-Z0-9_]/g,"_");
+}
+
+function card(id){
+return [...document.querySelectorAll(".component")]
+.find(x=>x.dataset.id===id);
+}
+
+function checked(id){
+const c=card(id);
+return !!c&&c.querySelector(".component-check").checked;
+}
+
+function value(id){
+const e=document.getElementById(id);
+return e?e.value:"";
+}
+
+function boolValue(id){
+const e=document.getElementById(id);
+return !!e&&e.checked;
+}
+
 function renderComponents(){
 
 const grid=document.getElementById("componentGrid");
@@ -473,12 +526,12 @@ components.forEach(c=>{
 
 if(!gte(format,c.min))return;
 
-const card=document.createElement("div");
+const cardElement=document.createElement("div");
 
-card.className="component";
-card.dataset.id=c.id;
+cardElement.className="component";
+cardElement.dataset.id=c.id;
 
-card.innerHTML=`
+cardElement.innerHTML=`
 <div class="component-head">
 <input type="checkbox" class="component-check">
 <div class="component-name">${esc(c.name)}</div>
@@ -487,15 +540,17 @@ card.innerHTML=`
 <div class="component-body"></div>
 `;
 
-grid.appendChild(card);
+grid.appendChild(cardElement);
 
-const check=card.querySelector(".component-check");
+const check=cardElement.querySelector(".component-check");
 
 check.addEventListener("change",()=>{
 
-card.classList.toggle("active",check.checked);
+if(check.disabled)return;
 
-const body=card.querySelector(".component-body");
+cardElement.classList.toggle("active",check.checked);
+
+const body=cardElement.querySelector(".component-body");
 
 if(check.checked){
 renderBody(c,body);
@@ -508,6 +563,8 @@ updateDependencies();
 });
 
 });
+
+updateDependencies();
 
 }
 
@@ -524,27 +581,64 @@ html=field("value_"+safe(c.id),"数値","number","1");
 }
 
 if(c.type==="damage"){
-html=field("value_"+safe(c.id),"追加ダメージ","number","1");
+html=field(
+"value_"+safe(c.id),
+"追加ダメージ",
+"number",
+"1"
+);
 }
 
 if(c.type==="damage_absorption"){
-html=field("value_"+safe(c.id),"吸収量","number","1");
+html=field(
+"value_"+safe(c.id),
+"吸収量",
+"number",
+"1"
+);
 }
 
 if(c.type==="display_name"){
-html=field("value_"+safe(c.id),"表示名","text","","例：ひろのアイテム");
+html=field(
+"value_"+safe(c.id),
+"表示名",
+"text",
+"",
+"例：ひろのアイテム"
+);
 }
 
 if(c.type==="compostable"){
-html=field("value_"+safe(c.id),"堆肥化確率","number","0.65");
+html=field(
+"value_"+safe(c.id),
+"堆肥化確率",
+"number",
+"0.65"
+);
 html+=`<div class="help">0～1の範囲で指定します。</div>`;
 }
 
 if(c.type==="cooldown"){
-html=field("cooldown_category","カテゴリ","text","hiro_item");
-html+=field("cooldown_duration","時間（秒）","number","1");
 
-if(gte(document.getElementById("formatVersion").value,"1.21.130")){
+html=field(
+"cooldown_category",
+"カテゴリ",
+"text",
+"hiro_item"
+);
+
+html+=field(
+"cooldown_duration",
+"時間（秒）",
+"number",
+"1"
+);
+
+if(gte(
+document.getElementById("formatVersion").value,
+"1.21.130"
+)){
+
 html+=`
 <div class="field">
 <label>発動方法</label>
@@ -554,7 +648,9 @@ html+=`
 </select>
 </div>
 `;
+
 }
+
 }
 
 if(c.type==="digger"){
@@ -574,7 +670,8 @@ html=`
 </button>
 
 <div class="help">
-ブロックIDはカンマ区切りで複数指定できます。
+ブロックIDはカンマ区切りで複数指定できます。<br>
+破壊時間は実際に壊す秒数です。
 </div>
 `;
 
@@ -620,7 +717,12 @@ return;
 
 if(c.type==="durability"){
 
-html=field("durability_max","最大耐久値","number","100");
+html=field(
+"durability_max",
+"最大耐久値",
+"number",
+"100"
+);
 
 html+=field(
 "durability_damage_min",
@@ -684,7 +786,14 @@ return;
 }
 
 if(c.type==="dyeable"){
-html=field("dyeable_color","初期カラー","text","white");
+
+html=field(
+"dyeable_color",
+"初期カラー",
+"text",
+"white"
+);
+
 }
 
 if(c.type==="enchantable"){
@@ -695,21 +804,27 @@ html=`
 <select id="enchantable_slot">
 <option value="none">none</option>
 <option value="all">all</option>
-<option value="sword">sword</option>
-<option value="bow">bow</option>
-<option value="crossbow">crossbow</option>
+<option value="g_armor">g_armor</option>
 <option value="armor_head">armor_head</option>
 <option value="armor_torso">armor_torso</option>
 <option value="armor_legs">armor_legs</option>
 <option value="armor_feet">armor_feet</option>
-<option value="pickaxe">pickaxe</option>
-<option value="axe">axe</option>
-<option value="shovel">shovel</option>
+<option value="sword">sword</option>
+<option value="bow">bow</option>
+<option value="spear">spear</option>
+<option value="crossbow">crossbow</option>
 <option value="hoe">hoe</option>
 <option value="shears">shears</option>
+<option value="flintsteel">flintsteel</option>
 <option value="shield">shield</option>
+<option value="g_digging">g_digging</option>
+<option value="axe">axe</option>
+<option value="pickaxe">pickaxe</option>
+<option value="shovel">shovel</option>
 <option value="fishing_rod">fishing_rod</option>
+<option value="carrot_stick">carrot_stick</option>
 <option value="elytra">elytra</option>
+<option value="cosmetic_head">cosmetic_head</option>
 </select>
 </div>
 `;
@@ -796,6 +911,7 @@ html=field(
 }
 
 if(c.type==="color"){
+
 html=field(
 "hover_text_color",
 "色",
@@ -803,6 +919,7 @@ html=field(
 "white",
 "例：red"
 );
+
 }
 
 if(c.type==="interact_button"){
@@ -835,6 +952,13 @@ html=field(
 "text",
 "",
 "minecraft:arrow"
+);
+
+html+=field(
+"projectile_critical",
+"クリティカル開始時間",
+"number",
+"0"
 );
 
 }
@@ -899,6 +1023,69 @@ html+=field(
 "number",
 "1"
 );
+
+}
+
+if(c.type==="shooter"){
+
+html=`
+<div class="sub-title">弾の設定</div>
+<div id="shooterRows"></div>
+
+<button type="button" class="add-row" id="addShooter">
+＋ 弾を追加
+</button>
+`;
+
+html+=field(
+"shooter_max_draw",
+"最大チャージ時間（秒）",
+"number",
+"1"
+);
+
+html+=bool(
+"shooter_scale_power",
+"チャージ時間で発射力を変える"
+);
+
+html+=bool(
+"shooter_charge",
+"チャージ式にする"
+);
+
+body.innerHTML=html;
+
+const rows=document.getElementById("shooterRows");
+
+function add(){
+
+const row=document.createElement("div");
+
+row.className="required";
+
+const id=Date.now()+Math.random();
+
+row.innerHTML=`
+${field("shooter_item_"+id,"弾アイテム","text","","minecraft:arrow")}
+${bool("shooter_search_"+id,"インベントリから探す")}
+${bool("shooter_creative_"+id,"クリエイティブで使用可能")}
+<button type="button" class="remove-row">× 削除</button>
+`;
+
+row.querySelector(".remove-row").onclick=()=>{
+row.remove();
+};
+
+rows.appendChild(row);
+
+}
+
+document.getElementById("addShooter").onclick=add;
+
+add();
+
+return;
 
 }
 
@@ -1023,6 +1210,28 @@ html+=field(
 "0.35"
 );
 
+html+=bool(
+"use_emit_vibrations",
+"使用開始・終了時に振動を発生させる"
+);
+
+if(gte(
+document.getElementById("formatVersion").value,
+"1.26.30"
+)){
+
+html+=`
+<div class="field">
+<label>使用開始条件</label>
+<select id="use_start_using">
+<option value="always">常に使用開始</option>
+<option value="on_attack">攻撃入力時のみ</option>
+</select>
+</div>
+`;
+
+}
+
 }
 
 if(c.type==="wearable"){
@@ -1080,10 +1289,12 @@ if(gte(
 document.getElementById("formatVersion").value,
 "1.26.10"
 )){
+
 html+=bool(
 "block_placer_aligned",
 "整列配置"
 );
+
 }
 
 html+=field(
@@ -1102,45 +1313,27 @@ body.innerHTML=html;
 
 }
 
-function safe(id){
-return id.replace(/[^a-zA-Z0-9_]/g,"_");
+function updateDependencies(){
+
+const requiredBy={};
+
+Object.keys(dependencyMap).forEach(parent=>{
+
+if(!checked(parent))return;
+
+dependencyMap[parent].forEach(dep=>{
+
+if(!requiredBy[dep]){
+requiredBy[dep]=[];
 }
 
-function checked(id){
+requiredBy[dep].push(parent);
 
-const card=[...document.querySelectorAll(".component")].find(
-x=>x.dataset.id===id
-);
+});
 
-return !!card&&card.querySelector(".component-check").checked;
+});
 
-}
-
-function value(id){
-
-const e=document.getElementById(id);
-
-return e?e.value:"";
-
-}
-
-function boolValue(id){
-
-const e=document.getElementById(id);
-
-return !!e&&e.checked;
-
-}
-
-function card(id){
-
-return [...document.querySelectorAll(".component")].find(
-x=>x.dataset.id===id
-);
-
-}
-
-function disable(id,disabled){
+Object.keys(requiredBy).forEach(id=>{
 
 const c=card(id);
 
@@ -1148,41 +1341,60 @@ if(!c)return;
 
 const checkbox=c.querySelector(".component-check");
 
-checkbox.disabled=disabled;
+if(!checkbox.checked){
 
-if(disabled&&checkbox.checked){
+checkbox.checked=true;
 
-checkbox.checked=false;
+c.classList.add("active");
 
-c.classList.remove("active");
+const component=components.find(x=>x.id===id);
 
-c.querySelector(".component-body").innerHTML="";
+if(component){
+renderBody(
+component,
+c.querySelector(".component-body")
+);
+}
 
 }
 
-c.classList.toggle("disabled",disabled);
+});
+
+document.querySelectorAll(".component").forEach(c=>{
+
+const id=c.dataset.id;
+const checkbox=c.querySelector(".component-check");
+
+let conflict=false;
+
+for(const group of conflictGroups){
+
+if(!group.includes(id))continue;
+
+const otherChecked=group.some(other=>{
+return other!==id&&checked(other);
+});
+
+if(otherChecked){
+conflict=true;
+break;
+}
 
 }
 
-function updateDependencies(){
+const required=!!requiredBy[id];
 
-const food=checked("minecraft:food");
-const foodModifiers=checked("minecraft:use_modifiers");
+checkbox.disabled=required||conflict;
 
-const sensor=checked("minecraft:durability_sensor");
-const durability=checked("minecraft:durability");
+c.dataset.required=required?"true":"false";
+c.dataset.conflict=conflict?"true":"false";
 
-if(sensor&&!durability){
-disable("minecraft:durability_sensor",true);
-}else{
-disable("minecraft:durability_sensor",false);
-}
+c.classList.toggle(
+"disabled",
+required||conflict
+);
 
-if(food&&!foodModifiers){
-disable("minecraft:food",true);
-}else{
-disable("minecraft:food",false);
-}
+});
 
 }
 
@@ -1321,7 +1533,10 @@ value("value_"+safe(c.id))
 
 if(!Number.isFinite(v))v=.65;
 
-v=Math.max(0,Math.min(1,v));
+v=Math.max(
+0,
+Math.min(1,v)
+);
 
 out[c.id]={
 compost_chance:v
@@ -1333,7 +1548,9 @@ break;
 case"cooldown":{
 
 const obj={
-category:value("cooldown_category")||"hiro_item",
+category:
+value("cooldown_category")||"hiro_item",
+
 duration:Math.max(
 0,
 Number(value("cooldown_duration"))||0
@@ -1341,7 +1558,8 @@ Number(value("cooldown_duration"))||0
 };
 
 if(gte(format,"1.21.130")){
-obj.type=value("cooldown_type")||"use";
+obj.type=
+value("cooldown_type")||"use";
 }
 
 out[c.id]=obj;
@@ -1353,7 +1571,9 @@ case"digger":{
 
 const speeds=[];
 
-document.querySelectorAll(".digger-row").forEach(row=>{
+document.querySelectorAll(
+".digger-row"
+).forEach(row=>{
 
 const ids=csv(
 row.querySelector(".digger-block")?.value||""
@@ -1366,13 +1586,11 @@ row.querySelector(".digger-seconds")?.value
 )||1
 );
 
-let speed=Math.round(
-(1/seconds)*100
-)/100;
-
-speed=Math.max(
+const speed=Math.max(
 1,
-Math.floor(speed)
+Math.round(
+(1/seconds)*100
+)/100
 );
 
 ids.forEach(block=>{
@@ -1398,7 +1616,7 @@ case"durability":{
 let max=parseInt(
 value("durability_max"),
 10
-)||1;
+);
 
 let min=parseInt(
 value("durability_damage_min"),
@@ -1410,11 +1628,19 @@ value("durability_damage_max"),
 10
 );
 
+if(!Number.isFinite(max))max=100;
 if(!Number.isFinite(min))min=100;
 if(!Number.isFinite(chanceMax))chanceMax=100;
 
-min=Math.max(0,Math.min(100,min));
-chanceMax=Math.max(0,Math.min(100,chanceMax));
+min=Math.max(
+0,
+Math.min(100,min)
+);
+
+chanceMax=Math.max(
+0,
+Math.min(100,chanceMax)
+);
 
 if(min>chanceMax){
 const t=min;
@@ -1423,7 +1649,7 @@ chanceMax=t;
 }
 
 out[c.id]={
-max_durability:Math.max(1,max),
+max_durability:Math.max(0,max),
 damage_chance:{
 min,
 max:chanceMax
@@ -1437,7 +1663,9 @@ case"durability_sensor":{
 
 const thresholds=[];
 
-document.querySelectorAll("#sensorRows .required").forEach(row=>{
+document.querySelectorAll(
+"#sensorRows .required"
+).forEach(row=>{
 
 const inputs=row.querySelectorAll("input");
 
@@ -1446,11 +1674,17 @@ inputs[0]?.value,
 10
 )||0;
 
-const particle=inputs[1]?.value.trim();
-const sound=inputs[2]?.value.trim();
+const particle=
+inputs[1]?.value.trim();
+
+const sound=
+inputs[2]?.value.trim();
 
 const obj={
-durability:Math.max(0,durability)
+durability:Math.max(
+0,
+durability
+)
 };
 
 if(particle){
@@ -1475,7 +1709,8 @@ break;
 case"dyeable":
 
 out[c.id]={
-default_color:value("dyeable_color")||"white"
+default_color:
+value("dyeable_color")||"white"
 };
 
 break;
@@ -1483,10 +1718,15 @@ break;
 case"enchantable":
 
 out[c.id]={
-slot:value("enchantable_slot")||"none",
+slot:
+value("enchantable_slot")||"none",
+
 value:Math.max(
 0,
-parseInt(value("enchantable_value"),10)||0
+parseInt(
+value("enchantable_value"),
+10
+)||0
 )
 };
 
@@ -1495,7 +1735,8 @@ break;
 case"entity_placer":{
 
 const obj={
-entity:value("entity_placer_entity").trim()
+entity:
+value("entity_placer_entity").trim()
 };
 
 const useOn=csv(
@@ -1524,17 +1765,25 @@ case"food":{
 const food={
 can_always_eat:
 boolValue("food_always"),
+
 nutrition:Math.max(
 0,
-parseInt(value("food_nutrition"),10)||0
+parseInt(
+value("food_nutrition"),
+10
+)||0
 ),
+
 saturation_modifier:Math.max(
 0,
-Number(value("food_saturation"))||0
+Number(
+value("food_saturation")
+)||0
 )
 };
 
-const convert=value("food_convert").trim();
+const convert=
+value("food_convert").trim();
 
 if(convert){
 food.using_converts_to=convert;
@@ -1550,7 +1799,9 @@ case"fuel":
 out[c.id]={
 duration:Math.max(
 0.05,
-Number(value("fuel_duration"))||0.05
+Number(
+value("fuel_duration")
+)||0.05
 )
 };
 
@@ -1558,7 +1809,8 @@ break;
 
 case"color":{
 
-const v=value("hover_text_color").trim();
+const v=
+value("hover_text_color").trim();
 
 if(v){
 out[c.id]=v;
@@ -1569,23 +1821,46 @@ break;
 
 case"interact_button":{
 
-if(value("interact_mode")==="true"){
+if(
+value("interact_mode")==="true"
+){
 out[c.id]=true;
 }else{
-out[c.id]=value("interact_text")||"";
+out[c.id]=
+value("interact_text")||"";
 }
 
 break;
 }
 
-case"projectile":
+case"projectile":{
 
-out[c.id]={
-projectile_entity:
-value("projectile_entity").trim()
-};
+const obj={};
+
+const entity=
+value("projectile_entity").trim();
+
+if(entity){
+obj.projectile_entity=entity;
+}
+
+const critical=
+Number(
+value("projectile_critical")
+);
+
+if(
+Number.isFinite(critical)&&
+critical>0
+){
+obj.minimum_critical_power=
+critical;
+}
+
+out[c.id]=obj;
 
 break;
+}
 
 case"rarity":
 
@@ -1598,27 +1873,34 @@ case"record":{
 
 const obj={};
 
-const sound=value("record_sound").trim();
+const sound=
+value("record_sound").trim();
 
 if(sound){
 obj.sound_event=sound;
 }
 
-const duration=Number(
+const duration=
+Number(
 value("record_duration")
 );
 
-if(Number.isFinite(duration)&&duration>0){
+if(
+Number.isFinite(duration)&&
+duration>0
+){
 obj.duration=duration;
 }
 
-const signal=parseInt(
+const signal=
+parseInt(
 value("record_signal"),
 10
 );
 
 if(Number.isFinite(signal)){
-obj.comparator_signal=Math.max(0,signal);
+obj.comparator_signal=
+Math.max(0,signal);
 }
 
 out[c.id]=obj;
@@ -1628,13 +1910,17 @@ break;
 
 case"repairable":{
 
-const items=csv(
+const items=
+csv(
 value("repair_items")
 );
 
-const amount=Math.max(
+const amount=
+Math.max(
 0,
-Number(value("repair_amount"))||0
+Number(
+value("repair_amount")
+)||0
 );
 
 out[c.id]={
@@ -1649,22 +1935,89 @@ repair_amount:amount
 break;
 }
 
-case"storage_item":{
+case"shooter":{
+
+const ammunition=[];
+
+document.querySelectorAll(
+"#shooterRows .required"
+).forEach(row=>{
+
+const inputs=
+row.querySelectorAll("input");
+
+const item=
+inputs[0]?.value.trim();
+
+if(!item)return;
+
+ammunition.push({
+item,
+search_inventory:
+inputs[1]?.checked||false,
+use_in_creative:
+inputs[2]?.checked||false
+});
+
+});
 
 const obj={
-max_slots:Math.max(
+ammunition
+};
+
+const maxDraw=
+Number(
+value("shooter_max_draw")
+);
+
+if(
+Number.isFinite(maxDraw)&&
+maxDraw>=0
+){
+obj.max_draw_duration=maxDraw;
+}
+
+obj.scale_power_by_draw_duration=
+boolValue(
+"shooter_scale_power"
+);
+
+obj.charge_on_draw=
+boolValue(
+"shooter_charge"
+);
+
+out[c.id]=obj;
+
+break;
+}
+
+case"storage_item":{
+
+const maxSlots=Math.max(
 1,
-parseInt(value("storage_max_slots"),10)||1
-),
+Math.min(
+64,
+parseInt(
+value("storage_max_slots"),
+10
+)||64
+)
+);
+
+const obj={
+max_slots:maxSlots,
 allow_nested_storage_items:
 boolValue("storage_nested")
 };
 
-const allowed=csv(
+const allowed=
+csv(
 value("storage_allowed")
 );
 
-const banned=csv(
+const banned=
+csv(
 value("storage_banned")
 );
 
@@ -1685,7 +2038,9 @@ case"swing_duration":
 
 out[c.id]=Math.max(
 0,
-Number(value("value_"+safe(c.id)))||0
+Number(
+value("value_"+safe(c.id))
+)||0
 );
 
 break;
@@ -1694,7 +2049,9 @@ case"storage_weight_limit":
 
 out[c.id]=Math.max(
 0,
-Number(value("value_"+safe(c.id)))||0
+Number(
+value("value_"+safe(c.id))
+)||0
 );
 
 break;
@@ -1703,7 +2060,9 @@ case"storage_weight_modifier":
 
 out[c.id]=Math.max(
 0,
-Number(value("value_"+safe(c.id)))||0
+Number(
+value("value_"+safe(c.id))
+)||0
 );
 
 break;
@@ -1712,8 +2071,11 @@ case"swing_sounds":{
 
 const obj={};
 
-const attack=value("swing_attack").trim();
-const use=value("swing_use").trim();
+const attack=
+value("swing_attack").trim();
+
+const use=
+value("swing_use").trim();
 
 if(attack){
 obj.attack=attack;
@@ -1730,7 +2092,8 @@ break;
 
 case"tags":{
 
-const tags=csv(
+const tags=
+csv(
 value("item_tags")
 );
 
@@ -1746,10 +2109,13 @@ case"throwable":
 out[c.id]={
 do_swing_animation:
 boolValue("throwable_swing"),
+
 launch_power_scale:
 Math.max(
 0,
-Number(value("throwable_scale"))||1
+Number(
+value("throwable_scale")
+)||1
 )
 };
 
@@ -1758,42 +2124,76 @@ break;
 case"use_animation":
 
 out[c.id]=
-value("use_animation_value")||"none";
+value("use_animation_value")||
+"none";
 
 break;
 
-case"use_modifiers":
+case"use_modifiers":{
 
-out[c.id]={
+const obj={
 use_duration:Math.max(
 0,
-Number(value("use_duration"))||0
+Number(
+value("use_duration")
+)||0
 ),
-movement_modifier:Math.max(
+
+movement_modifier:Math.min(
+1,
+Math.max(
 0,
-Number(value("movement_modifier"))||0
+Number(
+value("movement_modifier")
+)||0
+)
+),
+
+emit_vibrations:
+boolValue(
+"use_emit_vibrations"
 )
 };
 
+if(
+gte(format,"1.26.30")
+){
+obj.start_using=
+value("use_start_using")||
+"always";
+}
+
+out[c.id]=obj;
+
 break;
+}
 
 case"wearable":{
 
-const slot=value("wearable_slot");
+const slot=
+value("wearable_slot");
 
 const obj={
 slot,
+
 protection:Math.max(
 0,
-parseInt(value("wearable_protection"),10)||0
+parseInt(
+value("wearable_protection"),
+10
+)||0
 )
 };
 
-if(boolValue("wearable_dispensable")){
+if(
+boolValue("wearable_dispensable")
+){
 obj.dispensable=true;
 }
 
-if(boolValue("wearable_hides")){
+if(
+boolValue("wearable_hides")
+){
 obj.hides_player_location=true;
 }
 
@@ -1827,11 +2227,14 @@ boolValue("block_placer_aligned")
 obj.aligned_placement=true;
 }
 
-if(boolValue("block_placer_replace")){
+if(
+boolValue("block_placer_replace")
+){
 obj.replace_block_item=true;
 }
 
-const useOn=csv(
+const useOn=
+csv(
 value("block_placer_useon")
 );
 
@@ -1848,31 +2251,47 @@ break;
 
 });
 
-document.getElementById("result").textContent=
-JSON.stringify(output,null,2);
+document.getElementById(
+"result"
+).textContent=
+JSON.stringify(
+output,
+null,
+2
+);
 
 }
 
-document.getElementById("formatVersion").addEventListener(
+document.getElementById(
+"formatVersion"
+).addEventListener(
 "change",
 renderComponents
 );
 
-document.getElementById("generate").addEventListener(
+document.getElementById(
+"generate"
+).addEventListener(
 "click",
 generate
 );
 
-document.getElementById("copy").addEventListener(
+document.getElementById(
+"copy"
+).addEventListener(
 "click",
 async()=>{
 
 const text=
-document.getElementById("result").textContent;
+document.getElementById(
+"result"
+).textContent;
 
 try{
 
-await navigator.clipboard.writeText(text);
+await navigator.clipboard.writeText(
+text
+);
 
 const button=
 document.getElementById("copy");
@@ -1880,7 +2299,8 @@ document.getElementById("copy");
 const old=
 button.textContent;
 
-button.textContent="コピーしました";
+button.textContent=
+"コピーしました";
 
 setTimeout(()=>{
 button.textContent=old;
@@ -1888,7 +2308,9 @@ button.textContent=old;
 
 }catch{
 
-alert("コピーできませんでした。");
+alert(
+"コピーできませんでした。"
+);
 
 }
 
