@@ -2,238 +2,362 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hiro Addon Tools - Item JSON Generator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hiro Addon Tools</title>
+
 <style>
 *{box-sizing:border-box}
+
 body{
 margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 background:#111;
-color:#eee;
-padding:20px
+color:#fff;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 }
+
 .container{
 max-width:1000px;
-margin:auto
+margin:auto;
+padding:24px 16px 50px
 }
+
 h1{
-font-size:26px;
-margin:0 0 20px
+margin:0;
+font-size:28px
 }
-h2{
-font-size:18px;
-margin:0 0 12px
+
+.subtitle{
+margin:6px 0 28px;
+color:#888
 }
-.card{
-background:#1b1b1b;
-border:1px solid #333;
-border-radius:12px;
-padding:16px;
+
+.section{
+background:#1a1a1a;
+border:1px solid #292929;
+border-radius:14px;
+padding:18px;
 margin-bottom:16px
 }
+
+.section h2{
+margin:0 0 16px;
+font-size:18px
+}
+
+.field{
+margin-bottom:15px
+}
+
+.field:last-child{
+margin-bottom:0
+}
+
 label{
 display:block;
-font-size:13px;
+margin-bottom:7px;
 color:#bbb;
-margin-bottom:6px
+font-size:14px
 }
+
 input,select,textarea{
 width:100%;
-background:#101010;
+padding:12px 14px;
+border-radius:9px;
+border:1px solid #333;
+background:#111;
 color:#fff;
-border:1px solid #444;
-border-radius:8px;
-padding:10px;
-font-size:14px;
-outline:none
+outline:none;
+font-size:15px
 }
-input:focus,select:focus,textarea:focus{
-border-color:#777
+
+textarea{
+min-height:90px;
+resize:vertical
 }
-.row{
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#666
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#777;
+opacity:.55
+}
+
+.grid{
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px
+grid-template-columns:repeat(2,1fr);
+gap:15px
 }
-.field{
-margin-bottom:12px
+
+.component-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
 }
-button{
-border:0;
-border-radius:8px;
-padding:10px 14px;
-background:#333;
-color:#fff;
-font-weight:600;
-cursor:pointer
-}
-button:hover{
-background:#444
-}
-.primary{
-background:#fff;
-color:#000
-}
-.primary:hover{
-background:#ddd
-}
-.actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap
-}
+
 .component{
 border:1px solid #333;
 border-radius:10px;
-margin-bottom:10px;
-overflow:hidden;
-background:#151515
+background:#111;
+overflow:hidden
 }
+
 .component.active{
 border-color:#666
 }
+
 .component-head{
 display:flex;
 align-items:center;
 gap:10px;
 padding:12px
 }
+
 .component-head>input{
-width:auto;
+width:18px;
+height:18px;
+padding:0;
+margin:0;
 flex:none
 }
+
 .component-name{
-font-weight:600;
-flex:1
+font-size:14px;
+word-break:break-all
 }
-.component-id{
-font-size:10px;
-color:#666;
-font-family:ui-monospace,SFMono-Regular,Menlo,monospace
-}
-.version{
+
+.component-version{
+margin-left:auto;
 font-size:11px;
 color:#777;
 white-space:nowrap
 }
+
 .component-body{
 display:none;
-padding:12px;
-border-top:1px solid #333
+padding:0 12px 12px
 }
+
 .component.active .component-body{
 display:block
 }
-.help{
-font-size:12px;
-color:#999;
-margin-bottom:12px;
-line-height:1.5
+
+.component-body input,
+.component-body select,
+.component-body textarea{
+margin-bottom:8px
 }
+
+.component-body label{
+margin-top:10px
+}
+
 .boolean-setting{
 display:flex;
 align-items:center;
 gap:8px;
-margin:8px 0
+margin-top:12px;
+padding:10px;
+border-radius:8px;
+background:#181818;
+border:1px solid #292929
 }
+
 .boolean-setting input{
-width:auto
+width:18px;
+height:18px;
+margin:0;
+padding:0
 }
+
+.boolean-setting span{
+color:#fff;
+font-size:14px
+}
+
+.help{
+font-size:11px;
+color:#777;
+margin-top:3px;
+line-height:1.5
+}
+
+.required{
+background:#181818;
+border:1px solid #333;
+border-radius:10px;
+padding:13px;
+margin-bottom:10px
+}
+
+.required-title{
+font-size:14px;
+font-weight:bold;
+margin-bottom:10px
+}
+
+.required-name{
+font-size:12px;
+color:#aaa;
+margin-bottom:6px
+}
+
 .sub-title{
-font-weight:600;
 font-size:13px;
+font-weight:bold;
 margin:14px 0 8px
 }
-.required{
-font-size:11px;
-color:#aaa;
-margin-left:6px
-}
+
 .digger-row{
 display:grid;
-grid-template-columns:1fr 180px 40px;
+grid-template-columns:1fr 150px 42px;
 gap:8px;
 margin-bottom:8px;
 align-items:end
 }
+
 .digger-label{
 font-size:11px;
-color:#999;
+color:#777;
 margin-bottom:5px
 }
-.add-row{
-margin-top:4px
+
+.digger-row input{
+margin:0
 }
+
 .remove-row{
-height:38px;
-padding:0;
-font-size:20px
+width:42px;
+height:42px;
+border:1px solid #444;
+border-radius:8px;
+background:#181818;
+color:#fff;
+cursor:pointer;
+font-size:18px
 }
-.result{
-background:#0a0a0a;
-border:1px solid #333;
-border-radius:10px;
+
+.add-row{
+width:100%;
+padding:10px;
+border:1px solid #444;
+border-radius:8px;
+background:#181818;
+color:#fff;
+cursor:pointer;
+font-size:13px
+}
+
+.generate{
+width:100%;
 padding:14px;
-font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-font-size:12px;
-line-height:1.5;
+border:0;
+border-radius:10px;
+background:#fff;
+color:#111;
+font-size:16px;
+font-weight:bold;
+cursor:pointer
+}
+
+.result{
+margin-top:16px
+}
+
+.result-box{
+background:#0d0d0d;
+border:1px solid #292929;
+border-radius:12px;
+overflow:hidden
+}
+
+.result-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 14px;
+border-bottom:1px solid #292929;
+font-weight:bold
+}
+
+.copy-btn{
+padding:7px 12px;
+border:1px solid #444;
+border-radius:7px;
+background:#1a1a1a;
+color:#fff;
+cursor:pointer;
+font-size:12px
+}
+
+pre{
+margin:0;
+padding:15px;
+overflow-x:auto;
 white-space:pre-wrap;
 word-break:break-word;
-min-height:100px
+color:#ddd;
+font-size:13px;
+line-height:1.6
 }
+
 @media(max-width:700px){
-body{
-padding:12px
-}
-.row{
+
+.grid,
+.component-grid{
 grid-template-columns:1fr
 }
-.digger-row{
-grid-template-columns:1fr 1fr 40px
+
+h1{
+font-size:24px
 }
-.version{
+
+.component-version{
 display:none
 }
-.component-id{
-max-width:35%;
-overflow:hidden;
-text-overflow:ellipsis;
-white-space:nowrap
+
+.digger-row{
+grid-template-columns:1fr 110px 42px
 }
+
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>Hiro Addon Tools - Item JSON Generator</h1>
+<h1>Hiro Addon Tools</h1>
 
-<div class="card">
+<div class="subtitle">
+Minecraft Bedrock Addon Item JSON Generator
+</div>
+
+<div class="section">
+
 <h2>基本設定</h2>
 
-<div class="row">
+<div class="grid">
 
 <div class="field">
 <label>フォーマットバージョン</label>
+
 <select id="formatVersion">
+
 <option value="1.20.0">1.20.0</option>
 <option value="1.20.10">1.20.10</option>
-<option value="1.20.20">1.20.20</option>
 <option value="1.20.30">1.20.30</option>
-<option value="1.20.40">1.20.40</option>
 <option value="1.20.50">1.20.50</option>
-<option value="1.20.60">1.20.60</option>
 <option value="1.21.0">1.21.0</option>
 <option value="1.21.20">1.21.20</option>
 <option value="1.21.40">1.21.40</option>
 <option value="1.21.50">1.21.50</option>
-<option value="1.21.60">1.21.60</option>
-<option value="1.21.70">1.21.70</option>
-<option value="1.21.80">1.21.80</option>
 <option value="1.21.90">1.21.90</option>
-<option value="1.21.100">1.21.100</option>
 <option value="1.21.110">1.21.110</option>
 <option value="1.21.120">1.21.120</option>
 <option value="1.21.130">1.21.130</option>
@@ -244,67 +368,107 @@ white-space:nowrap
 <option value="1.26.10">1.26.10</option>
 <option value="1.26.20">1.26.20</option>
 <option value="1.26.30" selected>1.26.30</option>
+
 </select>
 </div>
 
 <div class="field">
 <label>アイテムID</label>
-<input id="identifier" type="text" value="hiro:test_item" placeholder="hiro:test_item">
+<input id="identifier" type="text" placeholder="hiro:test_item">
 </div>
-
-</div>
-
-<div class="row">
 
 <div class="field">
+
 <label>クリエイティブカテゴリ</label>
+
 <select id="category">
 <option value="none">なし</option>
-<option value="construction">建築</option>
-<option value="nature">自然</option>
-<option value="equipment">装備</option>
 <option value="items">アイテム</option>
+<option value="equipment">装備</option>
+<option value="nature">自然</option>
+<option value="construction">建築</option>
 </select>
+
 </div>
 
 <div class="field">
 <label>クリエイティブグループ</label>
-<input id="group" type="text" placeholder="itemGroup.name.example">
+<input id="group" type="text" placeholder="空欄なら設定しない">
 </div>
 
 </div>
+</div>
 
-<div class="row">
+<div class="section">
 
-<div class="field">
-<label>アイコンテクスチャ <span class="required">必須</span></label>
+<h2>基本コンポーネント</h2>
+
+<div class="required">
+
+<div class="required-title">
+minecraft:icon
+</div>
+
+<div class="required-name">
+テクスチャ名
+</div>
+
 <input id="iconTexture" type="text" placeholder="test_item">
+
+<div class="help">
+resource_pack/textures/item_texture.json の texture_data に登録した名前
 </div>
 
-<div class="field">
-<label>最大スタック数 <span class="required">必須</span></label>
+</div>
+
+<div class="required">
+
+<div class="required-title">
+minecraft:max_stack_size
+</div>
+
+<div class="required-name">
+最大スタック数
+</div>
+
 <input id="maxStack" type="number" min="1" max="64" value="64">
-</div>
 
 </div>
 
 </div>
 
-<div class="card">
+<div class="section">
+
 <h2>使うコンポーネント</h2>
-<div id="components"></div>
+
+<div id="componentGrid" class="component-grid"></div>
+
 </div>
 
-<div class="card">
-<div class="actions">
-<button class="primary" id="generate">JSONを生成</button>
-<button id="copy">コピー</button>
-</div>
+<button class="generate" id="generate">
+JSONを生成
+</button>
+
+<div class="result">
+
+<div class="result-box">
+
+<div class="result-title">
+
+<span>
+生成結果
+</span>
+
+<button class="copy-btn" id="copy">
+コピー
+</button>
+
 </div>
 
-<div class="card">
-<h2>生成結果</h2>
-<pre id="result" class="result"></pre>
+<pre id="result">{}</pre>
+
+</div>
+
 </div>
 
 </div>
@@ -325,10 +489,15 @@ help:"アイテムをオフハンドに持てるようにします。"
 {
 id:"minecraft:block_placer",
 name:"ブロック設置",
-min:"1.20.0",
+min:"1.21.50",
 type:"block_placer",
-default:{},
-help:"アイテムを使用したときにブロックを設置できるようにします。"
+default:{
+block:"",
+use_on:[],
+aligned_placement:false,
+replace_block_item:false
+},
+help:"使用したときに指定したブロックを設置できるようにします。複数の使用先ブロックは , で区切ります。"
 },
 
 {
@@ -337,12 +506,12 @@ name:"バンドル操作",
 min:"1.21.40",
 type:"empty",
 default:true,
-help:"このアイテムをバンドルと組み合わせて操作できるようにします。"
+help:"バンドルとの操作を有効にします。"
 },
 
 {
 id:"minecraft:can_destroy_in_creative",
-name:"クリエイティブでブロック破壊",
+name:"クリエイティブ破壊",
 min:"1.20.0",
 type:"boolean",
 default:true,
@@ -368,16 +537,16 @@ category:"example",
 duration:1,
 type:"use"
 },
-help:"アイテムの使用後にクールダウンを発生させます。同じカテゴリのアイテムも一緒にクールダウンします。"
+help:"アイテム使用後のクールダウンを設定します。1.21.130以降では使用時・攻撃時を選択できます。"
 },
 
 {
 id:"minecraft:damage",
-name:"攻撃ダメージ",
+name:"追加ダメージ",
 min:"1.20.0",
 type:"number",
 default:1,
-help:"このアイテムが与える追加ダメージを設定します。"
+help:"アイテムによる追加ダメージを設定します。"
 },
 
 {
@@ -386,7 +555,7 @@ name:"ダメージ吸収",
 min:"1.21.90",
 type:"empty",
 default:true,
-help:"ダメージ吸収の機能を有効にします。"
+help:"ダメージ吸収機能を有効にします。"
 },
 
 {
@@ -398,7 +567,7 @@ default:{
 destroy_speeds:[],
 use_efficiency:false
 },
-help:"指定したブロックを速く破壊できる採掘ツールにします。"
+help:"指定したブロックを速く破壊できる採掘ツールにします。破壊時間を秒で指定するとspeedに変換します。"
 },
 
 {
@@ -406,8 +575,8 @@ id:"minecraft:display_name",
 name:"表示名",
 min:"1.20.0",
 type:"text",
-default:"",
-help:"アイテムの名前を設定します。言語ファイルのキーも指定できます。"
+default:"アイテム名",
+help:"アイテムの表示名を設定します。"
 },
 
 {
@@ -418,7 +587,7 @@ type:"durability",
 default:{
 max_durability:100
 },
-help:"アイテムの最大耐久値と、耐久値が減る確率を設定します。"
+help:"アイテムの最大耐久値を設定します。"
 },
 
 {
@@ -429,7 +598,7 @@ type:"durability_sensor",
 default:{
 durability_thresholds:[]
 },
-help:"耐久値が指定した値以下になったときにイベントを発生させます。"
+help:"耐久値が指定した値になったときにイベントを発生させます。"
 },
 
 {
@@ -440,7 +609,7 @@ type:"color",
 default:{
 default_color:"#FFFFFF"
 },
-help:"アイテムを染色できるようにします。"
+help:"アイテムを染色可能にします。"
 },
 
 {
@@ -461,10 +630,11 @@ name:"エンティティ設置",
 min:"1.20.10",
 type:"entity_placer",
 default:{
-entity:"minecraft:pig",
-use_on:[]
+entity:"",
+use_on:[],
+dispense_on:[]
 },
-help:"アイテムを使用した場所にエンティティを設置します。"
+help:"使用した場所にエンティティを設置します。"
 },
 
 {
@@ -484,7 +654,8 @@ type:"food",
 default:{
 nutrition:1,
 saturation_modifier:0.6,
-can_always_eat:false
+can_always_eat:false,
+using_converts_to:""
 },
 help:"アイテムを食べられるようにします。"
 },
@@ -493,45 +664,45 @@ help:"アイテムを食べられるようにします。"
 id:"minecraft:fuel",
 name:"燃料",
 min:"1.20.0",
-type:"fuel",
+type:"number",
 default:1,
-help:"かまどなどで燃料として使用できるようにします。"
+help:"かまどなどの燃料として使用できます。値は燃焼時間です。"
 },
 
 {
 id:"minecraft:glint",
-name:"エンチャントの光沢",
+name:"エンチャント光沢",
 min:"1.20.0",
 type:"boolean",
 default:true,
-help:"アイテムにエンチャントのような光沢を表示します。"
+help:"エンチャントのような光沢を表示します。"
 },
 
 {
 id:"minecraft:hand_equipped",
-name:"ツール持ち",
+name:"手持ちツール表示",
 min:"1.20.0",
 type:"boolean",
 default:true,
-help:"アイテムを手に持ったとき、ツールのような持ち方にします。"
+help:"手に持ったときにツールのような持ち方で表示します。"
 },
 
 {
 id:"minecraft:hover_text_color",
-name:"アイテム名の色",
+name:"ホバーテキスト色",
 min:"1.20.0",
 type:"text",
 default:"#FFFFFF",
-help:"アイテム名を表示するときの色を設定します。"
+help:"アイテムのホバーテキストに使用する色を設定します。"
 },
 
 {
 id:"minecraft:interact_button",
 name:"操作ボタン",
 min:"1.20.0",
-type:"boolean",
+type:"interact_button",
 default:true,
-help:"タッチ操作などでアイテム使用用のボタンを表示します。"
+help:"タッチ操作で表示する操作ボタンを設定します。"
 },
 
 {
@@ -545,11 +716,11 @@ help:"キネティック武器として扱います。"
 
 {
 id:"minecraft:liquid_clipped",
-name:"液体中でも使用可能",
+name:"液体中使用",
 min:"1.20.0",
 type:"boolean",
 default:true,
-help:"液体の中でもアイテムを使用できるようにします。"
+help:"液体に触れている状態でも使用できるようにします。"
 },
 
 {
@@ -558,7 +729,7 @@ name:"貫通武器",
 min:"1.21.90",
 type:"empty",
 default:true,
-help:"攻撃を貫通させる武器として扱います。"
+help:"貫通攻撃を行う武器として扱います。"
 },
 
 {
@@ -570,7 +741,7 @@ default:{
 projectile_entity:"minecraft:arrow",
 minimum_critical_power:0
 },
-help:"このアイテムを投げたり発射したりしたときに生成する投射物エンティティを設定します。"
+help:"アイテムから発射する投射物エンティティを設定します。"
 },
 
 {
@@ -592,7 +763,7 @@ comparator_signal:1,
 duration:100,
 sound_event:"13"
 },
-help:"レコードアイテムとして音楽を再生できるようにします。"
+help:"レコードとして音楽を再生します。"
 },
 
 {
@@ -603,7 +774,7 @@ type:"repairable",
 default:{
 repair_items:[]
 },
-help:"指定したアイテムを使って、このアイテムを修理できるようにします。"
+help:"指定したアイテムを使って修理できるようにします。複数のアイテムは , で区切ります。"
 },
 
 {
@@ -617,7 +788,7 @@ charge_on_draw:false,
 max_draw_duration:0,
 scale_power_by_draw_duration:false
 },
-help:"弓やクロスボウのような射撃アイテムとして設定します。"
+help:"弓やクロスボウのような射撃アイテムを設定します。"
 },
 
 {
@@ -631,11 +802,11 @@ help:"地面に落ちたアイテムが時間経過で消滅するか設定し�
 
 {
 id:"minecraft:stacked_by_data",
-name:"データ値ごとに別スタック",
+name:"データ別スタック",
 min:"1.20.0",
 type:"boolean",
 default:true,
-help:"データ値が異なるアイテムを別々のスタックとして扱います。"
+help:"異なるデータ値のアイテムを別々のスタックとして扱います。"
 },
 
 {
@@ -651,11 +822,11 @@ help:"アイテム自体に収納機能を持たせます。"
 
 {
 id:"minecraft:storage_weight_limit",
-name:"収納重量上限",
+name:"収納重量制限",
 min:"1.21.110",
 type:"number",
 default:64,
-help:"ストレージに入れられるアイテムの最大重量を設定します。"
+help:"ストレージ内に入れられるアイテムの最大重量を設定します。"
 },
 
 {
@@ -664,7 +835,7 @@ name:"収納重量倍率",
 min:"1.21.110",
 type:"number",
 default:4,
-help:"ストレージ内でのアイテムの重量倍率を設定します。"
+help:"ストレージ内でのアイテム重量の倍率を設定します。"
 },
 
 {
@@ -673,7 +844,7 @@ name:"振り動作時間",
 min:"1.21.120",
 type:"number",
 default:0.3,
-help:"アイテムを振る動作の長さを設定します。"
+help:"アイテムを振る動作の時間を設定します。"
 },
 
 {
@@ -691,7 +862,7 @@ name:"アイテムタグ",
 min:"1.20.50",
 type:"tags",
 default:[],
-help:"アイテムに複数のタグを追加します。タグは , で区切って指定します。"
+help:"アイテムにタグを追加します。複数のタグは , で区切ります。"
 },
 
 {
@@ -707,7 +878,7 @@ max_launch_power:1,
 min_draw_duration:0,
 scale_power_by_draw_duration:false
 },
-help:"アイテムを投げられるようにします。投射物を生成する場合は「投射物」も設定します。"
+help:"アイテムを投げられるようにします。"
 },
 
 {
@@ -716,7 +887,7 @@ name:"使用アニメーション",
 min:"1.20.0",
 type:"animation",
 default:"none",
-help:"アイテムを使用するときのアニメーションを設定します。"
+help:"アイテム使用時のアニメーションを設定します。"
 },
 
 {
@@ -727,9 +898,9 @@ type:"use_modifiers",
 default:{
 use_duration:1.6,
 movement_modifier:0.35,
-emit_vibrations:true
+emit_vibrations:false
 },
-help:"アイテムの使用時間や、使用中の移動速度などを設定します。"
+help:"使用時間や使用中の移動速度などを設定します。"
 },
 
 {
@@ -743,113 +914,180 @@ protection:0,
 hides_player_location:false,
 dispensable:false
 },
-help:"アイテムを装備できるようにします。"
+help:"アイテムを指定した装備スロットに装備できるようにします。"
 }
 
 ];
 
 function versionNumber(v){
-return v.split(".").map(Number).reduce((a,n)=>a*1000+n,0);
+
+return v
+.split(".")
+.map(Number);
+
+}
+
+function versionCompare(a,b){
+
+const x=versionNumber(a);
+const y=versionNumber(b);
+
+for(let i=0;i<3;i++){
+
+const xv=x[i]||0;
+const yv=y[i]||0;
+
+if(xv>yv)return 1;
+if(xv<yv)return -1;
+
+}
+
+return 0;
+
 }
 
 function available(c,version){
-const v=versionNumber(version);
-const min=versionNumber(c.min);
-const max=c.max?versionNumber(c.max):Infinity;
-return v>=min&&v<=max;
+
+if(versionCompare(version,c.min)<0)
+return false;
+
+if(c.max&&versionCompare(version,c.max)>0)
+return false;
+
+return true;
+
 }
 
-function addCheckbox(parent,label,checked=false){
+function addInput(
+parent,
+label,
+value,
+type="text",
+placeholder=""
+){
+
 const wrap=document.createElement("div");
-wrap.className="boolean-setting";
 
-const input=document.createElement("input");
-input.type="checkbox";
-input.checked=checked;
-
-const span=document.createElement("span");
-span.textContent=label;
-
-wrap.appendChild(input);
-wrap.appendChild(span);
-parent.appendChild(wrap);
-
-return input;
-}
-
-function addInput(parent,label,value="",type="text",placeholder=""){
-const wrap=document.createElement("div");
 wrap.className="field";
 
 const l=document.createElement("label");
+
 l.textContent=label;
 
 const input=document.createElement("input");
+
 input.type=type;
-input.value=value;
+input.value=value??"";
 input.placeholder=placeholder;
 
 wrap.appendChild(l);
 wrap.appendChild(input);
+
 parent.appendChild(wrap);
 
 return input;
+
 }
 
-function addSelect(parent,label,options,value){
+function addSelect(
+parent,
+label,
+options,
+value
+){
+
 const wrap=document.createElement("div");
+
 wrap.className="field";
 
 const l=document.createElement("label");
+
 l.textContent=label;
 
 const select=document.createElement("select");
 
-options.forEach(o=>{
-const option=document.createElement("option");
-option.value=o[0];
-option.textContent=o[1];
-if(o[0]===value)option.selected=true;
-select.appendChild(option);
+options.forEach(option=>{
+
+const o=document.createElement("option");
+
+o.value=option[0];
+o.textContent=option[1];
+
+select.appendChild(o);
+
 });
+
+select.value=value;
 
 wrap.appendChild(l);
 wrap.appendChild(select);
+
 parent.appendChild(wrap);
 
 return select;
+
+}
+
+function addCheckbox(
+parent,
+label,
+checked=false
+){
+
+const wrap=document.createElement("div");
+
+wrap.className="boolean-setting";
+
+const input=document.createElement("input");
+
+input.type="checkbox";
+input.checked=checked;
+
+const span=document.createElement("span");
+
+span.textContent=label;
+
+wrap.appendChild(input);
+wrap.appendChild(span);
+
+parent.appendChild(wrap);
+
+return input;
+
 }
 
 function splitValues(value){
+
 return value
 .split(",")
 .map(v=>v.trim())
 .filter(Boolean);
+
 }
 
-function parseJson(value,fallback={}){
-try{
-return JSON.parse(value);
-}catch{
-return fallback;
-}
-}
-
-function createDiggerRow(container,blockValue="",secondsValue=1){
+function createDiggerRow(
+container,
+blockValue="",
+secondsValue=1
+){
 
 const row=document.createElement("div");
+
 row.className="digger-row";
 
 const blockWrap=document.createElement("div");
 
 const blockLabel=document.createElement("div");
+
 blockLabel.className="digger-label";
-blockLabel.textContent="対象ブロックID（,で複数指定）";
+blockLabel.textContent="対象ブロックID";
 
 const block=document.createElement("input");
+
 block.type="text";
 block.placeholder="minecraft:stone,minecraft:dirt";
 block.value=blockValue;
+
 block.dataset.diggerField="block";
 
 blockWrap.appendChild(blockLabel);
@@ -858,50 +1096,64 @@ blockWrap.appendChild(block);
 const timeWrap=document.createElement("div");
 
 const timeLabel=document.createElement("div");
+
 timeLabel.className="digger-label";
 timeLabel.textContent="破壊時間（秒）";
 
 const seconds=document.createElement("input");
+
 seconds.type="number";
 seconds.min="0.01";
 seconds.step="0.01";
 seconds.value=secondsValue;
+
 seconds.dataset.diggerField="seconds";
 
 timeWrap.appendChild(timeLabel);
 timeWrap.appendChild(seconds);
 
 const remove=document.createElement("button");
+
 remove.type="button";
 remove.className="remove-row";
 remove.textContent="×";
-remove.onclick=()=>row.remove();
+
+remove.onclick=()=>{
+row.remove();
+};
 
 row.appendChild(blockWrap);
 row.appendChild(timeWrap);
 row.appendChild(remove);
 
 container.appendChild(row);
+
 }
 
 function createFields(c,parent){
 
-if(c.type==="boolean"||c.type==="empty"){
-const input=addCheckbox(parent,"有効にする",c.default);
+if(c.type==="boolean"){
+
+const input=addCheckbox(
+parent,
+"有効にする",
+c.default
+);
+
 input.dataset.field="value";
-return;
+
 }
 
-if(c.type==="number"){
-const input=addInput(parent,"値",c.default,"number");
-input.dataset.field="value";
-return;
-}
+if(c.type==="empty"){
 
-if(c.type==="text"){
-const input=addInput(parent,"値",c.default);
+const input=addCheckbox(
+parent,
+"有効にする",
+c.default
+);
+
 input.dataset.field="value";
-return;
+
 }
 
 if(c.type==="block_placer"){
@@ -909,110 +1161,123 @@ if(c.type==="block_placer"){
 const block=addInput(
 parent,
 "設置するブロックID",
-"",
+c.default.block,
 "text",
 "minecraft:stone"
 );
+
 block.dataset.field="block";
 
 const useOn=addInput(
 parent,
-"使用できるブロックID（,で複数指定）",
-"",
+"使用先ブロックID（,で複数指定）",
+c.default.use_on.join(","),
 "text",
-"minecraft:grass,minecraft:dirt"
+"minecraft:dirt,minecraft:grass"
 );
+
 useOn.dataset.field="use_on";
 
 const aligned=addCheckbox(
 parent,
 "配置位置を揃える",
-false
+c.default.aligned_placement
 );
+
 aligned.dataset.field="aligned_placement";
 
 const replace=addCheckbox(
 parent,
-"このブロックのアイテムとして扱う",
-false
+"ブロックのアイテムとして登録する",
+c.default.replace_block_item
 );
+
 replace.dataset.field="replace_block_item";
 
-return;
+}
+
+if(c.type==="number"){
+
+const input=addInput(
+parent,
+"値",
+c.default,
+"number"
+);
+
+input.dataset.field="value";
+input.step="any";
+
+}
+
+if(c.type==="text"){
+
+const input=addInput(
+parent,
+"値",
+c.default,
+"text"
+);
+
+input.dataset.field="value";
+
+}
+
+if(c.type==="color"){
+
+const input=addInput(
+parent,
+"デフォルト色",
+c.default.default_color,
+"text",
+"#FFFFFF"
+);
+
+input.dataset.field="default_color";
+
 }
 
 if(c.type==="cooldown"){
 
 const category=addInput(
 parent,
-"クールダウンのグループ名",
+"カテゴリ",
+c.default.category,
+"text",
 "example"
 );
+
 category.dataset.field="category";
 
 const duration=addInput(
 parent,
-"クールダウン時間（秒）",
-1,
+"時間（秒）",
+c.default.duration,
 "number"
 );
+
+duration.step="any";
 duration.dataset.field="duration";
 
-const version=versionNumber(
-document.getElementById("formatVersion").value
-);
+const version=
+document.getElementById("formatVersion").value;
 
-if(version>=versionNumber("1.21.130")){
+if(versionCompare(version,"1.21.130")>=0){
 
 const type=addSelect(
 parent,
-"クールダウンが発生する動作",
+"発動する動作",
 [
 ["use","使用"],
 ["attack","攻撃"]
 ],
-"use"
+c.default.type
 );
 
 type.dataset.field="type";
 
 }
 
-return;
-}
-
-if(c.type==="digger"){
-
-const efficiency=addCheckbox(
-parent,
-"効率強化を使用",
-c.default.use_efficiency
-);
-efficiency.dataset.field="use_efficiency";
-
-const title=document.createElement("div");
-title.className="sub-title";
-title.textContent="破壊設定";
-parent.appendChild(title);
-
-const rows=document.createElement("div");
-rows.className="digger-rows";
-parent.appendChild(rows);
-
-createDiggerRow(rows,"minecraft:stone",1);
-
-const add=document.createElement("button");
-add.type="button";
-add.className="add-row";
-add.textContent="＋ ブロックを追加";
-
-add.onclick=()=>{
-createDiggerRow(rows,"",1);
-};
-
-parent.appendChild(add);
-
-return;
 }
 
 if(c.type==="durability"){
@@ -1023,142 +1288,140 @@ parent,
 c.default.max_durability,
 "number"
 );
+
 max.dataset.field="max_durability";
+max.min="1";
+max.step="1";
 
-const min=addInput(
-parent,
-"耐久値が減る確率（最小）",
-100,
-"number"
-);
-min.dataset.field="damage_min";
-
-const maxChance=addInput(
-parent,
-"耐久値が減る確率（最大）",
-100,
-"number"
-);
-maxChance.dataset.field="damage_max";
-
-return;
 }
 
 if(c.type==="durability_sensor"){
 
-const title=document.createElement("div");
-title.className="sub-title";
-title.textContent="耐久値しきい値";
-parent.appendChild(title);
-
-const input=document.createElement("textarea");
-input.rows=5;
-input.placeholder="例:\n10:my_event\n25:my_event2";
-input.dataset.field="thresholds";
-
-parent.appendChild(input);
-
-return;
-}
-
-if(c.type==="color"){
-
 const input=addInput(
 parent,
-"初期カラー",
-c.default.default_color,
+"耐久値しきい値（JSON）",
+JSON.stringify(c.default),
 "text",
-"#FFFFFF"
+'{"durability_thresholds":[{"threshold":10,"event":"my_event"}]}'
 );
-input.dataset.field="default_color";
 
-return;
+input.dataset.field="json";
+
 }
 
 if(c.type==="enchantable"){
 
 const slot=addSelect(
 parent,
-"エンチャントの種類",
+"エンチャントスロット",
 [
+["none","なし"],
+["all","すべて"],
+["g_armor","防具"],
+["armor_head","頭"],
+["armor_torso","胴"],
+["armor_feet","足"],
+["armor_legs","脚"],
 ["sword","剣"],
 ["bow","弓"],
+["spear","槍"],
 ["crossbow","クロスボウ"],
-["armor_head","ヘルメット"],
-["armor_torso","チェストプレート"],
-["armor_legs","レギンス"],
-["armor_feet","ブーツ"],
-["pickaxe","ツルハシ"],
-["axe","斧"],
-["shovel","シャベル"],
+["melee_spear","近接槍"],
+["g_tool","ツール"],
 ["hoe","クワ"],
 ["shears","ハサミ"],
+["flintsteel","火打石と打ち金"],
 ["shield","盾"],
+["g_digging","採掘ツール"],
+["axe","斧"],
+["pickaxe","ツルハシ"],
+["shovel","シャベル"],
 ["fishing_rod","釣り竿"],
-["trident","トライデント"],
-["elytra","エリトラ"]
+["carrot_stick","ニンジン付きの棒"],
+["elytra","エリトラ"],
+["cosmetic_head","コスメティックヘッド"]
 ],
-"sword"
+c.default.slot
 );
+
 slot.dataset.field="slot";
 
 const value=addInput(
 parent,
 "エンチャント値",
-10,
+c.default.value,
 "number"
 );
-value.dataset.field="value";
 
-return;
+value.dataset.field="value";
+value.min="0";
+value.step="1";
+
 }
 
 if(c.type==="entity_placer"){
 
 const entity=addInput(
 parent,
-"設置するエンティティID",
+"エンティティID",
 c.default.entity,
 "text",
-"minecraft:pig"
+"minecraft:chicken"
 );
+
 entity.dataset.field="entity";
 
 const useOn=addInput(
 parent,
-"使用できるブロックID（,で複数指定）",
+"使用先ブロックID（,で複数指定）",
 "",
 "text",
 "minecraft:grass,minecraft:dirt"
 );
+
 useOn.dataset.field="use_on";
 
-return;
+const dispenseOn=addInput(
+parent,
+"ディスペンサー使用先（,で複数指定）",
+"",
+"text",
+"minecraft:grass,minecraft:dirt"
+);
+
+dispenseOn.dataset.field="dispense_on";
+
 }
 
 if(c.type==="food"){
 
 const nutrition=addInput(
 parent,
-"満腹度回復量",
-1,
+"栄養値",
+c.default.nutrition,
 "number"
 );
+
 nutrition.dataset.field="nutrition";
+nutrition.min="0";
+nutrition.step="1";
 
 const saturation=addInput(
 parent,
-"満腹度回復倍率",
-0.6,
+"満腹度倍率",
+c.default.saturation_modifier,
 "number"
 );
+
 saturation.dataset.field="saturation_modifier";
+saturation.step="any";
 
 const always=addCheckbox(
 parent,
-"満腹度が満タンでも食べられる",
-false
+"いつでも食べられる",
+c.default.can_always_eat
 );
+
 always.dataset.field="can_always_eat";
 
 const convert=addInput(
@@ -1168,9 +1431,9 @@ parent,
 "text",
 "minecraft:bowl"
 );
+
 convert.dataset.field="using_converts_to";
 
-return;
 }
 
 if(c.type==="fuel"){
@@ -1178,130 +1441,185 @@ if(c.type==="fuel"){
 const input=addInput(
 parent,
 "燃焼時間（秒）",
-1,
+c.default,
 "number"
 );
-input.dataset.field="duration";
 
-return;
+input.dataset.field="value";
+input.step="any";
+
+}
+
+if(c.type==="digger"){
+
+const efficiency=addCheckbox(
+parent,
+"効率強化を使用",
+c.default.use_efficiency
+);
+
+efficiency.dataset.field="use_efficiency";
+
+const title=document.createElement("div");
+
+title.className="sub-title";
+title.textContent="破壊設定";
+
+parent.appendChild(title);
+
+const rows=document.createElement("div");
+
+rows.className="digger-rows";
+
+parent.appendChild(rows);
+
+createDiggerRow(
+rows,
+"minecraft:stone",
+1
+);
+
+const add=document.createElement("button");
+
+add.type="button";
+add.className="add-row";
+add.textContent="＋ ブロックを追加";
+
+add.onclick=()=>{
+createDiggerRow(rows,"",1);
+};
+
+parent.appendChild(add);
+
 }
 
 if(c.type==="projectile"){
 
 const entity=addInput(
 parent,
-"投射物エンティティID",
+"投射物エンティティ",
 c.default.projectile_entity,
 "text",
 "minecraft:arrow"
 );
+
 entity.dataset.field="projectile_entity";
 
-const critical=addInput(
+const power=addInput(
 parent,
-"クリティカルに必要なチャージ時間",
-0,
+"最小クリティカルパワー",
+c.default.minimum_critical_power,
 "number"
 );
-critical.dataset.field="minimum_critical_power";
 
-return;
+power.dataset.field="minimum_critical_power";
+power.step="any";
+
 }
 
 if(c.type==="rarity"){
 
-const select=addSelect(
+const rarity=addSelect(
 parent,
 "レアリティ",
 [
-["common","通常"],
-["uncommon","アンコモン"],
-["rare","レア"],
-["epic","エピック"]
+["common","Common"],
+["uncommon","Uncommon"],
+["rare","Rare"],
+["epic","Epic"]
 ],
-"common"
+c.default
 );
-select.dataset.field="value";
 
-return;
+rarity.dataset.field="value";
+
 }
 
 if(c.type==="record"){
 
 const signal=addInput(
 parent,
-"コンパレーター出力",
-1,
+"コンパレーター信号",
+c.default.comparator_signal,
 "number"
 );
+
 signal.dataset.field="comparator_signal";
 
 const duration=addInput(
 parent,
 "再生時間（秒）",
-100,
+c.default.duration,
 "number"
 );
+
 duration.dataset.field="duration";
+duration.step="any";
 
 const sound=addInput(
 parent,
 "サウンドイベント",
+c.default.sound_event,
+"text",
 "13"
 );
+
 sound.dataset.field="sound_event";
 
-return;
 }
 
 if(c.type==="repairable"){
 
-const items=addInput(
+const input=addInput(
 parent,
-"修理に使えるアイテムID（,で複数指定）",
+"修理アイテムID（,で複数指定）",
 "",
 "text",
 "minecraft:iron_ingot,minecraft:diamond"
 );
-items.dataset.field="repair_items";
 
-return;
+input.dataset.field="repair_items";
+
 }
 
 if(c.type==="shooter"){
 
-const ammo=addInput(
+const input=addInput(
 parent,
 "弾薬アイテムID（,で複数指定）",
 "",
 "text",
 "minecraft:arrow,minecraft:spectral_arrow"
 );
-ammo.dataset.field="ammunition";
+
+input.dataset.field="ammunition";
 
 const charge=addCheckbox(
 parent,
-"引いてから発射する",
-false
+"引いている間にチャージ",
+c.default.charge_on_draw
 );
+
 charge.dataset.field="charge_on_draw";
 
 const duration=addInput(
 parent,
-"最大チャージ時間（秒）",
-0,
+"最大引き時間",
+c.default.max_draw_duration,
 "number"
 );
+
 duration.dataset.field="max_draw_duration";
+duration.step="any";
 
 const scale=addCheckbox(
 parent,
-"チャージ時間で威力を変化させる",
-false
+"引き時間で威力を変える",
+c.default.scale_power_by_draw_duration
 );
+
 scale.dataset.field="scale_power_by_draw_duration";
 
-return;
 }
 
 if(c.type==="storage"){
@@ -1309,113 +1627,88 @@ if(c.type==="storage"){
 const slots=addInput(
 parent,
 "最大スロット数",
-64,
+c.default.max_slots,
 "number"
 );
+
 slots.dataset.field="max_slots";
+slots.min="1";
+slots.step="1";
 
-return;
-}
-
-if(c.type==="json"){
-
-const input=document.createElement("textarea");
-input.rows=6;
-input.placeholder='{"attack":"random.click"}';
-input.dataset.field="json";
-
-parent.appendChild(input);
-
-return;
 }
 
 if(c.type==="tags"){
 
 const input=addInput(
 parent,
-"タグ（,で複数指定）",
-"",
+"タグ（カンマ区切り）",
+c.default.join(","),
 "text",
 "minecraft:is_food,minecraft:is_tool"
 );
-input.dataset.field="tags";
 
-return;
+input.dataset.field="value";
+
 }
 
 if(c.type==="throwable"){
 
 const swing=addCheckbox(
 parent,
-"投げるときにスイングする",
-false
+"振りアニメーション",
+c.default.do_swing_animation
 );
+
 swing.dataset.field="do_swing_animation";
 
-const scale=addInput(
+const launch=addInput(
 parent,
-"発射威力倍率",
-1,
+"発射倍率",
+c.default.launch_power_scale,
 "number"
 );
-scale.dataset.field="launch_power_scale";
 
-const maxDuration=addInput(
+launch.dataset.field="launch_power_scale";
+launch.step="any";
+
+const maxDraw=addInput(
 parent,
-"最大チャージ時間（秒）",
-0,
+"最大チャージ時間",
+c.default.max_draw_duration,
 "number"
 );
-maxDuration.dataset.field="max_draw_duration";
+
+maxDraw.dataset.field="max_draw_duration";
+maxDraw.step="any";
 
 const maxPower=addInput(
 parent,
-"最大発射威力",
-1,
+"最大発射力",
+c.default.max_launch_power,
 "number"
 );
+
 maxPower.dataset.field="max_launch_power";
+maxPower.step="any";
 
-const minDuration=addInput(
+const minDraw=addInput(
 parent,
-"最小チャージ時間（秒）",
-0,
+"最小チャージ時間",
+c.default.min_draw_duration,
 "number"
 );
-minDuration.dataset.field="min_draw_duration";
 
-const scalePower=addCheckbox(
+minDraw.dataset.field="min_draw_duration";
+minDraw.step="any";
+
+const scale=addCheckbox(
 parent,
-"チャージ時間で威力を変化させる",
-false
+"チャージ時間で威力を変える",
+c.default.scale_power_by_draw_duration
 );
-scalePower.dataset.field="scale_power_by_draw_duration";
 
-return;
-}
+scale.dataset.field="scale_power_by_draw_duration";
 
-if(c.type==="animation"){
-
-const select=addSelect(
-parent,
-"使用アニメーション",
-[
-["none","なし"],
-["eat","食べる"],
-["drink","飲む"],
-["bow","弓"],
-["block","ブロック"],
-["brush","ブラシ"],
-["camera","カメラ"],
-["spear","槍"],
-["crossbow","クロスボウ"],
-["spyglass","望遠鏡"]
-],
-"none"
-);
-select.dataset.field="value";
-
-return;
 }
 
 if(c.type==="use_modifiers"){
@@ -1423,42 +1716,31 @@ if(c.type==="use_modifiers"){
 const duration=addInput(
 parent,
 "使用時間（秒）",
-1.6,
+c.default.use_duration,
 "number"
 );
+
 duration.dataset.field="use_duration";
+duration.step="any";
 
 const movement=addInput(
 parent,
-"使用中の移動速度倍率",
-0.35,
+"移動速度倍率",
+c.default.movement_modifier,
 "number"
 );
+
 movement.dataset.field="movement_modifier";
+movement.step="any";
 
 const vibrations=addCheckbox(
 parent,
-"使用時に振動を発生させる",
-true
+"振動を有効にする",
+c.default.emit_vibrations
 );
+
 vibrations.dataset.field="emit_vibrations";
 
-const version=versionNumber(
-document.getElementById("formatVersion").value
-);
-
-if(version>=versionNumber("1.26.30")){
-
-const start=addCheckbox(
-parent,
-"使用開始時の処理を有効にする",
-true
-);
-start.dataset.field="start_using";
-
-}
-
-return;
 }
 
 if(c.type==="wearable"){
@@ -1467,93 +1749,155 @@ const slot=addSelect(
 parent,
 "装備スロット",
 [
-["slot.armor.body","胴体"],
-["slot.armor.chest","チェスト"],
-["slot.armor.feet","足"],
 ["slot.armor.head","頭"],
+["slot.armor.chest","胴"],
+["slot.armor.body","胴体"],
 ["slot.armor.legs","脚"],
+["slot.armor.feet","足"],
 ["slot.weapon.mainhand","メインハンド"],
 ["slot.weapon.offhand","オフハンド"]
 ],
-"slot.armor.head"
+c.default.slot
 );
+
 slot.dataset.field="slot";
 
 const protection=addInput(
 parent,
-"防御値",
-0,
+"防護値",
+c.default.protection,
 "number"
 );
+
 protection.dataset.field="protection";
+protection.min="0";
+protection.step="1";
 
 const hides=addCheckbox(
 parent,
-"ロケーターマップ・ロケーターバーで位置を隠す",
-false
+"プレイヤーの位置を隠す",
+c.default.hides_player_location
 );
+
 hides.dataset.field="hides_player_location";
 
 const dispensable=addCheckbox(
 parent,
-"ディスペンサーで装備できる",
-false
+"ディスペンサーで装備可能",
+c.default.dispensable
 );
+
 dispensable.dataset.field="dispensable";
 
-return;
+}
+
+if(c.type==="interact_button"){
+
+const version=
+document.getElementById("formatVersion").value;
+
+const input=addInput(
+parent,
+"ボタンの表示文字",
+"",
+"text",
+"空欄なら標準の使用ボタン"
+);
+
+input.dataset.field="value";
+
+}
+
+if(c.type==="json"){
+
+const input=document.createElement("textarea");
+
+input.rows=6;
+input.value=JSON.stringify(c.default,null,2);
+input.dataset.field="json";
+
+parent.appendChild(input);
+
+}
+
+if(c.type==="animation"){
+
+const input=addSelect(
+parent,
+"アニメーション",
+[
+["none","なし"],
+["eat","食べる"],
+["drink","飲む"],
+["bow","弓"],
+["block","ブロック"],
+["brush","ブラシ"],
+["spear","槍"]
+],
+c.default
+);
+
+input.dataset.field="value";
+
 }
 
 }
 
 function renderComponents(){
 
-const version=
-document.getElementById("formatVersion").value;
+const version=document
+.getElementById("formatVersion")
+.value;
 
-const container=
-document.getElementById("components");
+const grid=document
+.getElementById("componentGrid");
 
-container.innerHTML="";
+grid.innerHTML="";
 
 components
 .filter(c=>available(c,version))
 .forEach(c=>{
 
 const box=document.createElement("div");
+
 box.className="component";
 box.dataset.componentId=c.id;
 
 const head=document.createElement("div");
+
 head.className="component-head";
 
 const check=document.createElement("input");
+
 check.type="checkbox";
 
 const name=document.createElement("div");
+
 name.className="component-name";
 name.textContent=c.name;
 
-const id=document.createElement("div");
-id.className="component-id";
-id.textContent=c.id;
+const versionText=document.createElement("div");
 
-const ver=document.createElement("div");
-ver.className="version";
-ver.textContent=
-c.max
-?`${c.min} ～ ${c.max}`
-:`${c.min} ～`;
+versionText.className="component-version";
+
+if(c.max){
+versionText.textContent=
+c.min+"～"+c.max;
+}else{
+versionText.textContent=
+c.min+"～";
+}
 
 head.appendChild(check);
 head.appendChild(name);
-head.appendChild(id);
-head.appendChild(ver);
+head.appendChild(versionText);
 
 const body=document.createElement("div");
+
 body.className="component-body";
 
 const help=document.createElement("div");
+
 help.className="help";
 help.textContent=c.help;
 
@@ -1561,14 +1905,20 @@ body.appendChild(help);
 
 createFields(c,body);
 
-check.addEventListener("change",()=>{
-box.classList.toggle("active",check.checked);
-});
-
 box.appendChild(head);
 box.appendChild(body);
 
-container.appendChild(box);
+check.addEventListener(
+"change",
+()=>{
+box.classList.toggle(
+"active",
+check.checked
+);
+}
+);
+
+grid.appendChild(box);
 
 });
 
@@ -1576,194 +1926,87 @@ container.appendChild(box);
 
 function collectComponent(c,box){
 
-if(c.type==="boolean"||c.type==="empty"){
-return box.querySelector('[data-field="value"]').checked;
+if(c.type==="boolean"){
+return box.querySelector(
+'[data-field="value"]'
+).checked;
 }
 
-if(c.type==="number"){
-return Number(
-box.querySelector('[data-field="value"]').value
-);
-}
-
-if(c.type==="text"){
-return{
-value:box.querySelector('[data-field="value"]').value
-};
+if(c.type==="empty"){
+return null;
 }
 
 if(c.type==="block_placer"){
 
 const block=
-box.querySelector('[data-field="block"]').value.trim();
+box.querySelector(
+'[data-field="block"]'
+).value.trim();
 
 const useOn=
 splitValues(
-box.querySelector('[data-field="use_on"]').value
+box.querySelector(
+'[data-field="use_on"]'
+).value
 );
 
-const output={};
-
-if(block){
-output.block=block;
-}
+const output={
+block:block
+};
 
 if(useOn.length){
 output.use_on=useOn;
 }
 
 const aligned=
-box.querySelector('[data-field="aligned_placement"]');
+box.querySelector(
+'[data-field="aligned_placement"]'
+);
 
 if(aligned){
-output.aligned_placement=aligned.checked;
+
+const version=
+document.getElementById(
+"formatVersion"
+).value;
+
+if(versionCompare(version,"1.26.10")>=0){
+output.aligned_placement=
+aligned.checked;
+}
+
 }
 
 const replace=
-box.querySelector('[data-field="replace_block_item"]');
+box.querySelector(
+'[data-field="replace_block_item"]'
+);
 
-if(replace){
-output.replace_block_item=replace.checked;
+if(replace&&replace.checked){
+output.replace_block_item=true;
 }
 
 return output;
+
 }
 
-if(c.type==="cooldown"){
+if(c.type==="number"){
 
-const output={
-category:
-box.querySelector('[data-field="category"]').value,
-duration:
-Number(
-box.querySelector('[data-field="duration"]').value
-)
-};
-
-const type=
-box.querySelector('[data-field="type"]');
-
-if(type){
-output.type=type.value;
-}
-
-return output;
-}
-
-if(c.type==="digger"){
-
-const rows=
-box.querySelectorAll(".digger-row");
-
-const destroy_speeds=[];
-
-rows.forEach(row=>{
-
-const blocks=
-splitValues(
-row.querySelector(
-'[data-digger-field="block"]'
+return Number(
+box.querySelector(
+'[data-field="value"]'
 ).value
 );
 
-const seconds=
-Number(
-row.querySelector(
-'[data-digger-field="seconds"]'
-).value
-);
+}
 
-if(
-blocks.length===0||
-!Number.isFinite(seconds)||
-seconds<=0
-)return;
-
-const speed=
-Math.round((1/seconds)*100)/100;
-
-blocks.forEach(block=>{
-destroy_speeds.push({
-block:block,
-speed:speed
-});
-});
-
-});
+if(c.type==="text"){
 
 return{
-destroy_speeds:destroy_speeds,
-use_efficiency:
+value:
 box.querySelector(
-'[data-field="use_efficiency"]'
-).checked
-};
-
-}
-
-if(c.type==="durability"){
-
-return{
-max_durability:
-Number(
-box.querySelector(
-'[data-field="max_durability"]'
+'[data-field="value"]'
 ).value
-),
-damage_chance:{
-min:
-Number(
-box.querySelector(
-'[data-field="damage_min"]'
-).value
-),
-max:
-Number(
-box.querySelector(
-'[data-field="damage_max"]'
-).value
-)
-}
-};
-
-}
-
-if(c.type==="durability_sensor"){
-
-const text=
-box.querySelector(
-'[data-field="thresholds"]'
-).value;
-
-const durability_thresholds=[];
-
-text.split("\n").forEach(line=>{
-
-const parts=line.split(":");
-
-if(parts.length<2)return;
-
-const threshold=
-Number(parts[0]);
-
-const event=
-parts.slice(1).join(":").trim();
-
-if(
-Number.isFinite(threshold)&&
-event
-){
-durability_thresholds.push({
-threshold:threshold,
-event:event
-});
-}
-
-});
-
-return{
-durability_thresholds:
-durability_thresholds
 };
 
 }
@@ -1779,14 +2022,79 @@ box.querySelector(
 
 }
 
+if(c.type==="cooldown"){
+
+const output={
+category:
+box.querySelector(
+'[data-field="category"]'
+).value,
+duration:
+Number(
+box.querySelector(
+'[data-field="duration"]'
+).value
+)
+};
+
+const type=
+box.querySelector(
+'[data-field="type"]'
+);
+
+if(type){
+output.type=type.value;
+}
+
+return output;
+
+}
+
+if(c.type==="durability"){
+
+return{
+max_durability:
+Number(
+box.querySelector(
+'[data-field="max_durability"]'
+).value
+)
+};
+
+}
+
+if(c.type==="durability_sensor"){
+
+try{
+
+return JSON.parse(
+box.querySelector(
+'[data-field="json"]'
+).value
+);
+
+}catch{
+
+return{
+durability_thresholds:[]
+};
+
+}
+
+}
+
 if(c.type==="enchantable"){
 
 return{
 slot:
-box.querySelector('[data-field="slot"]').value,
+box.querySelector(
+'[data-field="slot"]'
+).value,
 value:
 Number(
-box.querySelector('[data-field="value"]').value
+box.querySelector(
+'[data-field="value"]'
+).value
 )
 };
 
@@ -1797,12 +2105,19 @@ if(c.type==="entity_placer"){
 const entity=
 box.querySelector(
 '[data-field="entity"]'
-).value;
+).value.trim();
 
 const useOn=
 splitValues(
 box.querySelector(
 '[data-field="use_on"]'
+).value
+);
+
+const dispenseOn=
+splitValues(
+box.querySelector(
+'[data-field="dispense_on"]'
 ).value
 );
 
@@ -1814,7 +2129,12 @@ if(useOn.length){
 output.use_on=useOn;
 }
 
+if(dispenseOn.length){
+output.dispense_on=dispenseOn;
+}
+
 return output;
+
 }
 
 if(c.type==="food"){
@@ -1844,21 +2164,79 @@ box.querySelector(
 ).value.trim();
 
 if(convert){
-output.using_converts_to=convert;
+output.using_converts_to=
+convert;
 }
 
 return output;
+
 }
 
 if(c.type==="fuel"){
 
-return{
-duration:
-Number(
+return Number(
 box.querySelector(
-'[data-field="duration"]'
+'[data-field="value"]'
 ).value
-)
+);
+
+}
+
+if(c.type==="digger"){
+
+const rows=box.querySelectorAll(
+".digger-row"
+);
+
+const destroy_speeds=[];
+
+rows.forEach(row=>{
+
+const blocks=
+splitValues(
+row.querySelector(
+'[data-digger-field="block"]'
+).value
+);
+
+const seconds=
+Number(
+row.querySelector(
+'[data-digger-field="seconds"]'
+).value
+);
+
+if(
+blocks.length===0||
+!Number.isFinite(seconds)||
+seconds<=0
+){
+return;
+}
+
+const speed=
+Math.round(
+(1/seconds)*100
+)/100;
+
+blocks.forEach(block=>{
+
+destroy_speeds.push({
+block:block,
+speed:speed
+});
+
+});
+
+});
+
+return{
+destroy_speeds:
+destroy_speeds,
+use_efficiency:
+box.querySelector(
+'[data-field="use_efficiency"]'
+).checked
 };
 
 }
@@ -1881,12 +2259,11 @@ box.querySelector(
 }
 
 if(c.type==="rarity"){
-return{
-value:
-box.querySelector(
+
+return box.querySelector(
 '[data-field="value"]'
-).value
-};
+).value;
+
 }
 
 if(c.type==="record"){
@@ -1912,50 +2289,6 @@ box.querySelector(
 
 }
 
-if(c.type==="repairable"){
-
-const items=
-splitValues(
-box.querySelector(
-'[data-field="repair_items"]'
-).value
-);
-
-return{
-repair_items:items.map(item=>({
-items:[item]
-}))
-};
-
-}
-
-if(c.type==="shooter"){
-
-return{
-ammunition:
-splitValues(
-box.querySelector(
-'[data-field="ammunition"]'
-).value
-),
-charge_on_draw:
-box.querySelector(
-'[data-field="charge_on_draw"]'
-).checked,
-max_draw_duration:
-Number(
-box.querySelector(
-'[data-field="max_draw_duration"]'
-).value
-),
-scale_power_by_draw_duration:
-box.querySelector(
-'[data-field="scale_power_by_draw_duration"]'
-).checked
-};
-
-}
-
 if(c.type==="storage"){
 
 return{
@@ -1969,22 +2302,11 @@ box.querySelector(
 
 }
 
-if(c.type==="json"){
-
-return parseJson(
-box.querySelector(
-'[data-field="json"]'
-).value,
-{}
-);
-
-}
-
 if(c.type==="tags"){
 
 return splitValues(
 box.querySelector(
-'[data-field="tags"]'
+'[data-field="value"]'
 ).value
 );
 
@@ -1997,75 +2319,68 @@ do_swing_animation:
 box.querySelector(
 '[data-field="do_swing_animation"]'
 ).checked,
+
 launch_power_scale:
 Number(
 box.querySelector(
 '[data-field="launch_power_scale"]'
 ).value
 ),
+
 max_draw_duration:
 Number(
 box.querySelector(
 '[data-field="max_draw_duration"]'
 ).value
 ),
+
 max_launch_power:
 Number(
 box.querySelector(
 '[data-field="max_launch_power"]'
 ).value
 ),
+
 min_draw_duration:
 Number(
 box.querySelector(
 '[data-field="min_draw_duration"]'
 ).value
 ),
+
 scale_power_by_draw_duration:
 box.querySelector(
 '[data-field="scale_power_by_draw_duration"]'
 ).checked
+
 };
 
 }
 
-if(c.type==="animation"){
-return box.querySelector(
-'[data-field="value"]'
-).value;
-}
-
 if(c.type==="use_modifiers"){
 
-const output={
+return{
 use_duration:
 Number(
 box.querySelector(
 '[data-field="use_duration"]'
 ).value
 ),
+
 movement_modifier:
 Number(
 box.querySelector(
 '[data-field="movement_modifier"]'
 ).value
 ),
+
 emit_vibrations:
 box.querySelector(
 '[data-field="emit_vibrations"]'
 ).checked
+
 };
 
-const start=
-box.querySelector(
-'[data-field="start_using"]'
-);
-
-if(start&&start.checked){
-output.start_using=true;
-}
-
-return output;
 }
 
 if(c.type==="wearable"){
@@ -2075,51 +2390,155 @@ slot:
 box.querySelector(
 '[data-field="slot"]'
 ).value,
+
 protection:
 Number(
 box.querySelector(
 '[data-field="protection"]'
 ).value
 ),
+
 hides_player_location:
 box.querySelector(
 '[data-field="hides_player_location"]'
 ).checked,
+
 dispensable:
 box.querySelector(
 '[data-field="dispensable"]'
 ).checked
+
 };
 
 }
 
-return c.default;
+if(c.type==="repairable"){
+
+const items=
+splitValues(
+box.querySelector(
+'[data-field="repair_items"]'
+).value
+);
+
+return{
+repair_items:
+items.map(item=>({
+items:[item],
+repair_amount:1
+}))
+};
+
+}
+
+if(c.type==="shooter"){
+
+const ammunition=
+splitValues(
+box.querySelector(
+'[data-field="ammunition"]'
+).value
+);
+
+return{
+ammunition:
+ammunition,
+
+charge_on_draw:
+box.querySelector(
+'[data-field="charge_on_draw"]'
+).checked,
+
+max_draw_duration:
+Number(
+box.querySelector(
+'[data-field="max_draw_duration"]'
+).value
+),
+
+scale_power_by_draw_duration:
+box.querySelector(
+'[data-field="scale_power_by_draw_duration"]'
+).checked
+
+};
+
+}
+
+if(c.type==="interact_button"){
+
+const value=
+box.querySelector(
+'[data-field="value"]'
+).value.trim();
+
+return value||true;
+
+}
+
+if(c.type==="json"){
+
+try{
+
+return JSON.parse(
+box.querySelector(
+'[data-field="json"]'
+).value
+);
+
+}catch{
+
+return{};
+
+}
+
+}
+
+if(c.type==="animation"){
+
+return box.querySelector(
+'[data-field="value"]'
+).value;
+
+}
+
+return{};
+
 }
 
 function generate(){
 
 const identifier=
-document.getElementById("identifier").value.trim()
-||"hiro:test_item";
+document
+.getElementById("identifier")
+.value
+.trim()||
+"hiro:test_item";
 
 const format_version=
-document.getElementById("formatVersion").value;
+document
+.getElementById("formatVersion")
+.value;
 
 const icon=
-document.getElementById("iconTexture").value.trim()
-||"test_item";
+document
+.getElementById("iconTexture")
+.value
+.trim()||
+"test_item";
 
 let maxStack=
 Number(
-document.getElementById("maxStack").value
+document
+.getElementById("maxStack")
+.value
 );
 
 if(!Number.isFinite(maxStack)){
 maxStack=64;
 }
 
-maxStack=
-Math.max(
+maxStack=Math.max(
 1,
 Math.min(
 64,
@@ -2128,10 +2547,15 @@ Math.floor(maxStack)
 );
 
 const category=
-document.getElementById("category").value;
+document
+.getElementById("category")
+.value;
 
 const group=
-document.getElementById("group").value.trim();
+document
+.getElementById("group")
+.value
+.trim();
 
 const description={
 identifier:identifier
@@ -2142,33 +2566,41 @@ if(category!=="none"||group){
 description.menu_category={};
 
 if(category!=="none"){
-description.menu_category.category=category;
+description.menu_category.category=
+category;
 }
 
 if(group){
-description.menu_category.group=group;
+description.menu_category.group=
+group;
 }
 
 }
 
 const componentsOutput={
+
 "minecraft:icon":{
 texture:icon
 },
-"minecraft:max_stack_size":maxStack
+
+"minecraft:max_stack_size":
+maxStack
+
 };
 
 document
 .querySelectorAll(".component.active")
 .forEach(box=>{
 
-const c=
-components.find(
+const c=components.find(
 component=>
-component.id===box.dataset.componentId
+component.id===
+box.dataset.componentId
 );
 
-if(!c)return;
+if(!c){
+return;
+}
 
 componentsOutput[c.id]=
 collectComponent(c,box);
@@ -2176,15 +2608,30 @@ collectComponent(c,box);
 });
 
 const output={
-format_version:format_version,
+
+format_version:
+format_version,
+
 "minecraft:item":{
-description:description,
-components:componentsOutput
+
+description:
+description,
+
+components:
+componentsOutput
+
 }
+
 };
 
-document.getElementById("result").textContent=
-JSON.stringify(output,null,2);
+document
+.getElementById("result")
+.textContent=
+JSON.stringify(
+output,
+null,
+2
+);
 
 }
 
@@ -2209,13 +2656,15 @@ document
 async()=>{
 
 const text=
-document.getElementById("result").textContent;
-
-if(!text)return;
+document
+.getElementById("result")
+.textContent;
 
 try{
 
-await navigator.clipboard.writeText(text);
+await navigator.clipboard.writeText(
+text
+);
 
 const button=
 document.getElementById("copy");
@@ -2223,22 +2672,24 @@ document.getElementById("copy");
 const old=
 button.textContent;
 
-button.textContent="コピーしました！";
+button.textContent=
+"コピーしました";
 
-setTimeout(()=>{
+setTimeout(
+()=>{
 button.textContent=old;
-},1200);
+},
+1200
+);
 
-}catch{
-
-alert("コピーに失敗しました");
+}catch{}
 
 }
-
-});
+);
 
 renderComponents();
 
 </script>
+
 </body>
 </html>
