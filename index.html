@@ -1352,15 +1352,20 @@ document.getElementById("copy").addEventListener(
 "click",
 async()=>{
 const result=document.getElementById("result");
+const button=document.getElementById("copy");
 
 try{
 await navigator.clipboard.writeText(result.value);
-alert("コピーしました");
 }catch{
 result.select();
 document.execCommand("copy");
-alert("コピーしました");
 }
+
+button.textContent="コピーしました";
+
+setTimeout(()=>{
+button.textContent="コピー";
+},1500);
 }
 );
 </script>
