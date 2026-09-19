@@ -223,6 +223,19 @@ cursor:pointer;
 display:none!important;
 }
 
+.component.disabled{
+opacity:.45;
+}
+
+.component.disabled .component-header{
+cursor:not-allowed;
+}
+
+.component.disabled .component-name,
+.component.disabled .component-version{
+color:#666;
+}
+
 @media(max-width:700px){
 .grid,
 .component-grid{
@@ -854,6 +867,8 @@ component.classList.toggle(
 !versionOK(component.dataset.min)
 );
 });
+
+updateConflicts();
 }
 
 const dependencies={
@@ -919,11 +934,53 @@ enableDependencies(requiredId,visited);
 });
 }
 
+function updateConflicts(){
+document.querySelectorAll(".component").forEach(component=>{
+const checkbox=component.querySelector(
+"input[type=checkbox]"
+);
+
+component.classList.remove("disabled");
+checkbox.disabled=false;
+});
+
+conflicts.forEach(group=>{
+const active=group.find(isChecked);
+
+if(!active){
+return;
+}
+
+group.forEach(id=>{
+if(id===active){
+return;
+}
+
+const component=getComponent(id);
+
+if(!component || component.classList.contains("hidden")){
+return;
+}
+
+const checkbox=component.querySelector(
+"input[type=checkbox]"
+);
+
+component.classList.add("disabled");
+checkbox.disabled=true;
+});
+});
+}
+
 document.querySelectorAll(".component-header").forEach(header=>{
 const checkbox=header.querySelector("input");
 
 header.addEventListener("click",e=>{
 if(e.target===checkbox){
+return;
+}
+
+if(checkbox.disabled){
 return;
 }
 
@@ -942,6 +999,8 @@ checkbox.checked
 if(checkbox.checked){
 enableDependencies(component.dataset.id);
 }
+
+updateConflicts();
 });
 });
 
