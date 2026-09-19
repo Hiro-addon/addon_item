@@ -868,7 +868,7 @@ component.classList.toggle(
 );
 });
 
-updateConflicts();
+updateComponentLocks();
 }
 
 const dependencies={
@@ -934,15 +934,42 @@ enableDependencies(requiredId,visited);
 });
 }
 
-function updateConflicts(){
-document.querySelectorAll(".component").forEach(component=>{
-const checkbox=component.querySelector(
-"input[type=checkbox]"
-);
+function getRequiredComponents(){
+const required=new Set();
 
-component.classList.remove("disabled");
-checkbox.disabled=false;
+function collect(id,visited=new Set()){
+if(visited.has(id)){
+return;
+}
+
+visited.add(id);
+
+const requiredIds=dependencies[id]||[];
+
+requiredIds.forEach(requiredId=>{
+required.add(requiredId);
+collect(requiredId,visited);
 });
+}
+
+document.querySelectorAll(".component").forEach(component=>{
+if(
+component.classList.contains("hidden") ||
+!component.querySelector("input[type=checkbox]").checked
+){
+return;
+}
+
+collect(component.dataset.id);
+});
+
+return required;
+}
+
+function updateComponentLocks(){
+const required=getRequiredComponents();
+
+const conflictDisabled=new Set();
 
 conflicts.forEach(group=>{
 const active=group.find(isChecked);
@@ -952,23 +979,30 @@ return;
 }
 
 group.forEach(id=>{
-if(id===active){
-return;
+if(id!==active){
+conflictDisabled.add(id);
 }
+});
+});
 
-const component=getComponent(id);
-
-if(!component || component.classList.contains("hidden")){
-return;
-}
-
+document.querySelectorAll(".component").forEach(component=>{
+const id=component.dataset.id;
 const checkbox=component.querySelector(
 "input[type=checkbox]"
 );
 
-component.classList.add("disabled");
-checkbox.disabled=true;
-});
+if(component.classList.contains("hidden")){
+checkbox.disabled=false;
+component.classList.remove("disabled");
+return;
+}
+
+const locked=
+required.has(id) ||
+conflictDisabled.has(id);
+
+checkbox.disabled=locked;
+component.classList.toggle("disabled",locked);
 });
 }
 
@@ -991,6 +1025,10 @@ checkbox.dispatchEvent(new Event("change"));
 checkbox.addEventListener("change",()=>{
 const component=header.parentElement;
 
+if(checkbox.disabled){
+return;
+}
+
 component.classList.toggle(
 "active",
 checkbox.checked
@@ -1000,7 +1038,7 @@ if(checkbox.checked){
 enableDependencies(component.dataset.id);
 }
 
-updateConflicts();
+updateComponentLocks();
 });
 });
 
