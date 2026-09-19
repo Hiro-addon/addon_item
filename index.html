@@ -7,279 +7,219 @@
 
 <style>
 *{
-box-sizing:border-box
+box-sizing:border-box;
 }
 
 body{
 margin:0;
 background:#111;
 color:#fff;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 .container{
 max-width:1000px;
 margin:auto;
-padding:24px 16px 50px
+padding:24px 16px 50px;
 }
 
 h1{
 margin:0;
-font-size:28px
+font-size:28px;
 }
 
 .subtitle{
-margin:6px 0 28px;
-color:#888
+color:#999;
+margin:6px 0 24px;
 }
 
 .section{
-background:#1a1a1a;
-border:1px solid #292929;
+background:#181818;
+border:1px solid #303030;
 border-radius:14px;
 padding:18px;
-margin-bottom:16px
+margin-bottom:18px;
 }
 
 .section h2{
-margin:0 0 16px;
-font-size:18px
+font-size:18px;
+margin:0 0 14px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:15px
-}
-
-.field{
-margin-bottom:15px
+gap:12px;
 }
 
 label{
 display:block;
-margin-bottom:7px;
-color:#bbb;
-font-size:14px
+font-size:14px;
+color:#ccc;
+margin-bottom:6px;
 }
 
-input,
-select,
-textarea{
+input,select,textarea{
 width:100%;
-padding:12px 14px;
-border-radius:9px;
-border:1px solid #333;
-background:#111;
+background:#101010;
+border:1px solid #383838;
+border-radius:8px;
+padding:10px 12px;
 color:#fff;
+font-size:14px;
 outline:none;
-font-size:15px
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#666
-}
-
-input::placeholder{
-color:#777;
-opacity:.55
+input:focus,select:focus,textarea:focus{
+border-color:#777;
 }
 
 .required{
-background:#181818;
-border:1px solid #333;
+background:#202020;
+border:1px solid #383838;
 border-radius:10px;
-padding:13px;
-margin-bottom:10px
+padding:14px;
 }
 
 .required-title{
-font-size:14px;
-font-weight:bold;
-margin-bottom:10px
+font-weight:600;
+margin-bottom:8px;
 }
 
-.required-name{
+.required-desc{
 font-size:12px;
-color:#aaa;
-margin-bottom:6px
+color:#999;
 }
 
 .component-grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:10px
+gap:10px;
 }
 
 .component{
-border:1px solid #333;
+background:#202020;
+border:1px solid #353535;
 border-radius:10px;
-background:#111;
-overflow:hidden
+overflow:hidden;
 }
 
-.component.disabled{
-opacity:.4
-}
-
-.component-head{
+.component-header{
 display:flex;
 align-items:center;
 gap:10px;
-padding:12px
+padding:12px;
+cursor:pointer;
 }
 
-.component-head input{
-width:18px;
-height:18px;
+.component-header input{
+width:auto;
 margin:0;
-padding:0;
-flex:none
 }
 
 .component-name{
-font-size:14px
+font-size:14px;
+font-weight:600;
+flex:1;
 }
 
 .component-version{
-margin-left:auto;
 font-size:11px;
-color:#777
+color:#888;
 }
 
 .component-body{
 display:none;
-padding:0 12px 12px
+padding:0 12px 12px;
 }
 
 .component.active .component-body{
-display:block
+display:block;
+}
+
+.component-body label{
+margin-top:10px;
+}
+
+.component-body textarea{
+min-height:80px;
+resize:vertical;
 }
 
 .boolean-setting{
+background:#171717;
+border:1px solid #333;
+border-radius:8px;
+padding:10px;
+margin-top:10px;
+}
+
+.boolean-setting label{
 display:flex;
 align-items:center;
 gap:8px;
-margin-top:10px;
-padding:10px;
-border-radius:8px;
-background:#181818;
-border:1px solid #292929
+margin:0;
 }
 
 .boolean-setting input{
-width:18px;
-height:18px;
-margin:0
-}
-
-.boolean-setting span{
-font-size:14px
+width:auto;
 }
 
 .add-row{
 width:100%;
-padding:10px;
-border:1px solid #444;
-border-radius:8px;
-background:#181818;
+margin-top:12px;
+background:#202020;
+border:1px dashed #555;
 color:#fff;
-cursor:pointer
-}
-
-.remove-row{
-width:100%;
-padding:8px;
-border:1px solid #444;
+padding:11px;
 border-radius:8px;
-background:#181818;
-color:#fff;
-cursor:pointer
+cursor:pointer;
 }
 
 .generate{
 width:100%;
-padding:14px;
 border:0;
 border-radius:10px;
+padding:14px;
 background:#fff;
-color:#111;
-font-size:16px;
-font-weight:bold;
-cursor:pointer
+color:#000;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
 }
 
 .result{
-margin-top:16px
+position:relative;
+margin-top:14px;
 }
 
-.result-box{
-background:#0d0d0d;
-border:1px solid #292929;
-border-radius:12px;
-overflow:hidden
+.result textarea{
+min-height:400px;
+font-family:monospace;
+font-size:13px;
 }
 
-.result-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:12px 14px;
-border-bottom:1px solid #292929;
-font-weight:bold
-}
-
-.copy-btn{
-padding:7px 12px;
-border:1px solid #444;
-border-radius:7px;
-background:#1a1a1a;
+.copy{
+position:absolute;
+right:8px;
+top:8px;
+background:#333;
 color:#fff;
+border:1px solid #555;
+border-radius:7px;
+padding:7px 10px;
 cursor:pointer;
-font-size:12px
 }
 
-pre{
-margin:0;
-padding:15px;
-overflow-x:auto;
-white-space:pre-wrap;
-word-break:break-word;
-color:#ddd;
-font-size:13px;
-line-height:1.6
-}
-
-.help{
-font-size:11px;
-color:#777;
-margin-top:5px;
-line-height:1.5
-}
-
-.sub-title{
-font-size:13px;
-font-weight:bold;
-margin:14px 0 8px
+.hidden{
+display:none!important;
 }
 
 @media(max-width:700px){
-
 .grid,
 .component-grid{
-grid-template-columns:1fr
+grid-template-columns:1fr;
 }
-
-h1{
-font-size:24px
-}
-
-.component-version{
-display:none
-}
-
 }
 </style>
 </head>
@@ -289,10 +229,7 @@ display:none
 <div class="container">
 
 <h1>Hiro Addon Tools</h1>
-
-<div class="subtitle">
-Minecraft Bedrock Addon Item JSON Generator
-</div>
+<div class="subtitle">Minecraft Bedrock Addon Item JSON Generator</div>
 
 <div class="section">
 
@@ -300,866 +237,717 @@ Minecraft Bedrock Addon Item JSON Generator
 
 <div class="grid">
 
-<div class="field">
-<label>フォーマットバージョン</label>
-
-<select id="formatVersion">
-
-<option value="1.20.0">1.20.0</option>
-<option value="1.20.10">1.20.10</option>
-<option value="1.20.30">1.20.30</option>
-<option value="1.20.50">1.20.50</option>
-<option value="1.21.0">1.21.0</option>
-<option value="1.21.20">1.21.20</option>
-<option value="1.21.40">1.21.40</option>
-<option value="1.21.50">1.21.50</option>
-<option value="1.21.90">1.21.90</option>
-<option value="1.21.110">1.21.110</option>
-<option value="1.21.120">1.21.120</option>
-<option value="1.21.130">1.21.130</option>
-<option value="1.26.0">1.26.0</option>
-<option value="1.26.10">1.26.10</option>
-<option value="1.26.30" selected>1.26.30</option>
-
-</select>
-</div>
-
-<div class="field">
+<div>
 <label>アイテムID</label>
-<input id="identifier" placeholder="hiro:test_item">
+<input id="identifier" value="hiro:test_item" placeholder="hiro:test_item">
 </div>
 
-<div class="field">
-<label>クリエイティブカテゴリ</label>
-
-<select id="category">
-<option value="none">なし</option>
-<option value="items">アイテム</option>
-<option value="equipment">装備</option>
-<option value="nature">自然</option>
-<option value="construction">建築</option>
+<div>
+<label>フォーマットバージョン</label>
+<select id="version">
+<option>1.20.0</option>
+<option>1.20.10</option>
+<option>1.20.30</option>
+<option>1.20.50</option>
+<option>1.21.0</option>
+<option>1.21.20</option>
+<option>1.21.40</option>
+<option>1.21.50</option>
+<option>1.21.90</option>
+<option>1.21.110</option>
+<option>1.21.120</option>
+<option>1.21.130</option>
+<option>1.26.0</option>
+<option>1.26.10</option>
+<option selected>1.26.30</option>
 </select>
-
-</div>
-
-<div class="field">
-<label>クリエイティブグループ</label>
-<input id="group" placeholder="空欄なら設定しない">
 </div>
 
 </div>
 </div>
-
 
 <div class="section">
 
 <h2>基本コンポーネント</h2>
 
-<div class="required">
-
-<div class="required-title">
-minecraft:icon
-</div>
-
-<div class="required-name">
-アイコンのテクスチャ
-</div>
-
-<input id="iconTexture" placeholder="test_item">
-
-</div>
-
+<div class="grid">
 
 <div class="required">
+<div class="required-title">minecraft:icon</div>
+<div class="required-desc">アイテムのテクスチャを指定します。</div>
 
-<div class="required-title">
-minecraft:max_stack_size
+<label>テクスチャ名</label>
+<input id="icon" value="item_texture">
 </div>
 
-<div class="required-name">
-最大スタック数
-</div>
+<div class="required">
+<div class="required-title">minecraft:max_stack_size</div>
+<div class="required-desc">最大スタック数を指定します。</div>
 
-<input
-id="maxStack"
-type="number"
-min="1"
-max="64"
-value="64"
->
-
+<label>最大スタック数</label>
+<input id="maxStack" type="number" min="1" max="99" value="64">
 </div>
 
 </div>
-
+</div>
 
 <div class="section">
 
-<h2>コンポーネント一覧</h2>
+<h2>コンポーネント</h2>
 
 <div class="component-grid">
 
-
-<div class="component" data-id="minecraft:allow_off_hand">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">オフハンドに持てる</div>
-<div class="component-version">≥ 1.20.0</div>
+<div class="component" data-id="minecraft:allow_off_hand" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">オフハンドに持てる</span>
+<span class="component-version">1.20.0+</span>
+</div>
 </div>
 
+<div class="component" data-id="minecraft:can_destroy_in_creative" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">クリエイティブで破壊可能</span>
+<span class="component-version">1.20.0+</span>
+</div>
+</div>
+
+<div class="component" data-id="minecraft:compostable" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">コンポスターに入れられる</span>
+<span class="component-version">1.20.0+</span>
+</div>
 <div class="component-body">
-<div class="boolean-setting">
-<input type="checkbox" class="component-value">
-<span>有効にする</span>
+<label>堆肥化確率</label>
+<input data-key="chance" type="number" min="0" max="1" step="0.01" value="1">
 </div>
 </div>
 
+<div class="component" data-id="minecraft:cooldown" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">クールダウン</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-
-<div class="component" data-id="minecraft:can_destroy_in_creative">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">クリエイティブで破壊可能</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
-<div class="boolean-setting">
-<input type="checkbox" class="component-value">
-<span>有効にする</span>
-</div>
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:compostable">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">コンポスターに入れられる</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
-<div class="component-body">
-<div class="field">
-<label>堆肥化される確率</label>
-<input class="value" type="number" value="0.65">
-</div>
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:cooldown">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">クールダウン</div>
-<div class="component-version">≥ 1.20.10</div>
-</div>
-
-<div class="component-body">
-<div class="field">
 <label>カテゴリ</label>
-<input class="cooldown-category" value="hiro_item">
-</div>
+<input data-key="category" value="default">
 
-<div class="field">
-<label>時間（秒）</label>
-<input class="cooldown-duration" type="number" value="1">
+<label>クールダウン時間</label>
+<input data-key="duration" type="number" min="0" step="0.1" value="1">
 </div>
 </div>
 
+<div class="component" data-id="minecraft:damage" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">攻撃力</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-
-<div class="component" data-id="minecraft:damage">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">攻撃力</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
-<div class="field">
-<label>攻撃力</label>
-<input class="value" type="number" value="1">
+<label>ダメージ</label>
+<input data-key="value" type="number" min="0" step="1" value="1">
 </div>
 </div>
 
+<div class="component" data-id="minecraft:damage_absorption" data-min="1.21.20">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">ダメージ吸収</span>
+<span class="component-version">1.21.20+</span>
 </div>
-
-
-<div class="component" data-id="minecraft:damage_absorption">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">ダメージ吸収</div>
-<div class="component-version">≥ 1.21.110</div>
-</div>
-
 <div class="component-body">
-<div class="field">
 <label>吸収量</label>
-<input class="value" type="number" value="1">
+<input data-key="absorption" type="number" min="0" step="0.1" value="1">
 </div>
 </div>
 
+<div class="component" data-id="minecraft:digger" data-min="1.20.30">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">効率強化を使用</span>
+<span class="component-version">1.20.30+</span>
 </div>
-
-
-<div class="component" data-id="minecraft:digger">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">効率強化を使用</div>
-<div class="component-version">≥ 1.20.30</div>
-</div>
-
 <div class="component-body">
-
 <div class="boolean-setting">
-<input type="checkbox" class="digger-efficiency">
-<span>効率強化を使用</span>
+<label>
+<input data-key="use_efficiency" type="checkbox">
+効率強化を使用する
+</label>
 </div>
 
-<div class="sub-title">破壊速度</div>
+<label>対象ブロック</label>
+<input data-key="block" placeholder="minecraft:stone">
 
-<div class="field">
-<label>ブロックID</label>
-<input class="digger-block" placeholder="minecraft:stone">
-</div>
-
-<div class="field">
 <label>破壊速度</label>
-<input class="digger-speed" type="number" value="1">
+<input data-key="speed" type="number" min="0" step="0.1" value="1">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:display_name" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">表示名</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:display_name">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">表示名</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
-<div class="field">
 <label>表示名</label>
-<input class="value" placeholder="ひろのアイテム">
+<input data-key="value" value="テストアイテム">
 </div>
 </div>
 
+<div class="component" data-id="minecraft:durability" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">耐久値</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-
-<div class="component" data-id="minecraft:durability">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">耐久値</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>最大耐久値</label>
-<input class="durability-max" type="number" value="100">
+<input data-key="max_durability" type="number" min="1" value="100">
+
+<label>ダメージ発生確率 最小</label>
+<input data-key="min_damage_chance" type="number" min="0" max="100" value="100">
+
+<label>ダメージ発生確率 最大</label>
+<input data-key="max_damage_chance" type="number" min="0" max="100" value="100">
+</div>
 </div>
 
-<div class="field">
-<label>耐久値減少確率 最小（%）</label>
-<input class="durability-min" type="number" value="100">
+<div class="component" data-id="minecraft:enchantable" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">エンチャント可能</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-<div class="field">
-<label>耐久値減少確率 最大（%）</label>
-<input class="durability-max-chance" type="number" value="100">
-</div>
-
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:enchantable">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">エンチャント可能</div>
-<div class="component-version">≥ 1.20.30</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
-<label>エンチャントタイプ</label>
-
-<select class="enchantable-slot">
-
-<option value="all">all</option>
-<option value="sword">sword</option>
-<option value="bow">bow</option>
-<option value="crossbow">crossbow</option>
-<option value="axe">axe</option>
-<option value="pickaxe">pickaxe</option>
-<option value="shovel">shovel</option>
-<option value="hoe">hoe</option>
-<option value="armor_head">armor_head</option>
-<option value="armor_torso">armor_torso</option>
-<option value="armor_legs">armor_legs</option>
-<option value="armor_feet">armor_feet</option>
-
+<label>エンチャントスロット</label>
+<select data-key="slot">
+<option>armor_head</option>
+<option>armor_chest</option>
+<option>armor_legs</option>
+<option>armor_feet</option>
+<option>axe</option>
+<option>bow</option>
+<option>crossbow</option>
+<option>fishing_rod</option>
+<option>flintsteel</option>
+<option>hoe</option>
+<option>pickaxe</option>
+<option>shears</option>
+<option>shovel</option>
+<option>sword</option>
+<option>weapon</option>
 </select>
+
+<label>エンチャント値</label>
+<input data-key="value" type="number" min="0" value="10">
+</div>
 </div>
 
-<div class="field">
-<label>エンチャント強度</label>
-<input class="enchantable-value" type="number" value="10">
+<div class="component" data-id="minecraft:fire_resistant" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">火に耐性</span>
+<span class="component-version">1.20.0+</span>
+</div>
 </div>
 
+<div class="component" data-id="minecraft:food" data-min="1.20.30">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">食べ物</span>
+<span class="component-version">1.20.30+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:fire_resistant">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">火に耐性</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
-<div class="boolean-setting">
-<input type="checkbox" class="component-value">
-<span>有効にする</span>
-</div>
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:food">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">食べ物</div>
-<div class="component-version">≥ 1.20.30</div>
-</div>
-
-<div class="component-body">
-
-<div class="field">
 <label>栄養値</label>
-<input class="food-nutrition" type="number" value="1">
-</div>
+<input data-key="nutrition" type="number" min="0" value="1">
 
-<div class="field">
 <label>満腹度倍率</label>
-<input class="food-saturation" type="number" value="0.6">
-</div>
+<input data-key="saturation_modifier" type="number" min="0" step="0.1" value="1">
 
 <div class="boolean-setting">
-<input type="checkbox" class="food-always">
-<span>いつでも食べられる</span>
+<label>
+<input data-key="can_always_eat" type="checkbox">
+いつでも食べられる
+</label>
 </div>
 
-<div class="field">
-<label>食べた後に変化するアイテム</label>
-<input class="food-convert" placeholder="空欄なら変化なし">
+<label>使用後に変換されるアイテム</label>
+<input data-key="using_converts_to" placeholder="minecraft:bowl">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:fuel" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">燃料</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:fuel">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">燃料</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
-<label>燃焼時間（秒）</label>
-<input class="value" type="number" value="80">
+<label>燃焼時間</label>
+<input data-key="duration" type="number" min="0" step="0.1" value="1">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:glint" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">エンチャント風の光</span>
+<span class="component-version">1.20.0+</span>
+</div>
 </div>
 
+<div class="component" data-id="minecraft:hand_equipped" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">ツールの持ち方</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-
-<div class="component" data-id="minecraft:glint">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">エンチャント風の光</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
 <div class="boolean-setting">
-<input type="checkbox" class="component-value">
-<span>有効にする</span>
+<label>
+<input data-key="value" type="checkbox">
+ツールのように持つ
+</label>
 </div>
 </div>
-
 </div>
 
-
-<div class="component" data-id="minecraft:hand_equipped">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">ツールの持ち方</div>
-<div class="component-version">≥ 1.20.0</div>
+<div class="component" data-id="minecraft:hover_text_color" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">説明欄の色</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
 <div class="component-body">
-<div class="boolean-setting">
-<input type="checkbox" class="component-value">
-<span>ツールの持ち方にする</span>
-</div>
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:hover_text_color">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">説明欄の色</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
-<div class="component-body">
-
-<div class="field">
 <label>色</label>
-<input class="value" value="white" placeholder="red">
+<input data-key="color" value="#FFFFFF">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:interact_button" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">操作ボタン</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:interact_button">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">操作ボタン</div>
-<div class="component-version">≥ 1.20.0</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
-<label>ボタン文字</label>
-<input class="value" placeholder="開く">
+<label>ボタン表示名</label>
+<input data-key="value" placeholder="操作する">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:kinetic_weapon" data-min="1.21.110">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">運動攻撃</span>
+<span class="component-version">1.21.110+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:kinetic_weapon">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">運動攻撃</div>
-<div class="component-version">≥ 1.21.110</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
-<label>攻撃力</label>
-<input class="value" type="number" value="1">
+<label>攻撃倍率</label>
+<input data-key="damage_multiplier" type="number" min="0" step="0.1" value="1">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:projectile" data-min="1.20.10">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">投射物</span>
+<span class="component-version">1.20.10+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:projectile">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">投射物</div>
-<div class="component-version">≥ 1.20.10</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>投射物エンティティ</label>
-<input class="projectile-entity" placeholder="minecraft:arrow">
+<input data-key="projectile_entity" placeholder="minecraft:arrow">
+
+<label>最小クリティカルパワー</label>
+<input data-key="minimum_critical_power" type="number" min="0" step="0.1" value="0">
+</div>
 </div>
 
-<div class="field">
-<label>クリティカルに必要な使用時間</label>
-<input class="projectile-critical" type="number" value="0">
+<div class="component" data-id="minecraft:rarity" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">レアリティ</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:rarity">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">レアリティ</div>
-<div class="component-version">≥ 1.21.0</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>レアリティ</label>
-
-<select class="value">
-<option value="common">common</option>
-<option value="uncommon">uncommon</option>
-<option value="rare">rare</option>
-<option value="epic">epic</option>
+<select data-key="value">
+<option>common</option>
+<option>uncommon</option>
+<option>rare</option>
+<option>epic</option>
 </select>
-
+</div>
 </div>
 
+<div class="component" data-id="minecraft:record" data-min="1.20.10">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">レコード</span>
+<span class="component-version">1.20.10+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:record">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">レコード</div>
-<div class="component-version">≥ 1.20.10</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>サウンドイベント</label>
-<input class="record-sound" placeholder="music_disc.otherside">
+<input data-key="sound_event" placeholder="record.13">
+
+<label>再生時間</label>
+<input data-key="duration" type="number" min="0" step="0.1" value="178">
+
+<label>説明</label>
+<input data-key="comparator_signal" type="number" min="0" max="15" value="1">
+</div>
 </div>
 
-<div class="field">
-<label>再生時間（秒）</label>
-<input class="record-duration" type="number" value="180">
+<div class="component" data-id="minecraft:repairable" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">修理可能</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-<div class="field">
-<label>コンパレーター出力</label>
-<input class="record-signal" type="number" value="0">
-</div>
-
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:repairable">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">修理可能</div>
-<div class="component-version">≥ 1.20.10</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>修理アイテム</label>
-<input class="repair-items" placeholder="minecraft:iron_ingot">
-</div>
+<input data-key="items" placeholder="minecraft:iron_ingot">
 
-<div class="field">
 <label>修理量</label>
-<input class="repair-amount" type="number" value="1">
+<input data-key="repair_amount" type="number" min="1" value="10">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:shooter" data-min="1.20.10">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">発射アイテム</span>
+<span class="component-version">1.20.10+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:shooter">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">発射アイテム</div>
-<div class="component-version">≥ 1.20.50</div>
-</div>
-
 <div class="component-body">
+<label>弾薬アイテム</label>
+<input data-key="item" placeholder="minecraft:arrow">
 
-<div class="field">
-<label>弾アイテム</label>
-<input class="shooter-item" placeholder="minecraft:arrow">
+<div class="boolean-setting">
+<label>
+<input data-key="search_inventory" type="checkbox" checked>
+インベントリから弾薬を検索
+</label>
 </div>
 
 <div class="boolean-setting">
-<input type="checkbox" class="shooter-search">
-<span>インベントリから探す</span>
+<label>
+<input data-key="use_in_creative" type="checkbox" checked>
+クリエイティブで使用
+</label>
+</div>
+</div>
 </div>
 
-<div class="boolean-setting">
-<input type="checkbox" class="shooter-creative">
-<span>クリエイティブで使用可能</span>
+<div class="component" data-id="minecraft:storage_item" data-min="1.21.40">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">収納アイテム</span>
+<span class="component-version">1.21.40+</span>
 </div>
-
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:storage_item">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">収納アイテム</div>
-<div class="component-version">≥ 1.21.40</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
-<label>最大スロット数</label>
-<input class="storage-slots" type="number" value="64">
-</div>
-
 <div class="boolean-setting">
-<input type="checkbox" class="storage-nested">
-<span>収納アイテムを収納可能</span>
+<label>
+<input data-key="allow_nested_storage_items" type="checkbox">
+収納アイテムを収納可能
+</label>
+</div>
+</div>
 </div>
 
+<div class="component" data-id="minecraft:storage_weight_limit" data-min="1.21.40">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">収納重量上限</span>
+<span class="component-version">1.21.40+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:storage_weight_limit">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">収納重量上限</div>
-<div class="component-version">≥ 1.21.40</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>重量上限</label>
-<input class="value" type="number" value="64">
+<input data-key="max_weight" type="number" min="0" value="64">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:storage_weight_modifier" data-min="1.21.40">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">収納重量倍率</span>
+<span class="component-version">1.21.40+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:storage_weight_modifier">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">収納重量倍率</div>
-<div class="component-version">≥ 1.21.40</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>重量倍率</label>
-<input class="value" type="number" value="1">
+<input data-key="weight_multiplier" type="number" min="0" step="0.1" value="1">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:tags" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">アイテムタグ</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:tags">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">アイテムタグ</div>
-<div class="component-version">≥ 1.20.50</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>タグ</label>
-<input class="value" placeholder="minecraft:is_food,custom:tag">
+<input data-key="tags" placeholder="minecraft:is_food, minecraft:is_tool">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:throwable" data-min="1.20.10">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">投げられる</span>
+<span class="component-version">1.20.10+</span>
 </div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:throwable">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">投げられる</div>
-<div class="component-version">≥ 1.20.10</div>
-</div>
-
 <div class="component-body">
-
-<div class="boolean-setting">
-<input type="checkbox" class="throwable-swing">
-<span>投げるときに手を振る</span>
+<label>投射物エンティティ</label>
+<input data-key="do_swing_animation" type="checkbox">
+</div>
 </div>
 
-<div class="field">
-<label>投げる速度倍率</label>
-<input class="throwable-scale" type="number" value="1">
+<div class="component" data-id="minecraft:use_modifiers" data-min="1.20.50">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">使用時間・移動速度</span>
+<span class="component-version">1.20.50+</span>
 </div>
-
-</div>
-
-</div>
-
-
-<div class="component" data-id="minecraft:use_modifiers">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">使用時間・移動速度</div>
-<div class="component-version">≥ 1.20.50</div>
-</div>
-
 <div class="component-body">
+<label>使用時間</label>
+<input data-key="use_duration" type="number" min="0" step="0.1" value="1">
 
-<div class="field">
-<label>使用時間（秒）</label>
-<input class="use-duration" type="number" value="1.6">
-</div>
-
-<div class="field">
 <label>移動速度倍率</label>
-<input class="movement-modifier" type="number" value="0.35">
-</div>
+<input data-key="movement_modifier" type="number" min="0" step="0.1" value="0.2">
 
 <div class="boolean-setting">
-<input type="checkbox" class="emit-vibrations">
-<span>振動を発生させる</span>
+<label>
+<input data-key="emit_vibrations" type="checkbox">
+振動を発生
+</label>
 </div>
 
+<label>使用開始音</label>
+<input data-key="start_sound" placeholder="random.eat">
+</div>
 </div>
 
+<div class="component" data-id="minecraft:wearable" data-min="1.20.0">
+<div class="component-header">
+<input type="checkbox">
+<span class="component-name">装備可能</span>
+<span class="component-version">1.20.0+</span>
 </div>
-
-
-<div class="component" data-id="minecraft:wearable">
-
-<div class="component-head">
-<input type="checkbox" class="component-check">
-<div class="component-name">装備可能</div>
-<div class="component-version">≥ 1.20.30</div>
-</div>
-
 <div class="component-body">
-
-<div class="field">
 <label>装備スロット</label>
-
-<select class="wearable-slot">
-
-<option value="slot.armor.head">頭</option>
-<option value="slot.armor.chest">胴</option>
-<option value="slot.armor.legs">脚</option>
-<option value="slot.armor.feet">足</option>
-<option value="slot.armor.body">体</option>
-<option value="slot.weapon.mainhand">メインハンド</option>
-<option value="slot.weapon.offhand">オフハンド</option>
-
+<select data-key="slot">
+<option>slot.armor.head</option>
+<option>slot.armor.chest</option>
+<option>slot.armor.legs</option>
+<option>slot.armor.feet</option>
+<option>slot.weapon.mainhand</option>
+<option>slot.weapon.offhand</option>
 </select>
 
-</div>
-
-<div class="field">
 <label>防御力</label>
-<input class="wearable-protection" type="number" value="0">
+<input data-key="protection" type="number" min="0" value="0">
+
+<div class="boolean-setting">
+<label>
+<input data-key="dispensable" type="checkbox">
+ディスペンサーで装備可能
+</label>
 </div>
 
 <div class="boolean-setting">
-<input type="checkbox" class="wearable-dispensable">
-<span>ディスペンサーで装備可能</span>
+<label>
+<input data-key="hides_player_location" type="checkbox">
+プレイヤー位置を隠す
+</label>
 </div>
-
-<div class="boolean-setting">
-<input type="checkbox" class="wearable-hides">
-<span>プレイヤーの位置を隠す</span>
 </div>
-
 </div>
-
-</div>
-
 
 </div>
 </div>
 
+<div class="section">
 
-<button class="generate" id="generate">
-JSONを生成
-</button>
-
+<button class="generate" id="generate">JSONを生成</button>
 
 <div class="result">
-
-<div class="result-box">
-
-<div class="result-title">
-
-<span>生成結果</span>
-
-<button class="copy-btn" id="copy">
-コピー
-</button>
-
-</div>
-
-<pre id="result">{}</pre>
-
+<button class="copy" id="copy">コピー</button>
+<textarea id="result" readonly></textarea>
 </div>
 
 </div>
 
 </div>
-
 
 <script>
+const versionOrder=[
+"1.20.0",
+"1.20.10",
+"1.20.30",
+"1.20.50",
+"1.21.0",
+"1.21.20",
+"1.21.40",
+"1.21.50",
+"1.21.90",
+"1.21.110",
+"1.21.120",
+"1.21.130",
+"1.26.0",
+"1.26.10",
+"1.26.30"
+];
+
+function versionOK(min){
+const current=document.getElementById("version").value;
+return versionOrder.indexOf(current)>=versionOrder.indexOf(min);
+}
+
+function refreshComponents(){
+document.querySelectorAll(".component").forEach(component=>{
+component.classList.toggle(
+"hidden",
+!versionOK(component.dataset.min)
+);
+});
+}
+
+document.querySelectorAll(".component-header").forEach(header=>{
+const checkbox=header.querySelector("input");
+
+header.addEventListener("click",e=>{
+if(e.target===checkbox)return;
+
+checkbox.checked=!checkbox.checked;
+checkbox.dispatchEvent(new Event("change"));
+});
+
+checkbox.addEventListener("change",()=>{
+const component=header.parentElement;
+component.classList.toggle("active",checkbox.checked);
+});
+});
+
+document.getElementById("version").addEventListener("change",()=>{
+refreshComponents();
+});
+
+refreshComponents();
+
+function getValue(input){
+if(input.type==="checkbox"){
+return input.checked;
+}
+
+if(input.type==="number"){
+return Number(input.value);
+}
+
+return input.value.trim();
+}
+
+function addIfValue(object,key,value){
+if(value!=="" && value!==null && value!==undefined){
+object[key]=value;
+}
+}
+
+function createComponent(component){
+const id=component.dataset.id;
+const body=component.querySelector(".component-body");
+const result={};
+
+if(!body){
+return true;
+}
+
+body.querySelectorAll("[data-key]").forEach(input=>{
+const key=input.dataset.key;
+
+if(input.type==="checkbox"){
+if(input.checked){
+result[key]=true;
+}
+return;
+}
+
+const value=getValue(input);
+
+if(value===""){
+return;
+}
+
+if(key==="items" || key==="tags"){
+result[key]=value
+.split(",")
+.map(v=>v.trim())
+.filter(Boolean);
+}else{
+result[key]=value;
+}
+});
+
+if(id==="minecraft:durability"){
+return {
+max_durability:result.max_durability,
+damage_chance:{
+min:result.min_damage_chance,
+max:result.max_damage_chance
+}
+};
+}
+
+if(id==="minecraft:digger"){
+const output={
+destroy_speeds:[]
+};
+
+if(result.use_efficiency!==undefined){
+output.use_efficiency=result.use_efficiency;
+}
+
+if(result.block){
+output.destroy_speeds.push({
+"block":{
+"tags":`query.any_tag('${result.block}')`
+},
+"speed":result.speed ?? 1
+});
+}
+
+return output;
+}
+
+if(id==="minecraft:repairable"){
+return {
+repair_items:[
+{
+items:result.items || [],
+repair_amount:result.repair_amount ?? 1
+}
+]
+};
+}
+
+if(id==="minecraft:shooter"){
+return {
+ammunition:[
+{
+item:result.item || "minecraft:arrow",
+search_inventory:result.search_inventory ?? true,
+use_in_creative:result.use_in_creative ?? true
+}
+]
+};
+}
+
+return result;
+}
 
 const dependencies={
 "minecraft:food":[
@@ -1180,913 +968,115 @@ const conflicts=[
 ]
 ];
 
-
-function versionNumber(v){
-
-const p=v.split(".").map(Number);
-
-return p[0]*1000000+p[1]*1000+p[2];
-
-}
-
-
-function versionOK(min){
-
-const current=
-versionNumber(
-document.getElementById("formatVersion").value
+function isChecked(id){
+const component=document.querySelector(
+`.component[data-id="${id}"]`
 );
 
-return current>=versionNumber(min);
-
+return component &&
+!component.classList.contains("hidden") &&
+component.querySelector("input[type=checkbox]").checked;
 }
 
+function validateComponents(){
+for(const id in dependencies){
+if(!isChecked(id))continue;
 
-function card(id){
-
-return document.querySelector(
-'.component[data-id="'+id+'"]'
+for(const required of dependencies[id]){
+if(!isChecked(required)){
+alert(
+`${id} には ${required} が必要です。`
 );
-
+return false;
 }
-
-
-function checked(id){
-
-const c=card(id);
-
-return c?
-c.querySelector(".component-check").checked:
-false;
-
 }
-
-
-function value(c,selector,defaultValue=""){
-
-const e=c.querySelector(selector);
-
-return e?
-e.value:
-defaultValue;
-
-}
-
-
-function bool(c,selector){
-
-const e=c.querySelector(selector);
-
-return !!e&&e.checked;
-
-}
-
-
-function update(){
-
-document.querySelectorAll(".component").forEach(c=>{
-
-const id=c.dataset.id;
-
-const check=
-c.querySelector(".component-check");
-
-let disabled=false;
-
-for(const parent in dependencies){
-
-if(!checked(parent))continue;
-
-if(dependencies[parent].includes(id)){
-
-disabled=true;
-
-}
-
 }
 
 for(const group of conflicts){
+const active=group.filter(isChecked);
 
-if(!group.includes(id))continue;
-
-for(const other of group){
-
-if(
-other!==id&&
-checked(other)
-){
-
-disabled=true;
-
-}
-
-}
-
-}
-
-check.disabled=disabled;
-
-c.classList.toggle(
-"disabled",
-disabled
+if(active.length>1){
+alert(
+`${active.join(" / ")} は同時に使用できません。`
 );
-
-});
-
+return false;
+}
 }
 
-
-document.querySelectorAll(".component").forEach(c=>{
-
-const check=
-c.querySelector(".component-check");
-
-check.addEventListener(
-"change",
-()=>{
-
-c.classList.toggle(
-"active",
-check.checked
-);
-
-update();
-
+return true;
 }
-);
-
-});
-
-
-document.getElementById("formatVersion")
-.addEventListener(
-"change",
-()=>{
-
-document.querySelectorAll(".component").forEach(c=>{
-
-const versionText=
-c.querySelector(".component-version").textContent;
-
-const min=
-versionText.replace("≥ ","").trim();
-
-const available=
-versionOK(min);
-
-c.style.display=
-available?
-"":
-"none";
-
-if(!available){
-
-c.querySelector(".component-check").checked=false;
-
-c.classList.remove("active");
-
-}
-
-});
-
-update();
-
-}
-);
-
 
 function generate(){
+if(!validateComponents()){
+return;
+}
 
 const identifier=
-document.getElementById("identifier")
-.value.trim();
+document.getElementById("identifier").value.trim() ||
+"hiro:test_item";
 
-if(!identifier){
+const formatVersion=
+document.getElementById("version").value;
 
-alert("アイテムIDを入力してください。");
+const icon=
+document.getElementById("icon").value.trim() ||
+"item_texture";
 
+const maxStack=
+Number(document.getElementById("maxStack").value)||64;
+
+const components={
+"minecraft:icon":icon,
+"minecraft:max_stack_size":maxStack
+};
+
+document.querySelectorAll(".component").forEach(component=>{
+if(
+component.classList.contains("hidden") ||
+!component.querySelector("input[type=checkbox]").checked
+){
 return;
-
 }
 
+const id=component.dataset.id;
 
-const format=
-document.getElementById("formatVersion")
-.value;
-
-
-let maxStack=
-parseInt(
-document.getElementById("maxStack").value,
-10
-);
-
-if(!Number.isFinite(maxStack)){
-maxStack=64;
-}
-
-maxStack=
-Math.max(
-1,
-Math.min(64,maxStack)
-);
-
+components[id]=createComponent(component);
+});
 
 const output={
-
-format_version:format,
-
+format_version:formatVersion,
 "minecraft:item":{
-
 description:{
 identifier:identifier
 },
-
-components:{
-
-"minecraft:icon":{
-texture:
-document.getElementById("iconTexture")
-.value.trim()||"test_item"
-},
-
-"minecraft:max_stack_size":
-maxStack
-
+components:components
 }
-
-}
-
 };
 
-
-const item=
-output["minecraft:item"];
-
-const componentsOutput=
-item.components;
-
-
-const category=
-document.getElementById("category").value;
-
-const group=
-document.getElementById("group").value.trim();
-
-
-if(category!=="none"||group){
-
-item.description.menu_category={
-category:
-category==="none"?
-"items":
-category
-};
-
-if(group){
-
-item.description.menu_category.group=
-group;
-
+document.getElementById("result").value=
+JSON.stringify(output,null,2);
 }
 
-}
-
-
-document.querySelectorAll(".component").forEach(c=>{
-
-if(
-c.style.display==="none"||
-!checked(c.dataset.id)
-)return;
-
-
-const id=c.dataset.id;
-
-
-if(id==="minecraft:allow_off_hand"){
-componentsOutput[id]=true;
-}
-
-
-else if(id==="minecraft:can_destroy_in_creative"){
-componentsOutput[id]=true;
-}
-
-
-else if(id==="minecraft:compostable"){
-
-let chance=
-Number(
-value(c,".value","0.65")
-);
-
-if(!Number.isFinite(chance)){
-chance=.65;
-}
-
-componentsOutput[id]={
-compost_chance:
-Math.max(0,Math.min(1,chance))
-};
-
-}
-
-
-else if(id==="minecraft:cooldown"){
-
-componentsOutput[id]={
-category:
-value(c,".cooldown-category","hiro_item"),
-duration:
-Number(
-value(c,".cooldown-duration","1")
-)||1
-};
-
-}
-
-
-else if(id==="minecraft:damage"){
-
-componentsOutput[id]=
-Number(
-value(c,".value","1")
-)||1;
-
-}
-
-
-else if(id==="minecraft:damage_absorption"){
-
-componentsOutput[id]={
-absorption_modifier:
-Number(
-value(c,".value","1")
-)||1
-};
-
-}
-
-
-else if(id==="minecraft:digger"){
-
-const block=
-value(
-c,
-".digger-block",
-"minecraft:stone"
-);
-
-const speed=
-Number(
-value(
-c,
-".digger-speed",
-"1"
-)
-)||1;
-
-componentsOutput[id]={
-
-use_efficiency:
-bool(c,".digger-efficiency"),
-
-destroy_speeds:[
-
-{
-block:block,
-speed:speed
-}
-
-]
-
-};
-
-}
-
-
-else if(id==="minecraft:display_name"){
-
-const v=
-value(c,".value","").trim();
-
-if(v){
-
-componentsOutput[id]={
-value:v
-};
-
-}
-
-}
-
-
-else if(id==="minecraft:durability"){
-
-componentsOutput[id]={
-
-max_durability:
-Number(
-value(c,".durability-max","100")
-)||100,
-
-damage_chance:{
-
-min:
-Number(
-value(c,".durability-min","100")
-)||100,
-
-max:
-Number(
-value(c,".durability-max-chance","100")
-)||100
-
-}
-
-};
-
-}
-
-
-else if(id==="minecraft:enchantable"){
-
-componentsOutput[id]={
-
-slot:
-value(
-c,
-".enchantable-slot",
-"all"
-),
-
-value:
-Number(
-value(
-c,
-".enchantable-value",
-"10"
-)
-)||10
-
-};
-
-}
-
-
-else if(id==="minecraft:fire_resistant"){
-
-componentsOutput[id]=true;
-
-}
-
-
-else if(id==="minecraft:food"){
-
-componentsOutput[id]={
-
-can_always_eat:
-bool(c,".food-always"),
-
-nutrition:
-Number(
-value(
-c,
-".food-nutrition",
-"1"
-)
-)||1,
-
-saturation_modifier:
-Number(
-value(
-c,
-".food-saturation",
-"0.6"
-)
-)||.6
-
-};
-
-const convert=
-value(
-c,
-".food-convert",
-""
-).trim();
-
-if(convert){
-
-componentsOutput[id]
-.using_converts_to=
-convert;
-
-}
-
-}
-
-
-else if(id==="minecraft:fuel"){
-
-componentsOutput[id]={
-
-duration:
-Number(
-value(c,".value","80")
-)||80
-
-};
-
-}
-
-
-else if(id==="minecraft:glint"){
-
-componentsOutput[id]=true;
-
-}
-
-
-else if(id==="minecraft:hand_equipped"){
-
-componentsOutput[id]=true;
-
-}
-
-
-else if(id==="minecraft:hover_text_color"){
-
-componentsOutput[id]=
-value(c,".value","white");
-
-}
-
-
-else if(id==="minecraft:interact_button"){
-
-componentsOutput[id]=
-value(c,".value","開く");
-
-}
-
-
-else if(id==="minecraft:kinetic_weapon"){
-
-componentsOutput[id]={
-
-damage:
-Number(
-value(c,".value","1")
-)||1
-
-};
-
-}
-
-
-else if(id==="minecraft:projectile"){
-
-componentsOutput[id]={
-
-projectile_entity:
-value(
-c,
-".projectile-entity",
-"minecraft:arrow"
-),
-
-minimum_critical_power:
-Number(
-value(
-c,
-".projectile-critical",
-"0"
-)
-)||0
-
-};
-
-}
-
-
-else if(id==="minecraft:rarity"){
-
-componentsOutput[id]=
-value(c,".value","common");
-
-}
-
-
-else if(id==="minecraft:record"){
-
-componentsOutput[id]={
-
-sound_event:
-value(
-c,
-".record-sound",
-""
-),
-
-duration:
-Number(
-value(
-c,
-".record-duration",
-"180"
-)
-)||180,
-
-comparator_signal:
-Number(
-value(
-c,
-".record-signal",
-"0"
-)
-)||0
-
-};
-
-}
-
-
-else if(id==="minecraft:repairable"){
-
-const items=
-value(
-c,
-".repair-items",
-""
-)
-.split(",")
-.map(v=>v.trim())
-.filter(Boolean);
-
-componentsOutput[id]={
-
-repair_items:[
-
-{
-items:items,
-
-repair_amount:
-Number(
-value(
-c,
-".repair-amount",
-"1"
-)
-)||1
-
-}
-
-]
-
-};
-
-}
-
-
-else if(id==="minecraft:shooter"){
-
-const ammunitionItem=
-value(
-c,
-".shooter-item",
-"minecraft:arrow"
-);
-
-componentsOutput[id]={
-
-ammunition:[
-
-{
-item:ammunitionItem,
-
-search_inventory:
-bool(c,".shooter-search"),
-
-use_in_creative:
-bool(c,".shooter-creative")
-
-}
-
-]
-
-};
-
-}
-
-
-else if(id==="minecraft:storage_item"){
-
-componentsOutput[id]={
-
-max_slots:
-Number(
-value(
-c,
-".storage-slots",
-"64"
-)
-)||64,
-
-allow_nested_storage_items:
-bool(c,".storage-nested")
-
-};
-
-}
-
-
-else if(
-id==="minecraft:storage_weight_limit"||
-id==="minecraft:storage_weight_modifier"
-){
-
-componentsOutput[id]=
-Number(
-value(c,".value","1")
-)||1;
-
-}
-
-
-else if(id==="minecraft:tags"){
-
-const tags=
-value(
-c,
-".value",
-""
-)
-.split(",")
-.map(v=>v.trim())
-.filter(Boolean);
-
-componentsOutput[id]={
-tags:tags
-};
-
-}
-
-
-else if(id==="minecraft:throwable"){
-
-componentsOutput[id]={
-
-do_swing_animation:
-bool(c,".throwable-swing"),
-
-launch_power_scale:
-Number(
-value(
-c,
-".throwable-scale",
-"1"
-)
-)||1
-
-};
-
-}
-
-
-else if(id==="minecraft:use_modifiers"){
-
-componentsOutput[id]={
-
-use_duration:
-Number(
-value(
-c,
-".use-duration",
-"1.6"
-)
-)||1.6,
-
-movement_modifier:
-Number(
-value(
-c,
-".movement-modifier",
-".35"
-)
-)||.35,
-
-emit_vibrations:
-bool(c,".emit-vibrations")
-
-};
-
-}
-
-
-else if(id==="minecraft:wearable"){
-
-componentsOutput[id]={
-
-slot:
-value(
-c,
-".wearable-slot",
-"slot.armor.head"
-),
-
-protection:
-Number(
-value(
-c,
-".wearable-protection",
-"0"
-)
-)||0
-
-};
-
-if(
-bool(c,".wearable-dispensable")
-){
-
-componentsOutput[id].dispensable=true;
-
-}
-
-if(
-bool(c,".wearable-hides")
-){
-
-componentsOutput[id]
-.hides_player_location=true;
-
-}
-
-}
-
-
-});
-
-
-document.getElementById("result")
-.textContent=
-JSON.stringify(
-output,
-null,
-2
-);
-
-}
-
-
-document.getElementById("generate")
-.addEventListener(
+document.getElementById("generate").addEventListener(
 "click",
 generate
 );
 
-
-document.getElementById("copy")
-.addEventListener(
+document.getElementById("copy").addEventListener(
 "click",
 async()=>{
-
-const text=
-document.getElementById("result")
-.textContent;
+const result=document.getElementById("result");
 
 try{
-
-await navigator.clipboard.writeText(text);
-
-document.getElementById("copy")
-.textContent="コピーしました";
-
-setTimeout(
-()=>{
-document.getElementById("copy")
-.textContent="コピー";
-},
-1000
-);
-
+await navigator.clipboard.writeText(result.value);
+alert("コピーしました");
 }catch{
-
-alert("コピーできませんでした。");
-
+result.select();
+document.execCommand("copy");
+alert("コピーしました");
 }
-
-});
-
-
-document.getElementById("formatVersion")
-.dispatchEvent(
-new Event("change")
+}
 );
-
-update();
-
 </script>
 
 </body>
