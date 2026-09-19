@@ -12,26 +12,24 @@ h1{margin:0;font-size:28px}
 .subtitle{margin:6px 0 28px;color:#888}
 .section{background:#1a1a1a;border:1px solid #292929;border-radius:14px;padding:18px;margin-bottom:16px}
 .section h2{margin:0 0 16px;font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
 .field{margin-bottom:15px}
 .field:last-child{margin-bottom:0}
 label{display:block;margin-bottom:7px;color:#bbb;font-size:14px}
 input,select,textarea{width:100%;padding:12px 14px;border-radius:9px;border:1px solid #333;background:#111;color:#fff;outline:none;font-size:15px}
-textarea{min-height:90px;resize:vertical}
 input:focus,select:focus,textarea:focus{border-color:#666}
 input::placeholder,textarea::placeholder{color:#777;opacity:.55}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
 .component-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .component{border:1px solid #333;border-radius:10px;background:#111;overflow:hidden}
 .component.active{border-color:#666}
 .component.disabled{opacity:.45}
 .component-head{display:flex;align-items:center;gap:10px;padding:12px}
 .component-head>input{width:18px;height:18px;padding:0;margin:0;flex:none}
+.component-head>input:disabled{cursor:not-allowed}
 .component-name{font-size:14px;word-break:break-all}
 .component-version{margin-left:auto;font-size:11px;color:#777;white-space:nowrap}
 .component-body{display:none;padding:0 12px 12px}
 .component.active .component-body{display:block}
-.component-body input,.component-body select,.component-body textarea{margin-bottom:8px}
-.component-body label{margin-top:10px}
 .boolean-setting{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px;border-radius:8px;background:#181818;border:1px solid #292929}
 .boolean-setting input{width:18px;height:18px;margin:0;padding:0}
 .boolean-setting span{color:#fff;font-size:14px}
@@ -121,9 +119,9 @@ h1{font-size:24px}
 
 <div class="required">
 <div class="required-title">minecraft:icon</div>
-<div class="required-name">テクスチャ名</div>
+<div class="required-name">アイコンのテクスチャ</div>
 <input id="iconTexture" type="text" placeholder="test_item">
-<div class="help">resource_pack/textures/item_texture.json の texture_data に登録した名前</div>
+<div class="help">resource_pack/textures/item_texture.json に登録したテクスチャ名</div>
 </div>
 
 <div class="required">
@@ -158,7 +156,7 @@ h1{font-size:24px}
 const components=[
 {
 id:"minecraft:allow_off_hand",
-name:"オフハンドに持てる",
+name:"オフハンドで使用可能",
 min:"1.20.0",
 type:"boolean"
 },
@@ -188,13 +186,13 @@ type:"compostable"
 },
 {
 id:"minecraft:cooldown",
-name:"クールダウン",
+name:"使用時のクールダウン",
 min:"1.20.10",
 type:"cooldown"
 },
 {
 id:"minecraft:damage",
-name:"攻撃力",
+name:"追加攻撃力",
 min:"1.20.0",
 type:"damage"
 },
@@ -206,7 +204,7 @@ type:"damage_absorption"
 },
 {
 id:"minecraft:digger",
-name:"効率強化を使用",
+name:"ブロック破壊速度",
 min:"1.20.30",
 type:"digger"
 },
@@ -224,7 +222,7 @@ type:"durability"
 },
 {
 id:"minecraft:durability_sensor",
-name:"耐久値センサー",
+name:"耐久値による効果",
 min:"1.21.20",
 type:"durability_sensor"
 },
@@ -248,7 +246,7 @@ type:"entity_placer"
 },
 {
 id:"minecraft:fire_resistant",
-name:"火に耐性",
+name:"炎に耐性",
 min:"1.20.0",
 type:"boolean"
 },
@@ -266,19 +264,19 @@ type:"fuel"
 },
 {
 id:"minecraft:glint",
-name:"エンチャント風の光",
+name:"エンチャントの光を表示",
 min:"1.20.0",
 type:"boolean"
 },
 {
 id:"minecraft:hand_equipped",
-name:"ツールの持ち方",
+name:"ツールの持ち方で表示",
 min:"1.20.0",
 type:"boolean"
 },
 {
 id:"minecraft:hover_text_color",
-name:"説明欄の色",
+name:"説明文の色",
 min:"1.20.0",
 type:"color"
 },
@@ -290,13 +288,13 @@ type:"interact_button"
 },
 {
 id:"minecraft:kinetic_weapon",
-name:"運動攻撃",
+name:"運動エネルギー攻撃",
 min:"1.21.110",
 type:"boolean"
 },
 {
 id:"minecraft:liquid_clipped",
-name:"液体内で使用可能",
+name:"液体を通過可能",
 min:"1.20.0",
 type:"boolean"
 },
@@ -332,19 +330,19 @@ type:"repairable"
 },
 {
 id:"minecraft:shooter",
-name:"発射アイテム",
-min:"1.20.10",
+name:"射撃",
+min:"1.20.50",
 type:"shooter"
 },
 {
 id:"minecraft:should_despawn",
-name:"時間経過で消える",
+name:"時間経過で消滅",
 min:"1.20.0",
 type:"boolean"
 },
 {
 id:"minecraft:stacked_by_data",
-name:"データ値で別スタック",
+name:"データ値ごとに別スタック",
 min:"1.20.0",
 type:"boolean"
 },
@@ -368,7 +366,7 @@ type:"number"
 },
 {
 id:"minecraft:swing_duration",
-name:"振り時間",
+name:"振る時間",
 min:"1.20.0",
 type:"number"
 },
@@ -386,7 +384,7 @@ type:"tags"
 },
 {
 id:"minecraft:throwable",
-name:"投げられる",
+name:"投擲",
 min:"1.20.10",
 type:"throwable"
 },
@@ -398,13 +396,13 @@ type:"use_animation"
 },
 {
 id:"minecraft:use_modifiers",
-name:"使用時間・移動速度",
+name:"使用時の設定",
 min:"1.20.50",
 type:"use_modifiers"
 },
 {
 id:"minecraft:wearable",
-name:"装備可能",
+name:"装備",
 min:"1.20.30",
 type:"wearable"
 }
@@ -444,75 +442,89 @@ return v.split(".").map(Number);
 }
 
 function gte(a,b){
+
 const x=ver(a);
 const y=ver(b);
 
 for(let i=0;i<3;i++){
+
 const aa=x[i]||0;
 const bb=y[i]||0;
 
 if(aa>bb)return true;
 if(aa<bb)return false;
+
 }
 
 return true;
 }
 
 function csv(value){
+
 return String(value||"")
 .split(",")
 .map(v=>v.trim())
 .filter(Boolean);
-}
 
-function esc(value){
-return String(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;");
-}
-
-function field(id,label,type="text",value="",placeholder=""){
-return `
-<div class="field">
-<label>${esc(label)}</label>
-<input id="${id}" type="${type}" value="${esc(value)}" placeholder="${esc(placeholder)}">
-</div>
-`;
-}
-
-function bool(id,label){
-return `
-<div class="boolean-setting">
-<input id="${id}" type="checkbox">
-<span>${esc(label)}</span>
-</div>
-`;
 }
 
 function safe(id){
+
 return id.replace(/[^a-zA-Z0-9_]/g,"_");
+
+}
+
+function field(id,label,type="text",value="",placeholder=""){
+
+return `
+<div class="field">
+<label>${label}</label>
+<input id="${id}" type="${type}" value="${value}" placeholder="${placeholder}">
+</div>
+`;
+
+}
+
+function bool(id,label){
+
+return `
+<div class="boolean-setting">
+<input id="${id}" type="checkbox">
+<span>${label}</span>
+</div>
+`;
+
 }
 
 function card(id){
+
 return [...document.querySelectorAll(".component")]
 .find(x=>x.dataset.id===id);
+
 }
 
 function checked(id){
+
 const c=card(id);
+
 return !!c&&c.querySelector(".component-check").checked;
+
 }
 
 function value(id){
+
 const e=document.getElementById(id);
+
 return e?e.value:"";
+
 }
 
 function boolValue(id){
+
 const e=document.getElementById(id);
+
 return !!e&&e.checked;
+
 }
 
 function renderComponents(){
@@ -526,36 +538,48 @@ components.forEach(c=>{
 
 if(!gte(format,c.min))return;
 
-const cardElement=document.createElement("div");
+const element=document.createElement("div");
 
-cardElement.className="component";
-cardElement.dataset.id=c.id;
+element.className="component";
+element.dataset.id=c.id;
 
-cardElement.innerHTML=`
+element.innerHTML=`
 <div class="component-head">
 <input type="checkbox" class="component-check">
-<div class="component-name">${esc(c.name)}</div>
+<div class="component-name">${c.name}</div>
 <div class="component-version">≥ ${c.min}</div>
 </div>
 <div class="component-body"></div>
 `;
 
-grid.appendChild(cardElement);
+grid.appendChild(element);
 
-const check=cardElement.querySelector(".component-check");
+const checkbox=element.querySelector(".component-check");
 
-check.addEventListener("change",()=>{
+checkbox.addEventListener("change",()=>{
 
-if(check.disabled)return;
+if(checkbox.disabled)return;
 
-cardElement.classList.toggle("active",check.checked);
+element.classList.toggle(
+"active",
+checkbox.checked
+);
 
-const body=cardElement.querySelector(".component-body");
+const body=element.querySelector(
+".component-body"
+);
 
-if(check.checked){
-renderBody(c,body);
+if(checkbox.checked){
+
+renderBody(
+c,
+body
+);
+
 }else{
+
 body.innerHTML="";
+
 }
 
 updateDependencies();
@@ -573,32 +597,49 @@ function renderBody(c,body){
 let html="";
 
 if(c.type==="boolean"){
-html=bool("value_"+safe(c.id),"有効にする");
+
+html=bool(
+"value_"+safe(c.id),
+"有効にする"
+);
+
 }
 
 if(c.type==="number"){
-html=field("value_"+safe(c.id),"数値","number","1");
-}
 
-if(c.type==="damage"){
 html=field(
 "value_"+safe(c.id),
-"追加ダメージ",
+"数値",
 "number",
 "1"
 );
+
+}
+
+if(c.type==="damage"){
+
+html=field(
+"value_"+safe(c.id),
+"追加攻撃力",
+"number",
+"1"
+);
+
 }
 
 if(c.type==="damage_absorption"){
+
 html=field(
 "value_"+safe(c.id),
 "吸収量",
 "number",
 "1"
 );
+
 }
 
 if(c.type==="display_name"){
+
 html=field(
 "value_"+safe(c.id),
 "表示名",
@@ -606,50 +647,41 @@ html=field(
 "",
 "例：ひろのアイテム"
 );
+
 }
 
 if(c.type==="compostable"){
+
 html=field(
 "value_"+safe(c.id),
-"堆肥化確率",
+"堆肥化される確率",
 "number",
 "0.65"
 );
-html+=`<div class="help">0～1の範囲で指定します。</div>`;
+
+html+=`
+<div class="help">
+0～1で指定します。
+</div>
+`;
+
 }
 
 if(c.type==="cooldown"){
 
 html=field(
 "cooldown_category",
-"カテゴリ",
+"クールダウンのカテゴリ",
 "text",
 "hiro_item"
 );
 
 html+=field(
 "cooldown_duration",
-"時間（秒）",
+"クールダウン時間（秒）",
 "number",
 "1"
 );
-
-if(gte(
-document.getElementById("formatVersion").value,
-"1.21.130"
-)){
-
-html+=`
-<div class="field">
-<label>発動方法</label>
-<select id="cooldown_type">
-<option value="use">使用</option>
-<option value="attack">攻撃</option>
-</select>
-</div>
-`;
-
-}
 
 }
 
@@ -671,7 +703,7 @@ html=`
 
 <div class="help">
 ブロックIDはカンマ区切りで複数指定できます。<br>
-破壊時間は実際に壊す秒数です。
+破壊時間は実際に壊す時間を秒で入力します。
 </div>
 `;
 
@@ -726,14 +758,14 @@ html=field(
 
 html+=field(
 "durability_damage_min",
-"ダメージ確率 最小（%）",
+"耐久値減少確率 最小（%）",
 "number",
 "100"
 );
 
 html+=field(
 "durability_damage_max",
-"ダメージ確率 最大（%）",
+"耐久値減少確率 最大（%）",
 "number",
 "100"
 );
@@ -763,10 +795,32 @@ row.className="required";
 const id=Date.now()+Math.random();
 
 row.innerHTML=`
-${field("sensor_durability_"+id,"耐久値","number","10")}
-${field("sensor_particle_"+id,"パーティクル","text","","例：crit")}
-${field("sensor_sound_"+id,"サウンド","text","","例：item.break")}
-<button type="button" class="remove-row">× 削除</button>
+${field(
+"sensor_durability_"+id,
+"耐久値",
+"number",
+"10"
+)}
+
+${field(
+"sensor_particle_"+id,
+"パーティクル",
+"text",
+"",
+"例：crit"
+)}
+
+${field(
+"sensor_sound_"+id,
+"サウンド",
+"text",
+"",
+"例：item.break"
+)}
+
+<button type="button" class="remove-row">
+× 削除
+</button>
 `;
 
 row.querySelector(".remove-row").onclick=()=>{
@@ -791,7 +845,8 @@ html=field(
 "dyeable_color",
 "初期カラー",
 "text",
-"white"
+"white",
+"例：white"
 );
 
 }
@@ -800,31 +855,25 @@ if(c.type==="enchantable"){
 
 html=`
 <div class="field">
-<label>エンチャントスロット</label>
+<label>エンチャントタイプ</label>
 <select id="enchantable_slot">
-<option value="none">none</option>
-<option value="all">all</option>
-<option value="g_armor">g_armor</option>
-<option value="armor_head">armor_head</option>
-<option value="armor_torso">armor_torso</option>
-<option value="armor_legs">armor_legs</option>
-<option value="armor_feet">armor_feet</option>
-<option value="sword">sword</option>
-<option value="bow">bow</option>
-<option value="spear">spear</option>
-<option value="crossbow">crossbow</option>
-<option value="hoe">hoe</option>
-<option value="shears">shears</option>
-<option value="flintsteel">flintsteel</option>
-<option value="shield">shield</option>
-<option value="g_digging">g_digging</option>
-<option value="axe">axe</option>
-<option value="pickaxe">pickaxe</option>
-<option value="shovel">shovel</option>
-<option value="fishing_rod">fishing_rod</option>
-<option value="carrot_stick">carrot_stick</option>
-<option value="elytra">elytra</option>
-<option value="cosmetic_head">cosmetic_head</option>
+<option value="none">なし</option>
+<option value="all">すべて</option>
+<option value="sword">剣</option>
+<option value="bow">弓</option>
+<option value="crossbow">クロスボウ</option>
+<option value="axe">斧</option>
+<option value="pickaxe">ツルハシ</option>
+<option value="shovel">シャベル</option>
+<option value="hoe">クワ</option>
+<option value="shears">ハサミ</option>
+<option value="shield">盾</option>
+<option value="fishing_rod">釣り竿</option>
+<option value="armor_head">頭装備</option>
+<option value="armor_torso">胴装備</option>
+<option value="armor_legs">脚装備</option>
+<option value="armor_feet">足装備</option>
+<option value="elytra">エリトラ</option>
 </select>
 </div>
 `;
@@ -856,15 +905,19 @@ html+=field(
 "minecraft:stone,minecraft:dirt"
 );
 
-html+=`<div class="help">複数指定はカンマ区切りです。</div>`;
-
 html+=field(
 "entity_placer_dispense",
-"ディスペンサー使用可能ブロック",
+"ディスペンサーで使用可能なブロック",
 "text",
 "",
 "minecraft:stone"
 );
+
+html+=`
+<div class="help">
+複数指定する場合はカンマで区切ります。
+</div>
+`;
 
 }
 
@@ -872,29 +925,29 @@ if(c.type==="food"){
 
 html=field(
 "food_nutrition",
-"満腹度",
+"回復する満腹度",
 "number",
 "1"
 );
 
 html+=field(
 "food_saturation",
-"満腹度の回復倍率",
+"満腹度回復倍率",
 "number",
 "0.6"
 );
 
 html+=bool(
 "food_always",
-"いつでも食べられる"
+"満腹度に関係なく食べられる"
 );
 
 html+=field(
 "food_convert",
-"食べた後のアイテム",
+"食べた後に変化するアイテム",
 "text",
 "",
-"空欄なら変化なし"
+"空欄なら変化しない"
 );
 
 }
@@ -914,7 +967,7 @@ if(c.type==="color"){
 
 html=field(
 "hover_text_color",
-"色",
+"説明文の色",
 "text",
 "white",
 "例：red"
@@ -924,19 +977,9 @@ html=field(
 
 if(c.type==="interact_button"){
 
-html=`
-<div class="field">
-<label>操作ボタン</label>
-<select id="interact_mode">
-<option value="true">表示する</option>
-<option value="text">文字を指定</option>
-</select>
-</div>
-`;
-
-html+=field(
+html=field(
 "interact_text",
-"ボタン文字",
+"操作ボタンの文字",
 "text",
 "",
 "例：開く"
@@ -951,12 +994,12 @@ html=field(
 "投射物エンティティ",
 "text",
 "",
-"minecraft:arrow"
+"例：minecraft:arrow"
 );
 
 html+=field(
 "projectile_critical",
-"クリティカル開始時間",
+"クリティカルに必要な使用時間",
 "number",
 "0"
 );
@@ -983,7 +1026,7 @@ if(c.type==="record"){
 
 html=field(
 "record_sound",
-"再生サウンド",
+"再生するサウンド",
 "text",
 "",
 "例：music_disc.otherside"
@@ -998,7 +1041,7 @@ html+=field(
 
 html+=field(
 "record_signal",
-"コンパレーター信号",
+"コンパレーター出力",
 "number",
 "0"
 );
@@ -1009,13 +1052,11 @@ if(c.type==="repairable"){
 
 html=field(
 "repair_items",
-"修理アイテム",
+"修理に使用するアイテム",
 "text",
 "",
 "minecraft:iron_ingot,minecraft:iron_block"
 );
-
-html+=`<div class="help">複数指定はカンマ区切りです。</div>`;
 
 html+=field(
 "repair_amount",
@@ -1023,6 +1064,12 @@ html+=field(
 "number",
 "1"
 );
+
+html+=`
+<div class="help">
+複数のアイテムを指定する場合はカンマで区切ります。
+</div>
+`;
 
 }
 
@@ -1046,12 +1093,12 @@ html+=field(
 
 html+=bool(
 "shooter_scale_power",
-"チャージ時間で発射力を変える"
+"チャージ時間に応じて発射力を変える"
 );
 
 html+=bool(
 "shooter_charge",
-"チャージ式にする"
+"チャージしてから発射する"
 );
 
 body.innerHTML=html;
@@ -1067,10 +1114,27 @@ row.className="required";
 const id=Date.now()+Math.random();
 
 row.innerHTML=`
-${field("shooter_item_"+id,"弾アイテム","text","","minecraft:arrow")}
-${bool("shooter_search_"+id,"インベントリから探す")}
-${bool("shooter_creative_"+id,"クリエイティブで使用可能")}
-<button type="button" class="remove-row">× 削除</button>
+${field(
+"shooter_item_"+id,
+"弾として使用するアイテム",
+"text",
+"",
+"minecraft:arrow"
+)}
+
+${bool(
+"shooter_search_"+id,
+"インベントリから弾を探す"
+)}
+
+${bool(
+"shooter_creative_"+id,
+"クリエイティブで使用可能"
+)}
+
+<button type="button" class="remove-row">
+× 削除
+</button>
 `;
 
 row.querySelector(".remove-row").onclick=()=>{
@@ -1100,26 +1164,30 @@ html=field(
 
 html+=bool(
 "storage_nested",
-"収納アイテムを収納可能"
+"収納アイテムを中に入れられる"
 );
 
 html+=field(
 "storage_allowed",
-"許可するアイテム",
+"収納を許可するアイテム",
 "text",
 "",
 "minecraft:stone,minecraft:dirt"
 );
 
-html+=`<div class="help">複数指定はカンマ区切りです。</div>`;
-
 html+=field(
 "storage_banned",
-"禁止するアイテム",
+"収納を禁止するアイテム",
 "text",
 "",
 "minecraft:shulker_box"
 );
+
+html+=`
+<div class="help">
+複数指定する場合はカンマで区切ります。
+</div>
+`;
 
 }
 
@@ -1127,18 +1195,18 @@ if(c.type==="swing_sounds"){
 
 html=field(
 "swing_attack",
-"攻撃音",
+"攻撃時の音",
 "text",
 "",
-""
+"例：item.sword.attack"
 );
 
 html+=field(
 "swing_use",
-"使用音",
+"使用時の音",
 "text",
 "",
-""
+"例：item.use"
 );
 
 }
@@ -1147,13 +1215,17 @@ if(c.type==="tags"){
 
 html=field(
 "item_tags",
-"タグ",
+"アイテムタグ",
 "text",
 "",
 "minecraft:is_food,custom:tag"
 );
 
-html+=`<div class="help">複数指定はカンマ区切りです。</div>`;
+html+=`
+<div class="help">
+複数指定する場合はカンマで区切ります。
+</div>
+`;
 
 }
 
@@ -1179,15 +1251,15 @@ html=`
 <div class="field">
 <label>使用アニメーション</label>
 <select id="use_animation_value">
-<option value="none">none</option>
-<option value="eat">eat</option>
-<option value="drink">drink</option>
-<option value="bow">bow</option>
-<option value="block">block</option>
-<option value="camera">camera</option>
-<option value="crossbow">crossbow</option>
-<option value="brush">brush</option>
-<option value="spear">spear</option>
+<option value="none">なし</option>
+<option value="eat">食べる</option>
+<option value="drink">飲む</option>
+<option value="bow">弓を引く</option>
+<option value="block">盾を構える</option>
+<option value="camera">カメラ</option>
+<option value="crossbow">クロスボウ</option>
+<option value="brush">ブラシ</option>
+<option value="spear">槍</option>
 </select>
 </div>
 `;
@@ -1205,32 +1277,15 @@ html=field(
 
 html+=field(
 "movement_modifier",
-"使用中の移動倍率",
+"使用中の移動速度倍率",
 "number",
 "0.35"
 );
 
 html+=bool(
 "use_emit_vibrations",
-"使用開始・終了時に振動を発生させる"
+"使用時に振動を発生させる"
 );
-
-if(gte(
-document.getElementById("formatVersion").value,
-"1.26.30"
-)){
-
-html+=`
-<div class="field">
-<label>使用開始条件</label>
-<select id="use_start_using">
-<option value="always">常に使用開始</option>
-<option value="on_attack">攻撃入力時のみ</option>
-</select>
-</div>
-`;
-
-}
 
 }
 
@@ -1244,7 +1299,7 @@ html=`
 <option value="slot.armor.chest">胴</option>
 <option value="slot.armor.legs">脚</option>
 <option value="slot.armor.feet">足</option>
-<option value="slot.armor.body">胴体</option>
+<option value="slot.armor.body">体</option>
 <option value="slot.weapon.mainhand">メインハンド</option>
 <option value="slot.weapon.offhand">オフハンド</option>
 </select>
@@ -1265,7 +1320,7 @@ html+=bool(
 
 html+=bool(
 "wearable_hides",
-"位置情報を隠す"
+"プレイヤーの位置を隠す"
 );
 
 }
@@ -1282,17 +1337,19 @@ html=field(
 
 html+=bool(
 "block_placer_replace",
-"このアイテムをブロックのアイテムとして登録"
+"このアイテムをブロックのアイテムとして扱う"
 );
 
-if(gte(
+if(
+gte(
 document.getElementById("formatVersion").value,
 "1.26.10"
-)){
+)
+){
 
 html+=bool(
 "block_placer_aligned",
-"整列配置"
+"整列して設置する"
 );
 
 }
@@ -1305,7 +1362,11 @@ html+=field(
 "minecraft:dirt,minecraft:grass_block"
 );
 
-html+=`<div class="help">複数指定はカンマ区切りです。</div>`;
+html+=`
+<div class="help">
+複数指定する場合はカンマで区切ります。
+</div>
+`;
 
 }
 
@@ -1317,82 +1378,128 @@ function updateDependencies(){
 
 const requiredBy={};
 
-Object.keys(dependencyMap).forEach(parent=>{
+for(const parent in dependencyMap){
 
-if(!checked(parent))return;
+if(!checked(parent))continue;
 
-dependencyMap[parent].forEach(dep=>{
+for(const dependency of dependencyMap[parent]){
 
-if(!requiredBy[dep]){
-requiredBy[dep]=[];
+if(!requiredBy[dependency]){
+requiredBy[dependency]=new Set();
 }
 
-requiredBy[dep].push(parent);
+requiredBy[dependency].add(parent);
 
-});
+}
 
-});
+}
 
-Object.keys(requiredBy).forEach(id=>{
+for(const dependency in requiredBy){
 
-const c=card(id);
+const target=card(dependency);
 
-if(!c)return;
+if(!target)continue;
 
-const checkbox=c.querySelector(".component-check");
+const checkbox=
+target.querySelector(".component-check");
 
 if(!checkbox.checked){
 
 checkbox.checked=true;
 
-c.classList.add("active");
+target.classList.add("active");
 
-const component=components.find(x=>x.id===id);
+const component=
+components.find(
+x=>x.id===dependency
+);
 
 if(component){
+
 renderBody(
 component,
-c.querySelector(".component-body")
+target.querySelector(".component-body")
 );
+
+}
+
 }
 
 }
 
-});
+document.querySelectorAll(".component").forEach(element=>{
 
-document.querySelectorAll(".component").forEach(c=>{
+const id=element.dataset.id;
 
-const id=c.dataset.id;
-const checkbox=c.querySelector(".component-check");
+const checkbox=
+element.querySelector(".component-check");
 
+let required=false;
 let conflict=false;
+let unavailableDependency=false;
+
+if(requiredBy[id]){
+required=true;
+}
+
+if(dependencyMap[id]){
+
+for(const dependency of dependencyMap[id]){
+
+const dependencyCard=
+card(dependency);
+
+if(!dependencyCard){
+
+unavailableDependency=true;
+
+break;
+
+}
+
+}
+
+}
 
 for(const group of conflictGroups){
 
 if(!group.includes(id))continue;
 
-const otherChecked=group.some(other=>{
-return other!==id&&checked(other);
-});
+for(const other of group){
 
-if(otherChecked){
+if(other===id)continue;
+
+if(checked(other)){
+
 conflict=true;
+
 break;
-}
 
 }
 
-const required=!!requiredBy[id];
+}
 
-checkbox.disabled=required||conflict;
+if(conflict)break;
 
-c.dataset.required=required?"true":"false";
-c.dataset.conflict=conflict?"true":"false";
+}
 
-c.classList.toggle(
+const disabled=
+required||
+conflict||
+unavailableDependency;
+
+checkbox.disabled=disabled;
+
+element.classList.toggle(
 "disabled",
-required||conflict
+disabled
 );
+
+element.dataset.required=
+required?"true":"false";
+
+element.dataset.conflict=
+conflict?"true":"false";
 
 });
 
@@ -1400,9 +1507,11 @@ required||conflict
 
 function generate(){
 
-const format=document.getElementById("formatVersion").value;
+const format=
+document.getElementById("formatVersion").value;
 
-const identifier=document.getElementById("identifier").value.trim();
+const identifier=
+document.getElementById("identifier").value.trim();
 
 if(!identifier){
 
@@ -1414,13 +1523,16 @@ return;
 
 if(!identifier.includes(":")){
 
-alert("アイテムIDには名前空間を付けてください。\n例：hiro:test_item");
+alert(
+"アイテムIDには名前空間を付けてください。\n例：hiro:test_item"
+);
 
 return;
 
 }
 
-let stack=parseInt(
+let stack=
+parseInt(
 document.getElementById("maxStack").value,
 10
 );
@@ -1443,18 +1555,22 @@ identifier
 components:{
 "minecraft:icon":{
 texture:
-document.getElementById("iconTexture").value.trim()||"test_item"
+document.getElementById("iconTexture").value.trim()||
+"test_item"
 },
 "minecraft:max_stack_size":stack
 }
 }
 };
 
+const item=
+output["minecraft:item"];
+
 const out=
-output["minecraft:item"].components;
+item.components;
 
 const description=
-output["minecraft:item"].description;
+item.description;
 
 const category=
 document.getElementById("category").value;
@@ -1465,7 +1581,8 @@ document.getElementById("group").value.trim();
 if(category!=="none"||group){
 
 description.menu_category={
-category
+category:
+category==="none"?"items":category
 };
 
 if(group){
@@ -1486,11 +1603,22 @@ out[c.id]=true;
 
 break;
 
+case"number":
+
+out[c.id]=
+Number(
+value("value_"+safe(c.id))
+)||0;
+
+break;
+
 case"damage":
 
 out[c.id]=Math.max(
-1,
-parseInt(value("value_"+safe(c.id)),10)||1
+0,
+Number(
+value("value_"+safe(c.id))
+)||0
 );
 
 break;
@@ -1499,72 +1627,71 @@ case"damage_absorption":
 
 out[c.id]=Math.max(
 0,
-Number(value("value_"+safe(c.id)))||0
-);
-
-break;
-
-case"number":
-
-out[c.id]=Number(
+Number(
 value("value_"+safe(c.id))
-)||0;
+)||0
+);
 
 break;
 
 case"display_name":{
 
-const v=value("value_"+safe(c.id)).trim();
+const v=
+value("value_"+safe(c.id)).trim();
 
 if(v){
+
 out[c.id]={
 value:v
 };
+
 }
 
 break;
+
 }
 
 case"compostable":{
 
-let v=Number(
+let chance=
+Number(
 value("value_"+safe(c.id))
 );
 
-if(!Number.isFinite(v))v=.65;
+if(!Number.isFinite(chance)){
+chance=.65;
+}
 
-v=Math.max(
+chance=Math.max(
 0,
-Math.min(1,v)
+Math.min(1,chance)
 );
 
 out[c.id]={
-compost_chance:v
+compost_chance:chance
 };
 
 break;
+
 }
 
 case"cooldown":{
 
-const obj={
+out[c.id]={
 category:
-value("cooldown_category")||"hiro_item",
+value("cooldown_category")||
+"hiro_item",
 
 duration:Math.max(
 0,
-Number(value("cooldown_duration"))||0
+Number(
+value("cooldown_duration")
+)||0
 )
 };
 
-if(gte(format,"1.21.130")){
-obj.type=
-value("cooldown_type")||"use";
-}
-
-out[c.id]=obj;
-
 break;
+
 }
 
 case"digger":{
@@ -1575,29 +1702,34 @@ document.querySelectorAll(
 ".digger-row"
 ).forEach(row=>{
 
-const ids=csv(
-row.querySelector(".digger-block")?.value||""
+const blocks=
+csv(
+row.querySelector(
+".digger-block"
+)?.value||""
 );
 
 const seconds=Math.max(
 0.01,
 Number(
-row.querySelector(".digger-seconds")?.value
+row.querySelector(
+".digger-seconds"
+)?.value
 )||1
 );
 
-const speed=Math.max(
-1,
+const speed=
 Math.round(
 (1/seconds)*100
-)/100
-);
+)/100;
 
-ids.forEach(block=>{
+blocks.forEach(block=>{
+
 speeds.push({
 block,
 speed
 });
+
 });
 
 });
@@ -1609,54 +1741,62 @@ destroy_speeds:speeds
 };
 
 break;
+
 }
 
 case"durability":{
 
-let max=parseInt(
+let max=
+parseInt(
 value("durability_max"),
 10
 );
 
-let min=parseInt(
+let min=
+parseInt(
 value("durability_damage_min"),
 10
 );
 
-let chanceMax=parseInt(
+let maxChance=
+parseInt(
 value("durability_damage_max"),
 10
 );
 
 if(!Number.isFinite(max))max=100;
 if(!Number.isFinite(min))min=100;
-if(!Number.isFinite(chanceMax))chanceMax=100;
+if(!Number.isFinite(maxChance))maxChance=100;
 
 min=Math.max(
 0,
 Math.min(100,min)
 );
 
-chanceMax=Math.max(
+maxChance=Math.max(
 0,
-Math.min(100,chanceMax)
+Math.min(100,maxChance)
 );
 
-if(min>chanceMax){
-const t=min;
-min=chanceMax;
-chanceMax=t;
+if(min>maxChance){
+
+const temp=min;
+
+min=maxChance;
+maxChance=temp;
+
 }
 
 out[c.id]={
 max_durability:Math.max(0,max),
 damage_chance:{
 min,
-max:chanceMax
+max:maxChance
 }
 };
 
 break;
+
 }
 
 case"durability_sensor":{
@@ -1667,9 +1807,11 @@ document.querySelectorAll(
 "#sensorRows .required"
 ).forEach(row=>{
 
-const inputs=row.querySelectorAll("input");
+const inputs=
+row.querySelectorAll("input");
 
-const durability=parseInt(
+const durability=
+parseInt(
 inputs[0]?.value,
 10
 )||0;
@@ -1680,7 +1822,7 @@ inputs[1]?.value.trim();
 const sound=
 inputs[2]?.value.trim();
 
-const obj={
+const threshold={
 durability:Math.max(
 0,
 durability
@@ -1688,29 +1830,32 @@ durability
 };
 
 if(particle){
-obj.particle_type=particle;
+threshold.particle_type=particle;
 }
 
 if(sound){
-obj.sound_event=sound;
+threshold.sound_event=sound;
 }
 
-thresholds.push(obj);
+thresholds.push(threshold);
 
 });
 
 out[c.id]={
-durability_thresholds:thresholds
+durability_thresholds:
+thresholds
 };
 
 break;
+
 }
 
 case"dyeable":
 
 out[c.id]={
 default_color:
-value("dyeable_color")||"white"
+value("dyeable_color")||
+"white"
 };
 
 break;
@@ -1719,7 +1864,8 @@ case"enchantable":
 
 out[c.id]={
 slot:
-value("enchantable_slot")||"none",
+value("enchantable_slot")||
+"none",
 
 value:Math.max(
 0,
@@ -1734,30 +1880,37 @@ break;
 
 case"entity_placer":{
 
-const obj={
-entity:
-value("entity_placer_entity").trim()
-};
+const entity=
+value(
+"entity_placer_entity"
+).trim();
 
-const useOn=csv(
+const useOn=
+csv(
 value("entity_placer_useon")
 );
 
-const dispense=csv(
+const dispenseOn=
+csv(
 value("entity_placer_dispense")
 );
+
+const obj={
+entity
+};
 
 if(useOn.length){
 obj.use_on=useOn;
 }
 
-if(dispense.length){
-obj.dispense_on=dispense;
+if(dispenseOn.length){
+obj.dispense_on=dispenseOn;
 }
 
 out[c.id]=obj;
 
 break;
+
 }
 
 case"food":{
@@ -1786,12 +1939,14 @@ const convert=
 value("food_convert").trim();
 
 if(convert){
-food.using_converts_to=convert;
+food.using_converts_to=
+convert;
 }
 
 out[c.id]=food;
 
 break;
+
 }
 
 case"fuel":
@@ -1809,28 +1964,27 @@ break;
 
 case"color":{
 
-const v=
+const color=
 value("hover_text_color").trim();
 
-if(v){
-out[c.id]=v;
+if(color){
+out[c.id]=color;
 }
 
 break;
+
 }
 
 case"interact_button":{
 
-if(
-value("interact_mode")==="true"
-){
-out[c.id]=true;
-}else{
+const text=
+value("interact_text").trim();
+
 out[c.id]=
-value("interact_text")||"";
-}
+text||true;
 
 break;
+
 }
 
 case"projectile":{
@@ -1841,7 +1995,8 @@ const entity=
 value("projectile_entity").trim();
 
 if(entity){
-obj.projectile_entity=entity;
+obj.projectile_entity=
+entity;
 }
 
 const critical=
@@ -1853,19 +2008,23 @@ if(
 Number.isFinite(critical)&&
 critical>0
 ){
+
 obj.minimum_critical_power=
 critical;
+
 }
 
 out[c.id]=obj;
 
 break;
+
 }
 
 case"rarity":
 
 out[c.id]=
-value("rarity_value")||"common";
+value("rarity_value")||
+"common";
 
 break;
 
@@ -1889,7 +2048,10 @@ if(
 Number.isFinite(duration)&&
 duration>0
 ){
-obj.duration=duration;
+
+obj.duration=
+duration;
+
 }
 
 const signal=
@@ -1899,13 +2061,16 @@ value("record_signal"),
 );
 
 if(Number.isFinite(signal)){
+
 obj.comparator_signal=
 Math.max(0,signal);
+
 }
 
 out[c.id]=obj;
 
 break;
+
 }
 
 case"repairable":{
@@ -1933,6 +2098,7 @@ repair_amount:amount
 };
 
 break;
+
 }
 
 case"shooter":{
@@ -1974,7 +2140,10 @@ if(
 Number.isFinite(maxDraw)&&
 maxDraw>=0
 ){
-obj.max_draw_duration=maxDraw;
+
+obj.max_draw_duration=
+maxDraw;
+
 }
 
 obj.scale_power_by_draw_duration=
@@ -1990,6 +2159,7 @@ boolValue(
 out[c.id]=obj;
 
 break;
+
 }
 
 case"storage_item":{
@@ -2022,16 +2192,19 @@ value("storage_banned")
 );
 
 if(allowed.length){
-obj.allowed_items=allowed;
+obj.allowed_items=
+allowed;
 }
 
 if(banned.length){
-obj.banned_items=banned;
+obj.banned_items=
+banned;
 }
 
 out[c.id]=obj;
 
 break;
+
 }
 
 case"swing_duration":
@@ -2088,6 +2261,7 @@ obj.use=use;
 out[c.id]=obj;
 
 break;
+
 }
 
 case"tags":{
@@ -2102,6 +2276,7 @@ tags
 };
 
 break;
+
 }
 
 case"throwable":
@@ -2110,8 +2285,7 @@ out[c.id]={
 do_swing_animation:
 boolValue("throwable_swing"),
 
-launch_power_scale:
-Math.max(
+launch_power_scale:Math.max(
 0,
 Number(
 value("throwable_scale")
@@ -2139,14 +2313,11 @@ value("use_duration")
 )||0
 ),
 
-movement_modifier:Math.min(
-1,
-Math.max(
+movement_modifier:Math.max(
 0,
 Number(
 value("movement_modifier")
 )||0
-)
 ),
 
 emit_vibrations:
@@ -2155,17 +2326,10 @@ boolValue(
 )
 };
 
-if(
-gte(format,"1.26.30")
-){
-obj.start_using=
-value("use_start_using")||
-"always";
-}
-
 out[c.id]=obj;
 
 break;
+
 }
 
 case"wearable":{
@@ -2175,7 +2339,6 @@ value("wearable_slot");
 
 const obj={
 slot,
-
 protection:Math.max(
 0,
 parseInt(
@@ -2186,15 +2349,23 @@ value("wearable_protection"),
 };
 
 if(
-boolValue("wearable_dispensable")
+boolValue(
+"wearable_dispensable"
+)
 ){
+
 obj.dispensable=true;
+
 }
 
 if(
-boolValue("wearable_hides")
+boolValue(
+"wearable_hides"
+)
 ){
+
 obj.hides_player_location=true;
+
 }
 
 out[c.id]=obj;
@@ -2209,12 +2380,15 @@ out["minecraft:max_stack_size"]=1;
 }
 
 break;
+
 }
 
 case"block_placer":{
 
 const block=
-value("block_placer_block").trim();
+value(
+"block_placer_block"
+).trim();
 
 const obj={
 block
@@ -2222,15 +2396,23 @@ block
 
 if(
 gte(format,"1.26.10")&&
-boolValue("block_placer_aligned")
+boolValue(
+"block_placer_aligned"
+)
 ){
+
 obj.aligned_placement=true;
+
 }
 
 if(
-boolValue("block_placer_replace")
+boolValue(
+"block_placer_replace"
+)
 ){
+
 obj.replace_block_item=true;
+
 }
 
 const useOn=
@@ -2245,6 +2427,7 @@ obj.use_on=useOn;
 out[c.id]=obj;
 
 break;
+
 }
 
 }
