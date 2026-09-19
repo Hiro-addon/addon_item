@@ -4,73 +4,347 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Hiro Addon Tools</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#111;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.container{max-width:1000px;margin:auto;padding:24px 16px 50px}
-h1{margin:0;font-size:28px}
-.subtitle{margin:6px 0 28px;color:#888}
-.section{background:#1a1a1a;border:1px solid #292929;border-radius:14px;padding:18px;margin-bottom:16px}
-.section h2{margin:0 0 16px;font-size:18px}
-.field{margin-bottom:15px}
-.field:last-child{margin-bottom:0}
-label{display:block;margin-bottom:7px;color:#bbb;font-size:14px}
-input,select{width:100%;padding:12px 14px;border-radius:9px;border:1px solid #333;background:#111;color:#fff;outline:none;font-size:15px}
-input:focus,select:focus{border-color:#666}
-input::placeholder{color:#777;opacity:.55}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-.component-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.component{border:1px solid #333;border-radius:10px;background:#111;overflow:hidden}
-.component.active{border-color:#666}
-.component-head{display:flex;align-items:center;gap:10px;padding:12px}
-.component-head>input{width:18px;height:18px;padding:0;margin:0;flex:none}
-.component-name{font-size:14px;word-break:break-all}
-.component-version{margin-left:auto;font-size:11px;color:#777;white-space:nowrap}
-.component-body{display:none;padding:0 12px 12px}
-.component.active .component-body{display:block}
-.component-body input,.component-body select{margin-bottom:8px}
-.component-body label{margin-top:10px}
-.boolean-setting{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px;border-radius:8px;background:#181818;border:1px solid #292929}
-.boolean-setting input{width:18px;height:18px;margin:0;padding:0}
-.boolean-setting span{color:#fff;font-size:14px}
-.help{font-size:11px;color:#777;margin-top:3px}
-.required{background:#181818;border:1px solid #333;border-radius:10px;padding:13px;margin-bottom:10px}
-.required-title{font-size:14px;font-weight:bold;margin-bottom:10px}
-.required-name{font-size:12px;color:#aaa;margin-bottom:6px}
-.digger-title{font-size:13px;font-weight:bold;margin:14px 0 8px}
-.digger-row{display:grid;grid-template-columns:1fr 150px 42px;gap:8px;margin-bottom:8px;align-items:center}
-.digger-row input{margin:0}
-.digger-label{font-size:11px;color:#777;margin-bottom:5px}
-.remove-row{width:42px;height:42px;border:1px solid #444;border-radius:8px;background:#181818;color:#fff;cursor:pointer;font-size:18px}
-.add-row{width:100%;padding:10px;border:1px solid #444;border-radius:8px;background:#181818;color:#fff;cursor:pointer;font-size:13px}
-.generate{width:100%;padding:14px;border:0;border-radius:10px;background:#fff;color:#111;font-size:16px;font-weight:bold;cursor:pointer}
-.result{margin-top:16px}
-.result-box{background:#0d0d0d;border:1px solid #292929;border-radius:12px;overflow:hidden}
-.result-title{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #292929;font-weight:bold}
-.copy-btn{padding:7px 12px;border:1px solid #444;border-radius:7px;background:#1a1a1a;color:#fff;cursor:pointer;font-size:12px}
-pre{margin:0;padding:15px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;color:#ddd;font-size:13px;line-height:1.6}
+
+body{
+margin:0;
+background:#111;
+color:#fff;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 16px 50px
+}
+
+h1{
+margin:0;
+font-size:28px
+}
+
+.subtitle{
+margin:6px 0 28px;
+color:#888
+}
+
+.section{
+background:#1a1a1a;
+border:1px solid #292929;
+border-radius:14px;
+padding:18px;
+margin-bottom:16px
+}
+
+.section h2{
+margin:0 0 16px;
+font-size:18px
+}
+
+.field{
+margin-bottom:15px
+}
+
+.field:last-child{
+margin-bottom:0
+}
+
+label{
+display:block;
+margin-bottom:7px;
+color:#bbb;
+font-size:14px
+}
+
+input,select,textarea{
+width:100%;
+padding:12px 14px;
+border-radius:9px;
+border:1px solid #333;
+background:#111;
+color:#fff;
+outline:none;
+font-size:15px
+}
+
+textarea{
+min-height:90px;
+resize:vertical
+}
+
+input:focus,select:focus,textarea:focus{
+border-color:#666
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#777;
+opacity:.55
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px
+}
+
+.component-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
+}
+
+.component{
+border:1px solid #333;
+border-radius:10px;
+background:#111;
+overflow:hidden
+}
+
+.component.active{
+border-color:#666
+}
+
+.component-head{
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px
+}
+
+.component-head>input{
+width:18px;
+height:18px;
+padding:0;
+margin:0;
+flex:none
+}
+
+.component-name{
+font-size:14px;
+word-break:break-all
+}
+
+.component-version{
+margin-left:auto;
+font-size:11px;
+color:#777;
+white-space:nowrap
+}
+
+.component-body{
+display:none;
+padding:0 12px 12px
+}
+
+.component.active .component-body{
+display:block
+}
+
+.component-body input,
+.component-body select,
+.component-body textarea{
+margin-bottom:8px
+}
+
+.component-body label{
+margin-top:10px
+}
+
+.boolean-setting{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:12px;
+padding:10px;
+border-radius:8px;
+background:#181818;
+border:1px solid #292929
+}
+
+.boolean-setting input{
+width:18px;
+height:18px;
+margin:0;
+padding:0
+}
+
+.boolean-setting span{
+color:#fff;
+font-size:14px
+}
+
+.help{
+font-size:11px;
+color:#777;
+margin-top:3px;
+line-height:1.5
+}
+
+.required{
+background:#181818;
+border:1px solid #333;
+border-radius:10px;
+padding:13px;
+margin-bottom:10px
+}
+
+.required-title{
+font-size:14px;
+font-weight:bold;
+margin-bottom:10px
+}
+
+.required-name{
+font-size:12px;
+color:#aaa;
+margin-bottom:6px
+}
+
+.sub-title{
+font-size:13px;
+font-weight:bold;
+margin:14px 0 8px
+}
+
+.digger-row{
+display:grid;
+grid-template-columns:1fr 150px 42px;
+gap:8px;
+margin-bottom:8px;
+align-items:end
+}
+
+.digger-label{
+font-size:11px;
+color:#777;
+margin-bottom:5px
+}
+
+.digger-row input{
+margin:0
+}
+
+.remove-row{
+width:42px;
+height:42px;
+border:1px solid #444;
+border-radius:8px;
+background:#181818;
+color:#fff;
+cursor:pointer;
+font-size:18px
+}
+
+.add-row{
+width:100%;
+padding:10px;
+border:1px solid #444;
+border-radius:8px;
+background:#181818;
+color:#fff;
+cursor:pointer;
+font-size:13px
+}
+
+.generate{
+width:100%;
+padding:14px;
+border:0;
+border-radius:10px;
+background:#fff;
+color:#111;
+font-size:16px;
+font-weight:bold;
+cursor:pointer
+}
+
+.result{
+margin-top:16px
+}
+
+.result-box{
+background:#0d0d0d;
+border:1px solid #292929;
+border-radius:12px;
+overflow:hidden
+}
+
+.result-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 14px;
+border-bottom:1px solid #292929;
+font-weight:bold
+}
+
+.copy-btn{
+padding:7px 12px;
+border:1px solid #444;
+border-radius:7px;
+background:#1a1a1a;
+color:#fff;
+cursor:pointer;
+font-size:12px
+}
+
+pre{
+margin:0;
+padding:15px;
+overflow-x:auto;
+white-space:pre-wrap;
+word-break:break-word;
+color:#ddd;
+font-size:13px;
+line-height:1.6
+}
+
 @media(max-width:700px){
-.grid,.component-grid{grid-template-columns:1fr}
-h1{font-size:24px}
-.component-version{display:none}
-.digger-row{grid-template-columns:1fr 110px 42px}
+
+.grid,
+.component-grid{
+grid-template-columns:1fr
+}
+
+h1{
+font-size:24px
+}
+
+.component-version{
+display:none
+}
+
+.digger-row{
+grid-template-columns:1fr 110px 42px
+}
+
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
 <h1>Hiro Addon Tools</h1>
-<div class="subtitle">Minecraft Bedrock Addon Item JSON Generator</div>
+
+<div class="subtitle">
+Minecraft Bedrock Addon Item JSON Generator
+</div>
 
 <div class="section">
+
 <h2>基本設定</h2>
 
 <div class="grid">
 
 <div class="field">
 <label>フォーマットバージョン</label>
+
 <select id="formatVersion">
 <option value="1.20.0">1.20.0</option>
 <option value="1.20.10">1.20.10</option>
@@ -92,11 +366,15 @@ h1{font-size:24px}
 
 <div class="field">
 <label>アイテムID</label>
-<input id="identifier" type="text" placeholder="hiro:test_item">
+<input
+id="identifier"
+type="text"
+placeholder="hiro:test_item">
 </div>
 
 <div class="field">
 <label>クリエイティブカテゴリ</label>
+
 <select id="category">
 <option value="none">なし</option>
 <option value="items">アイテム</option>
@@ -104,49 +382,105 @@ h1{font-size:24px}
 <option value="nature">自然</option>
 <option value="construction">建築</option>
 </select>
+
 </div>
 
 <div class="field">
 <label>クリエイティブグループ</label>
-<input id="group" type="text" placeholder="空欄なら設定しない">
+<input
+id="group"
+type="text"
+placeholder="空欄なら設定しない">
 </div>
 
 </div>
 </div>
 
 <div class="section">
+
 <h2>基本コンポーネント</h2>
 
 <div class="required">
-<div class="required-title">minecraft:icon</div>
-<div class="required-name">テクスチャ名</div>
-<input id="iconTexture" type="text" placeholder="test_item">
-<div class="help">resource_pack/textures/item_texture.json の texture_data に登録した名前</div>
+
+<div class="required-title">
+minecraft:icon
+</div>
+
+<div class="required-name">
+テクスチャ名
+</div>
+
+<input
+id="iconTexture"
+type="text"
+placeholder="test_item">
+
+<div class="help">
+resource_pack/textures/item_texture.json の texture_data に登録した名前
+</div>
+
 </div>
 
 <div class="required">
-<div class="required-title">minecraft:max_stack_size</div>
-<div class="required-name">最大スタック数</div>
-<input id="maxStack" type="number" min="1" max="64" value="64">
+
+<div class="required-title">
+minecraft:max_stack_size
+</div>
+
+<div class="required-name">
+最大スタック数
+</div>
+
+<input
+id="maxStack"
+type="number"
+min="1"
+max="64"
+value="64">
+
 </div>
 
 </div>
 
 <div class="section">
+
 <h2>使うコンポーネント</h2>
-<div id="componentGrid" class="component-grid"></div>
+
+<div
+id="componentGrid"
+class="component-grid">
 </div>
 
-<button class="generate" id="generate">JSONを生成</button>
+</div>
+
+<button
+class="generate"
+id="generate">
+JSONを生成
+</button>
 
 <div class="result">
+
 <div class="result-box">
+
 <div class="result-title">
-<span>生成結果</span>
-<button class="copy-btn" id="copy">コピー</button>
+
+<span>
+生成結果
+</span>
+
+<button
+class="copy-btn"
+id="copy">
+コピー
+</button>
+
 </div>
+
 <pre id="result">{}</pre>
+
 </div>
+
 </div>
 
 </div>
@@ -154,111 +488,540 @@ h1{font-size:24px}
 <script>
 
 const components=[
-{id:"minecraft:allow_off_hand",name:"オフハンド使用",min:"1.20.0",type:"boolean",default:true,help:"オフハンドスロットに装備できるようにします。"},
-{id:"minecraft:block_placer",name:"ブロック設置",min:"1.20.0",type:"block",default:"minecraft:stone",help:"使用したときにブロックを設置できるようにします。"},
-{id:"minecraft:bundle_interaction",name:"バンドル操作",min:"1.21.40",type:"empty",default:{},help:"バンドルとの操作を設定します。"},
-{id:"minecraft:can_destroy_in_creative",name:"クリエイティブ破壊",min:"1.20.0",type:"boolean",default:true,help:"クリエイティブモードでブロックを破壊できるようにします。"},
-{id:"minecraft:compostable",name:"コンポスター",min:"1.20.0",type:"number",default:0.3,help:"コンポスターに入れたときの成功確率です。"},
-{id:"minecraft:cooldown",name:"クールダウン",min:"1.20.10",type:"cooldown",default:{category:"example",duration:1},help:"アイテム使用後のクールダウンを設定します。"},
-{id:"minecraft:damage",name:"追加ダメージ",min:"1.20.0",type:"number",default:1,help:"アイテムによる追加ダメージを設定します。"},
-{id:"minecraft:damage_absorption",name:"ダメージ吸収",min:"1.21.90",type:"empty",default:{},help:"ダメージ吸収を設定します。"},
-{id:"minecraft:digger",name:"採掘ツール",min:"1.20.30",type:"digger",default:{destroy_speeds:[],use_efficiency:false},help:"特定のブロックを速く破壊できるようにします。"},
-{id:"minecraft:display_name",name:"表示名",min:"1.20.0",type:"text",default:"アイテム名",help:"アイテムの名前を設定します。"},
-{id:"minecraft:durability",name:"耐久値",min:"1.20.0",type:"durability",default:{max_durability:100},help:"アイテムの最大耐久値を設定します。"},
-{id:"minecraft:durability_sensor",name:"耐久値センサー",min:"1.20.0",type:"json",default:{durability_thresholds:[]},help:"耐久値に応じた動作を設定します。"},
-{id:"minecraft:dyeable",name:"染色可能",min:"1.20.0",type:"color",default:{default_color:"#FFFFFF"},help:"アイテムを染色可能にします。"},
-{id:"minecraft:enchantable",name:"エンチャント可能",min:"1.20.30",type:"enchantable",default:{slot:"sword",value:10},help:"エンチャント可能な種類とレベルを設定します。"},
-{id:"minecraft:entity_placer",name:"エンティティ設置",min:"1.20.10",type:"entity",default:"minecraft:chicken",help:"使用時にエンティティを設置します。"},
-{id:"minecraft:fire_resistant",name:"火炎耐性",min:"1.20.0",type:"boolean",default:true,help:"アイテムが炎や溶岩で燃えなくなります。"},
-{id:"minecraft:food",name:"食べ物",min:"1.20.30",type:"food",default:{nutrition:1,saturation_modifier:0.6,can_always_eat:false},help:"アイテムを食べられるようにします。"},
-{id:"minecraft:fuel",name:"燃料",min:"1.20.0",type:"number",default:1,help:"かまどなどの燃料として使用できます。"},
-{id:"minecraft:glint",name:"エンチャント光沢",min:"1.20.0",type:"boolean",default:true,help:"エンチャントのような光沢を表示します。"},
-{id:"minecraft:hand_equipped",name:"手持ちツール表示",min:"1.20.0",type:"boolean",default:true,help:"手に持ったときにツールのように表示します。"},
-{id:"minecraft:hover_text_color",name:"ホバーテキスト色",min:"1.20.0",type:"text",default:"#FFFFFF",help:"アイテムのホバーテキスト色を設定します。"},
-{id:"minecraft:interact_button",name:"操作ボタン",min:"1.20.0",type:"boolean",default:true,help:"タッチ操作などで使用ボタンを表示します。"},
-{id:"minecraft:kinetic_weapon",name:"キネティック武器",min:"1.21.90",type:"empty",default:{},help:"キネティック系の攻撃動作を設定します。"},
-{id:"minecraft:liquid_clipped",name:"液体中使用",min:"1.20.0",type:"boolean",default:true,help:"液体に触れている状態で使用できます。"},
-{id:"minecraft:piercing_weapon",name:"貫通武器",min:"1.21.90",type:"empty",default:{},help:"貫通攻撃用の設定です。"},
-{id:"minecraft:projectile",name:"投射物",min:"1.20.10",type:"projectile",default:{projectile_entity:"minecraft:arrow",minimum_critical_power:0},help:"矢などの投射物として扱います。"},
-{id:"minecraft:rarity",name:"レアリティ",min:"1.21.90",type:"rarity",default:"common",help:"アイテムのレアリティを設定します。"},
-{id:"minecraft:record",name:"レコード",min:"1.20.10",type:"record",default:{comparator_signal:1,duration:100,sound_event:"13"},help:"レコードとして音楽を再生します。"},
-{id:"minecraft:repairable",name:"修理可能",min:"1.20.10",type:"repairable",default:{repair_items:[]},help:"アイテムを修理するためのアイテムを設定します。"},
-{id:"minecraft:shooter",name:"射撃",min:"1.20.10",type:"shooter",default:{ammunition:[],charge_on_draw:false,max_draw_duration:0,scale_power_by_draw_duration:false},help:"弓やクロスボウのような射撃アイテムを作ります。"},
-{id:"minecraft:should_despawn",name:"自然消滅",min:"1.20.0",type:"boolean",default:true,help:"地面に落ちたアイテムが時間経過で消滅するか設定します。"},
-{id:"minecraft:stacked_by_data",name:"データ別スタック",min:"1.20.0",type:"boolean",default:true,help:"異なるデータ値のアイテムを別々に扱います。"},
-{id:"minecraft:storage_item",name:"ストレージアイテム",min:"1.21.40",type:"storage",default:{max_slots:64},help:"アイテムに収納機能を持たせます。"},
-{id:"minecraft:storage_weight_limit",name:"収納重量制限",min:"1.21.110",type:"number",default:64,help:"ストレージ内の最大重量を設定します。"},
-{id:"minecraft:storage_weight_modifier",name:"収納重量倍率",min:"1.21.110",type:"number",default:4,help:"ストレージ内でのアイテム重量を設定します。"},
-{id:"minecraft:swing_duration",name:"振り動作時間",min:"1.21.120",type:"number",default:0.3,help:"使用時の振り動作時間を設定します。"},
-{id:"minecraft:swing_sounds",name:"振り音",min:"1.21.120",type:"json",default:{},help:"振り動作時の音を設定します。"},
-{id:"minecraft:tags",name:"アイテムタグ",min:"1.20.50",type:"tags",default:["minecraft:is_food"],help:"アイテムにタグを追加します。"},
-{id:"minecraft:throwable",name:"投げる",min:"1.20.10",type:"throwable",default:{do_swing_animation:false,launch_power_scale:1,max_draw_duration:0,max_launch_power:1,min_draw_duration:0,scale_power_by_draw_duration:false},help:"アイテムを投げられるようにします。"},
-{id:"minecraft:use_animation",name:"使用アニメーション",min:"1.20.0",type:"animation",default:"none",help:"アイテム使用時のアニメーションを設定します。"},
-{id:"minecraft:use_modifiers",name:"使用設定",min:"1.20.50",type:"use_modifiers",default:{use_duration:1.6,movement_modifier:0.35,emit_vibrations:true},help:"使用時間や使用中の移動速度を設定します。"},
-{id:"minecraft:wearable",name:"装備可能",min:"1.20.30",type:"wearable",default:{slot:"slot.armor.head",protection:0},help:"防具などとして装備できるようにします。"}
+
+{
+id:"minecraft:allow_off_hand",
+name:"オフハンド使用",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"オフハンドスロットに装備できるようにします。"
+},
+
+{
+id:"minecraft:block_placer",
+name:"ブロック設置",
+min:"1.20.0",
+type:"block",
+default:"",
+help:"使用したときにブロックを設置できるようにします。複数指定する場合は , で区切ります。"
+},
+
+{
+id:"minecraft:bundle_interaction",
+name:"バンドル操作",
+min:"1.21.40",
+type:"empty",
+default:false,
+help:"バンドルとの操作を有効にします。"
+},
+
+{
+id:"minecraft:can_destroy_in_creative",
+name:"クリエイティブ破壊",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"クリエイティブモードでブロックを破壊できるようにします。"
+},
+
+{
+id:"minecraft:compostable",
+name:"コンポスター",
+min:"1.20.0",
+type:"number",
+default:0.3,
+help:"コンポスターに入れたときの成功確率です。"
+},
+
+{
+id:"minecraft:cooldown",
+name:"クールダウン",
+min:"1.20.10",
+type:"cooldown",
+default:{
+category:"example",
+duration:1
+},
+help:"アイテム使用後のクールダウンを設定します。"
+},
+
+{
+id:"minecraft:damage",
+name:"追加ダメージ",
+min:"1.20.0",
+type:"number",
+default:1,
+help:"アイテムによる追加ダメージを設定します。"
+},
+
+{
+id:"minecraft:damage_absorption",
+name:"ダメージ吸収",
+min:"1.21.90",
+type:"empty",
+default:false,
+help:"ダメージ吸収を有効にします。"
+},
+
+{
+id:"minecraft:digger",
+name:"採掘ツール",
+min:"1.20.30",
+type:"digger",
+default:{
+destroy_speeds:[],
+use_efficiency:false
+},
+help:"特定のブロックを速く破壊できるようにします。"
+},
+
+{
+id:"minecraft:display_name",
+name:"表示名",
+min:"1.20.0",
+type:"text",
+default:"アイテム名",
+help:"アイテムの名前を設定します。"
+},
+
+{
+id:"minecraft:durability",
+name:"耐久値",
+min:"1.20.0",
+type:"durability",
+default:{
+max_durability:100
+},
+help:"アイテムの最大耐久値を設定します。"
+},
+
+{
+id:"minecraft:durability_sensor",
+name:"耐久値センサー",
+min:"1.20.0",
+type:"json",
+default:{
+durability_thresholds:[]
+},
+help:"耐久値に応じた動作を設定します。"
+},
+
+{
+id:"minecraft:dyeable",
+name:"染色可能",
+min:"1.20.0",
+type:"color",
+default:{
+default_color:"#FFFFFF"
+},
+help:"アイテムを染色可能にします。"
+},
+
+{
+id:"minecraft:enchantable",
+name:"エンチャント可能",
+min:"1.20.30",
+type:"enchantable",
+default:{
+slot:"sword",
+value:10
+},
+help:"エンチャント可能な種類とレベルを設定します。"
+},
+
+{
+id:"minecraft:entity_placer",
+name:"エンティティ設置",
+min:"1.20.10",
+type:"entity",
+default:"",
+help:"使用時にエンティティを設置します。"
+},
+
+{
+id:"minecraft:fire_resistant",
+name:"火炎耐性",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"アイテムが炎や溶岩で燃えなくなります。"
+},
+
+{
+id:"minecraft:food",
+name:"食べ物",
+min:"1.20.30",
+type:"food",
+default:{
+nutrition:1,
+saturation_modifier:0.6,
+can_always_eat:false
+},
+help:"アイテムを食べられるようにします。"
+},
+
+{
+id:"minecraft:fuel",
+name:"燃料",
+min:"1.20.0",
+type:"number",
+default:1,
+help:"かまどなどの燃料として使用できます。"
+},
+
+{
+id:"minecraft:glint",
+name:"エンチャント光沢",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"エンチャントのような光沢を表示します。"
+},
+
+{
+id:"minecraft:hand_equipped",
+name:"手持ちツール表示",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"手に持ったときにツールのように表示します。"
+},
+
+{
+id:"minecraft:hover_text_color",
+name:"ホバーテキスト色",
+min:"1.20.0",
+type:"text",
+default:"#FFFFFF",
+help:"アイテムのホバーテキスト色を設定します。"
+},
+
+{
+id:"minecraft:interact_button",
+name:"操作ボタン",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"タッチ操作などで使用ボタンを表示します。"
+},
+
+{
+id:"minecraft:kinetic_weapon",
+name:"キネティック武器",
+min:"1.21.90",
+type:"empty",
+default:false,
+help:"キネティック系の攻撃動作を有効にします。"
+},
+
+{
+id:"minecraft:liquid_clipped",
+name:"液体中使用",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"液体に触れている状態で使用できます。"
+},
+
+{
+id:"minecraft:piercing_weapon",
+name:"貫通武器",
+min:"1.21.90",
+type:"empty",
+default:false,
+help:"貫通攻撃を有効にします。"
+},
+
+{
+id:"minecraft:projectile",
+name:"投射物",
+min:"1.20.10",
+type:"projectile",
+default:{
+projectile_entity:"minecraft:arrow",
+minimum_critical_power:0
+},
+help:"矢などの投射物として扱います。"
+},
+
+{
+id:"minecraft:rarity",
+name:"レアリティ",
+min:"1.21.90",
+type:"rarity",
+default:"common",
+help:"アイテムのレアリティを設定します。"
+},
+
+{
+id:"minecraft:record",
+name:"レコード",
+min:"1.20.10",
+type:"record",
+default:{
+comparator_signal:1,
+duration:100,
+sound_event:"13"
+},
+help:"レコードとして音楽を再生します。"
+},
+
+{
+id:"minecraft:repairable",
+name:"修理可能",
+min:"1.20.10",
+type:"repairable",
+default:{
+repair_items:[]
+},
+help:"アイテムを修理するためのアイテムを設定します。"
+},
+
+{
+id:"minecraft:shooter",
+name:"射撃",
+min:"1.20.10",
+type:"shooter",
+default:{
+ammunition:[],
+charge_on_draw:false,
+max_draw_duration:0,
+scale_power_by_draw_duration:false
+},
+help:"弓やクロスボウのような射撃アイテムを作ります。"
+},
+
+{
+id:"minecraft:should_despawn",
+name:"自然消滅",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"地面に落ちたアイテムが時間経過で消滅するか設定します。"
+},
+
+{
+id:"minecraft:stacked_by_data",
+name:"データ別スタック",
+min:"1.20.0",
+type:"boolean",
+default:true,
+help:"異なるデータ値のアイテムを別々に扱います。"
+},
+
+{
+id:"minecraft:storage_item",
+name:"ストレージアイテム",
+min:"1.21.40",
+type:"storage",
+default:{
+max_slots:64
+},
+help:"アイテムに収納機能を持たせます。"
+},
+
+{
+id:"minecraft:storage_weight_limit",
+name:"収納重量制限",
+min:"1.21.110",
+type:"number",
+default:64,
+help:"ストレージ内の最大重量を設定します。"
+},
+
+{
+id:"minecraft:storage_weight_modifier",
+name:"収納重量倍率",
+min:"1.21.110",
+type:"number",
+default:4,
+help:"ストレージ内でのアイテム重量を設定します。"
+},
+
+{
+id:"minecraft:swing_duration",
+name:"振り動作時間",
+min:"1.21.120",
+type:"number",
+default:0.3,
+help:"使用時の振り動作時間を設定します。"
+},
+
+{
+id:"minecraft:swing_sounds",
+name:"振り音",
+min:"1.21.120",
+type:"json",
+default:{},
+help:"振り動作時の音を設定します。"
+},
+
+{
+id:"minecraft:tags",
+name:"アイテムタグ",
+min:"1.20.50",
+type:"tags",
+default:[],
+help:"アイテムにタグを追加します。"
+},
+
+{
+id:"minecraft:throwable",
+name:"投げる",
+min:"1.20.10",
+type:"throwable",
+default:{
+do_swing_animation:false,
+launch_power_scale:1,
+max_draw_duration:0,
+max_launch_power:1,
+min_draw_duration:0,
+scale_power_by_draw_duration:false
+},
+help:"アイテムを投げられるようにします。"
+},
+
+{
+id:"minecraft:use_animation",
+name:"使用アニメーション",
+min:"1.20.0",
+type:"animation",
+default:"none",
+help:"アイテム使用時のアニメーションを設定します。"
+},
+
+{
+id:"minecraft:use_modifiers",
+name:"使用設定",
+min:"1.20.50",
+type:"use_modifiers",
+default:{
+use_duration:1.6,
+movement_modifier:0.35,
+emit_vibrations:false
+},
+help:"使用時間や使用中の移動速度を設定します。"
+},
+
+{
+id:"minecraft:wearable",
+name:"装備可能",
+min:"1.20.30",
+type:"wearable",
+default:{
+slot:"slot.armor.head",
+protection:0
+},
+help:"防具などとして装備できるようにします。"
+}
+
 ];
 
 function versionNumber(v){
-return v.split(".").map(Number);
+
+return v
+.split(".")
+.map(Number);
+
 }
 
 function versionAtLeast(current,min){
+
 const a=versionNumber(current);
 const b=versionNumber(min);
+
 for(let i=0;i<3;i++){
-if((a[i]||0)>(b[i]||0))return true;
-if((a[i]||0)<(b[i]||0))return false;
-}
+
+if((a[i]||0)>(b[i]||0))
 return true;
+
+if((a[i]||0)<(b[i]||0))
+return false;
+
 }
 
-function addInput(parent,label,value,type="text",placeholder=""){
+return true;
+
+}
+
+function addInput(
+parent,
+label,
+value,
+type="text",
+placeholder=""
+){
+
 const wrap=document.createElement("div");
 wrap.className="field";
 
 const l=document.createElement("label");
 l.textContent=label;
-wrap.appendChild(l);
 
 const input=document.createElement("input");
+
 input.type=type;
 input.value=value??"";
 input.placeholder=placeholder;
+
+wrap.appendChild(l);
 wrap.appendChild(input);
 
 parent.appendChild(wrap);
+
 return input;
+
 }
 
-function addSelect(parent,label,options,value){
+function addSelect(
+parent,
+label,
+options,
+value
+){
+
 const wrap=document.createElement("div");
 wrap.className="field";
 
 const l=document.createElement("label");
 l.textContent=label;
-wrap.appendChild(l);
 
 const select=document.createElement("select");
 
 options.forEach(option=>{
+
 const o=document.createElement("option");
+
 o.value=option[0];
 o.textContent=option[1];
+
 select.appendChild(o);
+
 });
 
 select.value=value;
+
+wrap.appendChild(l);
 wrap.appendChild(select);
+
 parent.appendChild(wrap);
 
 return select;
+
 }
 
-function addCheckbox(parent,label,checked=true){
+function addCheckbox(
+parent,
+label,
+checked=false
+){
+
 const wrap=document.createElement("div");
 wrap.className="boolean-setting";
 
 const input=document.createElement("input");
+
 input.type="checkbox";
 input.checked=checked;
 
@@ -267,12 +1030,18 @@ span.textContent=label;
 
 wrap.appendChild(input);
 wrap.appendChild(span);
+
 parent.appendChild(wrap);
 
 return input;
+
 }
 
-function createDiggerRow(container,blockValue="",secondsValue=1){
+function createDiggerRow(
+container,
+blockValue="",
+secondsValue=1
+){
 
 const row=document.createElement("div");
 row.className="digger-row";
@@ -284,9 +1053,11 @@ blockLabel.className="digger-label";
 blockLabel.textContent="対象ブロックID";
 
 const block=document.createElement("input");
+
 block.type="text";
-block.placeholder="minecraft:stone";
+block.placeholder="minecraft:stone,minecraft:dirt";
 block.value=blockValue;
+
 block.dataset.diggerField="block";
 
 blockWrap.appendChild(blockLabel);
@@ -299,16 +1070,19 @@ timeLabel.className="digger-label";
 timeLabel.textContent="破壊時間（秒）";
 
 const seconds=document.createElement("input");
+
 seconds.type="number";
 seconds.min="0.01";
 seconds.step="0.01";
 seconds.value=secondsValue;
+
 seconds.dataset.diggerField="seconds";
 
 timeWrap.appendChild(timeLabel);
 timeWrap.appendChild(seconds);
 
 const remove=document.createElement("button");
+
 remove.type="button";
 remove.className="remove-row";
 remove.textContent="×";
@@ -322,47 +1096,106 @@ row.appendChild(timeWrap);
 row.appendChild(remove);
 
 container.appendChild(row);
+
 }
 
 function createFields(c,parent){
 
 if(c.type==="boolean"){
-const input=addCheckbox(parent,"有効にする",true);
+
+const input=addCheckbox(
+parent,
+"有効にする",
+c.default
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="empty"){
-const input=addCheckbox(parent,"有効にする",true);
+
+const input=addCheckbox(
+parent,
+"有効にする",
+false
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="block"){
-const input=addInput(parent,"ブロックID",c.default,"text","minecraft:stone");
+
+const input=addInput(
+parent,
+"ブロックID",
+c.default,
+"text",
+"minecraft:stone,minecraft:dirt"
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="number"){
-const input=addInput(parent,"値",c.default,"number");
+
+const input=addInput(
+parent,
+"値",
+c.default,
+"number"
+);
+
 input.dataset.field="value";
 input.step="any";
+
 }
 
 if(c.type==="text"){
-const input=addInput(parent,"値",c.default,"text");
+
+const input=addInput(
+parent,
+"値",
+c.default,
+"text"
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="color"){
-const input=addInput(parent,"デフォルト色",c.default.default_color,"text","#FFFFFF");
+
+const input=addInput(
+parent,
+"デフォルト色",
+c.default.default_color,
+"text",
+"#FFFFFF"
+);
+
 input.dataset.field="default_color";
+
 }
 
 if(c.type==="entity"){
-const input=addInput(parent,"エンティティID",c.default,"text","minecraft:chicken");
+
+const input=addInput(
+parent,
+"エンティティID",
+c.default,
+"text",
+"minecraft:chicken"
+);
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="animation"){
+
 const input=addSelect(
 parent,
 "アニメーション",
@@ -377,26 +1210,52 @@ parent,
 ],
 c.default
 );
+
 input.dataset.field="value";
+
 }
 
 if(c.type==="cooldown"){
-const category=addInput(parent,"カテゴリ",c.default.category,"text","example");
+
+const category=addInput(
+parent,
+"カテゴリ",
+c.default.category,
+"text",
+"example"
+);
+
 category.dataset.field="category";
 
-const duration=addInput(parent,"時間（秒）",c.default.duration,"number");
+const duration=addInput(
+parent,
+"時間（秒）",
+c.default.duration,
+"number"
+);
+
 duration.step="any";
 duration.dataset.field="duration";
+
 }
 
 if(c.type==="durability"){
-const max=addInput(parent,"最大耐久値",c.default.max_durability,"number");
+
+const max=addInput(
+parent,
+"最大耐久値",
+c.default.max_durability,
+"number"
+);
+
 max.dataset.field="max_durability";
 max.min="1";
 max.step="1";
+
 }
 
 if(c.type==="enchantable"){
+
 const slot=addSelect(
 parent,
 "エンチャントスロット",
@@ -418,44 +1277,84 @@ parent,
 ],
 c.default.slot
 );
+
 slot.dataset.field="slot";
 
-const value=addInput(parent,"エンチャント値",c.default.value,"number");
+const value=addInput(
+parent,
+"エンチャント値",
+c.default.value,
+"number"
+);
+
 value.dataset.field="value";
 value.min="0";
+
 }
 
 if(c.type==="food"){
 
-const nutrition=addInput(parent,"栄養値",c.default.nutrition,"number");
+const nutrition=addInput(
+parent,
+"栄養値",
+c.default.nutrition,
+"number"
+);
+
 nutrition.dataset.field="nutrition";
 nutrition.min="0";
 
-const saturation=addInput(parent,"満腹度倍率",c.default.saturation_modifier,"number");
+const saturation=addInput(
+parent,
+"満腹度倍率",
+c.default.saturation_modifier,
+"number"
+);
+
 saturation.dataset.field="saturation_modifier";
 saturation.step="any";
 
-const always=addCheckbox(parent,"いつでも食べられる",c.default.can_always_eat);
+const always=addCheckbox(
+parent,
+"いつでも食べられる",
+c.default.can_always_eat
+);
+
 always.dataset.field="can_always_eat";
+
 }
 
 if(c.type==="digger"){
 
-const efficiency=addCheckbox(parent,"効率強化を使用",c.default.use_efficiency);
+const efficiency=addCheckbox(
+parent,
+"効率強化を使用",
+c.default.use_efficiency
+);
+
 efficiency.dataset.field="use_efficiency";
 
 const title=document.createElement("div");
-title.className="digger-title";
+
+title.className="sub-title";
 title.textContent="破壊設定";
+
 parent.appendChild(title);
 
 const rows=document.createElement("div");
+
 rows.className="digger-rows";
+
 parent.appendChild(rows);
 
-createDiggerRow(rows,"minecraft:stone",1);
+createDiggerRow(
+rows,
+"minecraft:stone",
+1
+);
 
 const add=document.createElement("button");
+
 add.type="button";
 add.className="add-row";
 add.textContent="＋ ブロックを追加";
@@ -465,6 +1364,7 @@ createDiggerRow(rows,"",1);
 };
 
 parent.appendChild(add);
+
 }
 
 if(c.type==="projectile"){
@@ -476,6 +1376,7 @@ c.default.projectile_entity,
 "text",
 "minecraft:arrow"
 );
+
 entity.dataset.field="projectile_entity";
 
 const power=addInput(
@@ -484,8 +1385,10 @@ parent,
 c.default.minimum_critical_power,
 "number"
 );
+
 power.dataset.field="minimum_critical_power";
 power.step="any";
+
 }
 
 if(c.type==="rarity"){
@@ -503,6 +1406,7 @@ c.default
 );
 
 rarity.dataset.field="value";
+
 }
 
 if(c.type==="record"){
@@ -513,6 +1417,7 @@ parent,
 c.default.comparator_signal,
 "number"
 );
+
 signal.dataset.field="comparator_signal";
 
 const duration=addInput(
@@ -521,6 +1426,7 @@ parent,
 c.default.duration,
 "number"
 );
+
 duration.dataset.field="duration";
 duration.step="any";
 
@@ -531,7 +1437,9 @@ c.default.sound_event,
 "text",
 "13"
 );
+
 sound.dataset.field="sound_event";
+
 }
 
 if(c.type==="storage"){
@@ -542,9 +1450,11 @@ parent,
 c.default.max_slots,
 "number"
 );
+
 slots.dataset.field="max_slots";
 slots.min="1";
 slots.step="1";
+
 }
 
 if(c.type==="tags"){
@@ -558,6 +1468,7 @@ c.default.join(","),
 );
 
 input.dataset.field="value";
+
 }
 
 if(c.type==="throwable"){
@@ -567,6 +1478,7 @@ parent,
 "振りアニメーション",
 c.default.do_swing_animation
 );
+
 swing.dataset.field="do_swing_animation";
 
 const launch=addInput(
@@ -575,6 +1487,7 @@ parent,
 c.default.launch_power_scale,
 "number"
 );
+
 launch.dataset.field="launch_power_scale";
 launch.step="any";
 
@@ -584,6 +1497,7 @@ parent,
 c.default.max_draw_duration,
 "number"
 );
+
 maxDraw.dataset.field="max_draw_duration";
 maxDraw.step="any";
 
@@ -593,6 +1507,7 @@ parent,
 c.default.max_launch_power,
 "number"
 );
+
 maxPower.dataset.field="max_launch_power";
 maxPower.step="any";
 
@@ -602,6 +1517,7 @@ parent,
 c.default.min_draw_duration,
 "number"
 );
+
 minDraw.dataset.field="min_draw_duration";
 minDraw.step="any";
 
@@ -610,7 +1526,9 @@ parent,
 "チャージ時間で威力を変える",
 c.default.scale_power_by_draw_duration
 );
+
 scale.dataset.field="scale_power_by_draw_duration";
+
 }
 
 if(c.type==="use_modifiers"){
@@ -621,6 +1539,7 @@ parent,
 c.default.use_duration,
 "number"
 );
+
 duration.dataset.field="use_duration";
 duration.step="any";
 
@@ -630,15 +1549,18 @@ parent,
 c.default.movement_modifier,
 "number"
 );
+
 movement.dataset.field="movement_modifier";
 movement.step="any";
 
 const vibrations=addCheckbox(
 parent,
-"振動を発生させる",
+"振動を有効にする",
 c.default.emit_vibrations
 );
+
 vibrations.dataset.field="emit_vibrations";
+
 }
 
 if(c.type==="wearable"){
@@ -665,8 +1587,64 @@ parent,
 c.default.protection,
 "number"
 );
+
 protection.dataset.field="protection";
 protection.min="0";
+
+}
+
+if(c.type==="repairable"){
+
+const input=addInput(
+parent,
+"修理アイテムID（カンマ区切り）",
+"",
+"text",
+"minecraft:iron_ingot,minecraft:diamond"
+);
+
+input.dataset.field="repair_items";
+
+}
+
+if(c.type==="shooter"){
+
+const input=addInput(
+parent,
+"弾薬アイテムID（カンマ区切り）",
+"",
+"text",
+"minecraft:arrow,minecraft:spectral_arrow"
+);
+
+input.dataset.field="ammunition";
+
+const charge=addCheckbox(
+parent,
+"引いている間にチャージ",
+c.default.charge_on_draw
+);
+
+charge.dataset.field="charge_on_draw";
+
+const duration=addInput(
+parent,
+"最大引き時間",
+c.default.max_draw_duration,
+"number"
+);
+
+duration.dataset.field="max_draw_duration";
+duration.step="any";
+
+const scale=addCheckbox(
+parent,
+"引き時間で威力を変える",
+c.default.scale_power_by_draw_duration
+);
+
+scale.dataset.field="scale_power_by_draw_duration";
+
 }
 
 if(c.type==="json"){
@@ -680,63 +1658,20 @@ JSON.stringify(c.default),
 );
 
 input.dataset.field="json";
-}
 
-if(c.type==="repairable"){
-
-const input=addInput(
-parent,
-"修理アイテムID（カンマ区切り）",
-"",
-"text",
-"minecraft:iron_ingot"
-);
-
-input.dataset.field="repair_items";
-}
-
-if(c.type==="shooter"){
-
-const input=addInput(
-parent,
-"弾薬アイテムID（カンマ区切り）",
-"",
-"text",
-"minecraft:arrow"
-);
-
-input.dataset.field="ammunition";
-
-const charge=addCheckbox(
-parent,
-"引いている間にチャージ",
-c.default.charge_on_draw
-);
-charge.dataset.field="charge_on_draw";
-
-const duration=addInput(
-parent,
-"最大引き時間",
-c.default.max_draw_duration,
-"number"
-);
-duration.dataset.field="max_draw_duration";
-duration.step="any";
-
-const scale=addCheckbox(
-parent,
-"引き時間で威力を変える",
-c.default.scale_power_by_draw_duration
-);
-scale.dataset.field="scale_power_by_draw_duration";
 }
 
 }
 
 function renderComponents(){
 
-const version=document.getElementById("formatVersion").value;
-const grid=document.getElementById("componentGrid");
+const version=document.getElementById(
+"formatVersion"
+).value;
+
+const grid=document.getElementById(
+"componentGrid"
+);
 
 grid.innerHTML="";
 
@@ -745,20 +1680,25 @@ components
 .forEach(c=>{
 
 const box=document.createElement("div");
+
 box.className="component";
 box.dataset.componentId=c.id;
 
 const head=document.createElement("div");
+
 head.className="component-head";
 
 const check=document.createElement("input");
+
 check.type="checkbox";
 
 const name=document.createElement("div");
+
 name.className="component-name";
 name.textContent=c.name;
 
 const versionText=document.createElement("div");
+
 versionText.className="component-version";
 versionText.textContent=c.min+"+";
 
@@ -767,11 +1707,14 @@ head.appendChild(name);
 head.appendChild(versionText);
 
 const body=document.createElement("div");
+
 body.className="component-body";
 
 const help=document.createElement("div");
+
 help.className="help";
 help.textContent=c.help;
+
 body.appendChild(help);
 
 createFields(c,body);
@@ -779,9 +1722,15 @@ createFields(c,body);
 box.appendChild(head);
 box.appendChild(body);
 
-check.addEventListener("change",()=>{
-box.classList.toggle("active",check.checked);
-});
+check.addEventListener(
+"change",
+()=>{
+box.classList.toggle(
+"active",
+check.checked
+);
+}
+);
 
 grid.appendChild(box);
 
@@ -791,99 +1740,143 @@ grid.appendChild(box);
 
 function collectComponent(c,box){
 
-const fields=box.querySelectorAll("[data-field]");
+const fields=box.querySelectorAll(
+"[data-field]"
+);
 
 if(c.type==="boolean"){
+
 return fields[0].checked;
+
 }
 
 if(c.type==="empty"){
+
 return fields[0].checked;
+
 }
 
 if(c.type==="block"){
+
+const blocks=fields[0].value
+.split(",")
+.map(v=>v.trim())
+.filter(Boolean);
+
 return{
-block:fields[0].value
+block:blocks
 };
+
 }
 
 if(c.type==="number"){
+
 return Number(fields[0].value);
+
 }
 
 if(c.type==="text"){
+
 return fields[0].value;
+
 }
 
 if(c.type==="color"){
+
 return{
 default_color:fields[0].value
 };
+
 }
 
 if(c.type==="entity"){
+
 return{
 entity_id:fields[0].value
 };
+
 }
 
 if(c.type==="animation"){
+
 return fields[0].value;
+
 }
 
 if(c.type==="cooldown"){
+
 return{
 category:fields[0].value,
 duration:Number(fields[1].value)
 };
+
 }
 
 if(c.type==="durability"){
+
 return{
 max_durability:Number(fields[0].value)
 };
+
 }
 
 if(c.type==="enchantable"){
+
 return{
 slot:fields[0].value,
 value:Number(fields[1].value)
 };
+
 }
 
 if(c.type==="food"){
+
 return{
 nutrition:Number(fields[0].value),
 saturation_modifier:Number(fields[1].value),
 can_always_eat:fields[2].checked
 };
+
 }
 
 if(c.type==="digger"){
 
-const rows=box.querySelectorAll(".digger-row");
+const rows=box.querySelectorAll(
+".digger-row"
+);
+
 const destroy_speeds=[];
 
 rows.forEach(row=>{
 
-const block=row.querySelector('[data-digger-field="block"]').value.trim();
+const blocks=row
+.querySelector(
+'[data-digger-field="block"]'
+)
+.value
+.split(",")
+.map(v=>v.trim())
+.filter(Boolean);
+
 const seconds=Number(
-row.querySelector('[data-digger-field="seconds"]').value
+row.querySelector(
+'[data-digger-field="seconds"]'
+).value
 );
 
-if(!block||!Number.isFinite(seconds)||seconds<=0){
+if(
+blocks.length===0||
+!Number.isFinite(seconds)||
+seconds<=0
+){
 return;
 }
 
-/*
-破壊時間からマイクラの破壊速度へ変換
+const speed=Math.round(
+(1/seconds)*100
+)/100;
 
-speed = 1 / 秒数
-
-小数第2位までに丸める
-*/
-
-const speed=Math.round((1/seconds)*100)/100;
+blocks.forEach(block=>{
 
 destroy_speeds.push({
 block:block,
@@ -892,46 +1885,61 @@ speed:speed
 
 });
 
+});
+
 return{
 destroy_speeds:destroy_speeds,
-use_efficiency:box.querySelector('[data-field="use_efficiency"]').checked
+use_efficiency:box.querySelector(
+'[data-field="use_efficiency"]'
+).checked
 };
 
 }
 
 if(c.type==="projectile"){
+
 return{
 projectile_entity:fields[0].value,
 minimum_critical_power:Number(fields[1].value)
 };
+
 }
 
 if(c.type==="rarity"){
+
 return fields[0].value;
+
 }
 
 if(c.type==="record"){
+
 return{
 comparator_signal:Number(fields[0].value),
 duration:Number(fields[1].value),
 sound_event:fields[2].value
 };
+
 }
 
 if(c.type==="storage"){
+
 return{
 max_slots:Number(fields[0].value)
 };
+
 }
 
 if(c.type==="tags"){
+
 return fields[0].value
 .split(",")
 .map(v=>v.trim())
 .filter(Boolean);
+
 }
 
 if(c.type==="throwable"){
+
 return{
 do_swing_animation:fields[0].checked,
 launch_power_scale:Number(fields[1].value),
@@ -940,21 +1948,26 @@ max_launch_power:Number(fields[3].value),
 min_draw_duration:Number(fields[4].value),
 scale_power_by_draw_duration:fields[5].checked
 };
+
 }
 
 if(c.type==="use_modifiers"){
+
 return{
 use_duration:Number(fields[0].value),
 movement_modifier:Number(fields[1].value),
 emit_vibrations:fields[2].checked
 };
+
 }
 
 if(c.type==="wearable"){
+
 return{
 slot:fields[0].value,
 protection:Number(fields[1].value)
 };
+
 }
 
 if(c.type==="repairable"){
@@ -967,6 +1980,7 @@ const items=fields[0].value
 return{
 repair_items:items
 };
+
 }
 
 if(c.type==="shooter"){
@@ -982,14 +1996,21 @@ charge_on_draw:fields[1].checked,
 max_draw_duration:Number(fields[2].value),
 scale_power_by_draw_duration:fields[3].checked
 };
+
 }
 
 if(c.type==="json"){
 
 try{
-return JSON.parse(fields[0].value);
+
+return JSON.parse(
+fields[0].value
+);
+
 }catch{
+
 return{};
+
 }
 
 }
@@ -1000,37 +2021,80 @@ return{};
 
 function generate(){
 
-const identifier=document.getElementById("identifier").value.trim()||"hiro:test_item";
+const identifier=
+document
+.getElementById("identifier")
+.value
+.trim()||
+"hiro:test_item";
 
-const format_version=document.getElementById("formatVersion").value;
+const format_version=
+document
+.getElementById("formatVersion")
+.value;
 
-const icon=document.getElementById("iconTexture").value.trim()||"test_item";
+const icon=
+document
+.getElementById("iconTexture")
+.value
+.trim()||
+"test_item";
 
-let maxStack=Number(document.getElementById("maxStack").value);
+let maxStack=Number(
+document
+.getElementById("maxStack")
+.value
+);
 
-if(!Number.isFinite(maxStack))maxStack=64;
+if(!Number.isFinite(maxStack))
+maxStack=64;
 
-maxStack=Math.max(1,Math.min(64,Math.floor(maxStack)));
+maxStack=Math.max(
+1,
+Math.min(
+64,
+Math.floor(maxStack)
+)
+);
 
-const category=document.getElementById("category").value;
+const category=
+document
+.getElementById("category")
+.value;
 
-const group=document.getElementById("group").value.trim();
+const group=
+document
+.getElementById("group")
+.value
+.trim();
 
 const componentsOutput={
+
 "minecraft:icon":{
-"texture":icon
+texture:icon
 },
-"minecraft:max_stack_size":maxStack
+
+"minecraft:max_stack_size":
+maxStack
+
 };
 
 if(category!=="none"){
-componentsOutput["minecraft:creative_category"]={
-"category":category
+
+componentsOutput[
+"minecraft:creative_category"
+]={
+category:category
 };
+
 }
 
 if(group){
-componentsOutput["minecraft:creative_group"]=group;
+
+componentsOutput[
+"minecraft:creative_group"
+]=group;
+
 }
 
 document
@@ -1038,60 +2102,100 @@ document
 .forEach(box=>{
 
 const c=components.find(
-component=>component.id===box.dataset.componentId
+component=>
+component.id===
+box.dataset.componentId
 );
 
-if(!c)return;
+if(!c)
+return;
 
-componentsOutput[c.id]=collectComponent(c,box);
+componentsOutput[c.id]=
+collectComponent(c,box);
 
 });
 
 const output={
-format_version:format_version,
+
+format_version:
+
+format_version,
+
 "minecraft:item":{
+
 description:{
 identifier:identifier
 },
-components:componentsOutput
+
+components:
+componentsOutput
+
 }
+
 };
 
-document.getElementById("result").textContent=
-JSON.stringify(output,null,2);
+document
+.getElementById("result")
+.textContent=
+JSON.stringify(
+output,
+null,
+2
+);
 
 }
 
 document
 .getElementById("formatVersion")
-.addEventListener("change",renderComponents);
+.addEventListener(
+"change",
+renderComponents
+);
 
 document
 .getElementById("generate")
-.addEventListener("click",generate);
+.addEventListener(
+"click",
+generate
+);
 
 document
 .getElementById("copy")
-.addEventListener("click",async()=>{
+.addEventListener(
+"click",
+async()=>{
 
-const text=document.getElementById("result").textContent;
+const text=
+document
+.getElementById("result")
+.textContent;
 
 try{
 
-await navigator.clipboard.writeText(text);
+await navigator
+.clipboard
+.writeText(text);
 
-const button=document.getElementById("copy");
-const old=button.textContent;
+const button=
+document.getElementById("copy");
 
-button.textContent="コピーしました";
+const old=
+button.textContent;
 
-setTimeout(()=>{
+button.textContent=
+"コピーしました";
+
+setTimeout(
+()=>{
 button.textContent=old;
-},1200);
+},
+1200
+);
 
 }catch{}
 
-});
+}
+);
 
 renderComponents();
 generate();
