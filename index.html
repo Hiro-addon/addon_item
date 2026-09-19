@@ -368,10 +368,7 @@ Minecraft Bedrock Addon Item JSON Generator
 
 <div class="field">
 <label>アイテムID</label>
-<input
-id="identifier"
-type="text"
-placeholder="hiro:test_item">
+<input id="identifier" type="text" placeholder="hiro:test_item">
 </div>
 
 <div class="field">
@@ -389,10 +386,7 @@ placeholder="hiro:test_item">
 
 <div class="field">
 <label>クリエイティブグループ</label>
-<input
-id="group"
-type="text"
-placeholder="空欄なら設定しない">
+<input id="group" type="text" placeholder="空欄なら設定しない">
 </div>
 
 </div>
@@ -412,10 +406,7 @@ minecraft:icon
 テクスチャ名
 </div>
 
-<input
-id="iconTexture"
-type="text"
-placeholder="test_item">
+<input id="iconTexture" type="text" placeholder="test_item">
 
 <div class="help">
 resource_pack/textures/item_texture.json の texture_data に登録した名前
@@ -433,12 +424,7 @@ minecraft:max_stack_size
 最大スタック数
 </div>
 
-<input
-id="maxStack"
-type="number"
-min="1"
-max="64"
-value="64">
+<input id="maxStack" type="number" min="1" max="64" value="64">
 
 </div>
 
@@ -448,16 +434,11 @@ value="64">
 
 <h2>使うコンポーネント</h2>
 
-<div
-id="componentGrid"
-class="component-grid">
-</div>
+<div id="componentGrid" class="component-grid"></div>
 
 </div>
 
-<button
-class="generate"
-id="generate">
+<button class="generate" id="generate">
 JSONを生成
 </button>
 
@@ -471,9 +452,7 @@ JSONを生成
 生成結果
 </span>
 
-<button
-class="copy-btn"
-id="copy">
+<button class="copy-btn" id="copy">
 コピー
 </button>
 
@@ -514,7 +493,7 @@ id:"minecraft:bundle_interaction",
 name:"バンドル操作",
 min:"1.21.40",
 type:"empty",
-default:false,
+default:true,
 help:"バンドルとの操作を有効にします。"
 },
 
@@ -562,7 +541,7 @@ id:"minecraft:damage_absorption",
 name:"ダメージ吸収",
 min:"1.21.90",
 type:"empty",
-default:false,
+default:true,
 help:"ダメージ吸収を有効にします。"
 },
 
@@ -713,7 +692,7 @@ id:"minecraft:kinetic_weapon",
 name:"キネティック武器",
 min:"1.21.90",
 type:"empty",
-default:false,
+default:true,
 help:"キネティック系の攻撃動作を有効にします。"
 },
 
@@ -731,7 +710,7 @@ id:"minecraft:piercing_weapon",
 name:"貫通武器",
 min:"1.21.90",
 type:"empty",
-default:false,
+default:true,
 help:"貫通攻撃を有効にします。"
 },
 
@@ -1129,7 +1108,7 @@ if(c.type==="empty"){
 const input=addCheckbox(
 parent,
 "有効にする",
-false
+c.default
 );
 
 input.dataset.field="value";
