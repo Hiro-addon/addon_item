@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hiro Addon Tools</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+background:#111;
+color:#fff;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 16px 50px
+}
+h1{
+margin:0;
+font-size:28px
+}
+.subtitle{
+margin:6px 0 28px;
+color:#888
+}
+.section{
+background:#1a1a1a;
+border:1px solid #292929;
+border-radius:14px;
+padding:18px;
+margin-bottom:16px
+}
+.section h2{
+margin:0 0 16px;
+font-size:18px
+}
+.field{
+margin-bottom:15px
+}
+.field:last-child{
+margin-bottom:0
+}
+label{
+display:block;
+margin-bottom:7px;
+color:#bbb;
+font-size:14px
+}
+input,select,textarea{
+width:100%;
+padding:12px 14px;
+border-radius:9px;
+border:1px solid #333;
+background:#111;
+color:#fff;
+outline:none;
+font-size:15px
+}
+input:focus,select:focus,textarea:focus{
+border-color:#666
+}
+input::placeholder,textarea::placeholder{
+color:#777;
+opacity:.55
+}
+select{
+appearance:auto
+}
+textarea{
+min-height:100px;
+resize:vertical;
+font-family:monospace
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px
+}
+.component-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
+}
+.component{
+border:1px solid #333;
+border-radius:10px;
+background:#111;
+overflow:hidden
+}
+.component-head{
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px
+}
+.component-head input{
+width:18px;
+height:18px;
+padding:0;
+margin:0
+}
+.component-name{
+font-size:14px;
+word-break:break-all
+}
+.component-version{
+margin-left:auto;
+font-size:11px;
+color:#777;
+white-space:nowrap
+}
+.component-body{
+display:none;
+padding:0 12px 12px
+}
+.component.active .component-body{
+display:block
+}
+.component-body textarea{
+min-height:90px;
+font-size:12px
+}
+.generate{
+width:100%;
+padding:14px;
+border:0;
+border-radius:10px;
+background:#fff;
+color:#111;
+font-size:16px;
+font-weight:bold;
+cursor:pointer
+}
+.result{
+margin-top:16px
+}
+.result-box{
+background:#0d0d0d;
+border:1px solid #292929;
+border-radius:12px;
+overflow:hidden
+}
+.result-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 14px;
+border-bottom:1px solid #292929;
+font-weight:bold
+}
+.copy-btn{
+padding:7px 12px;
+border:1px solid #444;
+border-radius:7px;
+background:#1a1a1a;
+color:#fff;
+cursor:pointer;
+font-size:12px
+}
+pre{
+margin:0;
+padding:15px;
+overflow-x:auto;
+white-space:pre-wrap;
+word-break:break-word;
+color:#ddd;
+font-size:13px;
+line-height:1.6
+}
+.empty{
+color:#777;
+font-size:14px;
+padding:10px 0
+}
+@media(max-width:700px){
+.grid,.component-grid{
+grid-template-columns:1fr
+}
+h1{
+font-size:24px
+}
+.component-version{
+display:none
+}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Hiro Addon Tools</h1>
+<div class="subtitle">Minecraft Bedrock Addon Item JSON Generator</div>
+
+<div class="section">
+<h2>基本設定</h2>
+
+<div class="grid">
+
+<div class="field">
+<label>フォーマットバージョン</label>
+<select id="formatVersion">
+<option value="1.20.0">1.20.0</option>
+<option value="1.20.10">1.20.10</option>
+<option value="1.20.30">1.20.30</option>
+<option value="1.20.50">1.20.50</option>
+<option value="1.21.0">1.21.0</option>
+<option value="1.21.20">1.21.20</option>
+<option value="1.21.40">1.21.40</option>
+<option value="1.21.50">1.21.50</option>
+<option value="1.21.90">1.21.90</option>
+<option value="1.21.110">1.21.110</option>
+<option value="1.21.120">1.21.120</option>
+<option value="1.21.130">1.21.130</option>
+<option value="1.26.0">1.26.0</option>
+<option value="1.26.10">1.26.10</option>
+<option value="1.26.30" selected>1.26.30</option>
+</select>
+</div>
+
+<div class="field">
+<label>アイテムID</label>
+<input id="identifier" type="text" placeholder="hiro:test_item">
+</div>
+
+<div class="field">
+<label>クリエイティブカテゴリ</label>
+<select id="category">
+<option value="none">なし</option>
+<option value="items">アイテム</option>
+<option value="equipment">装備</option>
+<option value="nature">自然</option>
+<option value="construction">建築</option>
+</select>
+</div>
+
+<div class="field">
+<label>クリエイティブグループ</label>
+<input id="group" type="text" placeholder="空欄なら設定しない">
+</div>
+
+</div>
+</div>
+
+<div class="section">
+<h2>コンポーネント</h2>
+<div id="components" class="component-grid"></div>
+</div>
+
+<div class="section">
+<button class="generate" id="generate">Item JSONを生成</button>
+</div>
+
+<div id="result" class="result"></div>
+
+</div>
+
+<script>
+const components=[
+["minecraft:allow_off_hand", "1.20.0", "true"],
+["minecraft:block_placer", "1.21.50", "{\n  \"block\": \"minecraft:stone\"\n}"],
+["minecraft:bundle_interaction", "1.21.40", "{}"],
+["minecraft:can_destroy_in_creative", "1.20.0", "true"],
+["minecraft:compostable", "1.20.0", "{\n  \"composting_chance\": 0.3\n}"],
+["minecraft:cooldown", "1.20.10", "{\n  \"category\": \"example\",\n  \"duration\": 1\n}"],
+["minecraft:damage", "1.20.0", "1"],
+["minecraft:damage_absorption", "1.21.90", "{}"],
+["minecraft:digger", "1.20.30", "{\n  \"use_efficiency\": true,\n  \"destroy_speeds\": []\n}"],
+["minecraft:display_name", "1.20.0", "{\n  \"value\": \"アイテム名\"\n}"],
+["minecraft:durability", "1.20.0", "{\n  \"max_durability\": 100\n}"],
+["minecraft:durability_sensor", "1.20.0", "{\n  \"durability_thresholds\": []\n}"],
+["minecraft:dyeable", "1.20.0", "{\n  \"default_color\": \"#FFFFFF\"\n}"],
+["minecraft:enchantable", "1.20.30", "{\n  \"slot\": \"sword\",\n  \"value\": 10\n}"],
+["minecraft:entity_placer", "1.20.10", "{\n  \"entity\": \"minecraft:chicken\"\n}"],
+["minecraft:fire_resistant", "1.20.0", "true"],
+["minecraft:food", "1.20.30", "{\n  \"nutrition\": 1,\n  \"saturation_modifier\": 0.6,\n  \"can_always_eat\": false\n}"],
+["minecraft:fuel", "1.20.0", "{\n  \"duration\": 1\n}"],
+["minecraft:glint", "1.20.0", "true"],
+["minecraft:hand_equipped", "1.20.0", "true"],
+["minecraft:hover_text_color", "1.20.0", "{\n  \"value\": \"#FFFFFF\"\n}"],
+["minecraft:icon", "1.20.0", "{\n  \"texture\": \"test_item\"\n}"],
+["minecraft:interact_button", "1.20.0", "true"],
+["minecraft:kinetic_weapon", "1.21.90", "{}"],
+["minecraft:liquid_clipped", "1.20.0", "true"],
+["minecraft:max_stack_size", "1.20.0", "64"],
+["minecraft:piercing_weapon", "1.21.90", "{}"],
+["minecraft:projectile", "1.20.10", "{\n  \"projectile_entity\": \"minecraft:arrow\"\n}"],
+["minecraft:rarity", "1.21.90", "{\n  \"value\": \"common\"\n}"],
+["minecraft:record", "1.20.10", "{\n  \"comparator_signal\": 1,\n  \"duration\": 100,\n  \"sound_event\": \"13\"\n}"],
+["minecraft:repairable", "1.20.10", "{\n  \"repair_items\": []\n}"],
+["minecraft:shooter", "1.20.10", "{\n  \"ammunition\": []\n}"],
+["minecraft:should_despawn", "1.20.0", "true"],
+["minecraft:stacked_by_data", "1.20.0", "true"],
+["minecraft:storage_item", "1.21.40", "{\n  \"max_slots\": 64\n}"],
+["minecraft:storage_weight_limit", "1.21.110", "{\n  \"max_weight_limit\": 64\n}"],
+["minecraft:storage_weight_modifier", "1.21.110", "{\n  \"weight_in_storage_item\": 4\n}"],
+["minecraft:swing_duration", "1.21.120", "{\n  \"value\": 0.3\n}"],
+["minecraft:swing_sounds", "1.21.120", "{}"],
+["minecraft:tags", "1.20.50", "{\n  \"tags\": []\n}"],
+["minecraft:throwable", "1.20.10", "{\n  \"launch_power_scale\": 1,\n  \"max_launch_power\": 1,\n  \"min_draw_duration\": 0,\n  \"max_draw_duration\": 0,\n  \"scale_power_by_draw_duration\": false,\n  \"do_swing_animation\": false\n}"],
+["minecraft:use_animation", "1.20.0", "{\n  \"value\": \"none\"\n}"],
+["minecraft:use_modifiers", "1.20.50", "{\n  \"use_duration\": 1.6,\n  \"movement_modifier\": 0.35,\n  \"emit_vibrations\": true\n}"],
+["minecraft:wearable", "1.20.30", "{\n  \"slot\": \"slot.armor.head\",\n  \"protection\": 0\n}"]
+];
+
+function versionNumber(v){
+return v.split(".").map(Number);
+}
+
+function versionAtLeast(current,min){
+const a=versionNumber(current);
+const b=versionNumber(min);
+
+for(let i=0;i<3;i++){
+if((a[i]||0)>(b[i]||0)) return true;
+if((a[i]||0)<(b[i]||0)) return false;
+}
+
+return true;
+}
+
+function renderComponents(){
+const current=document.getElementById("formatVersion").value;
+const area=document.getElementById("components");
+
+area.innerHTML="";
+
+components
+.filter(c=>versionAtLeast(current,c[1]))
+.forEach((c,i)=>{
+const box=document.createElement("div");
+box.className="component";
+
+const head=document.createElement("div");
+head.className="component-head";
+
+const check=document.createElement("input");
+check.type="checkbox";
+check.dataset.index=i;
+
+const name=document.createElement("div");
+name.className="component-name";
+name.textContent=c[0];
+
+const ver=document.createElement("div");
+ver.className="component-version";
+ver.textContent="≥ "+c[1];
+
+head.appendChild(check);
+head.appendChild(name);
+head.appendChild(ver);
+
+const body=document.createElement("div");
+body.className="component-body";
+
+const textarea=document.createElement("textarea");
+textarea.value=c[2];
+
+body.appendChild(textarea);
+
+box.appendChild(head);
+box.appendChild(body);
+
+check.onchange=()=>{
+box.classList.toggle("active",check.checked);
+};
+
+area.appendChild(box);
+});
+}
+
+document.getElementById("formatVersion").onchange=renderComponents;
+
+renderComponents();
+
+document.getElementById("generate").onclick=()=>{
+const formatVersion=document.getElementById("formatVersion").value;
+
+let identifier=document.getElementById("identifier").value.trim();
+
+if(!identifier){
+identifier="hiro:test_item";
+}
+
+if(!identifier.includes(":")){
+identifier="hiro:"+identifier;
+}
+
+const category=document.getElementById("category").value;
+const group=document.getElementById("group").value.trim();
+
+const description={
+identifier:identifier,
+menu_category:{
+category:category
+}
+};
+
+if(group){
+description.menu_category.group=group;
+}
+
+const result={
+format_version:formatVersion,
+"minecraft:item":{
+description:description,
+components:{}
+}
+};
+
+document.querySelectorAll(".component").forEach(box=>{
+const check=box.querySelector("input[type=checkbox]");
+
+if(!check.checked) return;
+
+const index=Number(check.dataset.index);
+const component=components[index];
+const value=box.querySelector("textarea").value.trim();
+
+if(!value){
+result["minecraft:item"].components[component[0]]={};
+return;
+}
+
+try{
+result["minecraft:item"].components[component[0]]=JSON.parse(value);
+}catch{
+result["minecraft:item"].components[component[0]]=value;
+}
+});
+
+const output=JSON.stringify(result,null,2);
+
+const resultArea=document.getElementById("result");
+
+resultArea.innerHTML="";
+
+const box=document.createElement("div");
+box.className="result-box";
+
+const title=document.createElement("div");
+title.className="result-title";
+
+const titleText=document.createElement("span");
+titleText.textContent="アイテムJSON";
+
+const copy=document.createElement("button");
+copy.className="copy-btn";
+copy.textContent="コピー";
+
+copy.onclick=async()=>{
+await navigator.clipboard.writeText(output);
+copy.textContent="コピーしました";
+
+setTimeout(()=>{
+copy.textContent="コピー";
+},1500);
+};
+
+title.appendChild(titleText);
+title.appendChild(copy);
+
+const pre=document.createElement("pre");
+pre.textContent=output;
+
+box.appendChild(title);
+box.appendChild(pre);
+
+resultArea.appendChild(box);
+};
+</script>
+
+</body>
+</html>
