@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Hiro Addon Tools</title>
-
 <style>
 *{
 box-sizing:border-box;
@@ -70,7 +69,15 @@ font-size:14px;
 outline:none;
 }
 
-input:focus,select:focus,textarea:focus{
+input::placeholder,
+textarea::placeholder{
+color:#666;
+opacity:1;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
 border-color:#777;
 }
 
@@ -239,7 +246,7 @@ grid-template-columns:1fr;
 
 <div>
 <label>アイテムID</label>
-<input id="identifier" value="hiro:test_item" placeholder="hiro:test_item">
+<input id="identifier" placeholder="hiro:test_item">
 </div>
 
 <div>
@@ -277,7 +284,7 @@ grid-template-columns:1fr;
 <div class="required-desc">アイテムのテクスチャを指定します。</div>
 
 <label>テクスチャ名</label>
-<input id="icon" value="item_texture">
+<input id="icon" placeholder="item_texture">
 </div>
 
 <div class="required">
@@ -285,7 +292,7 @@ grid-template-columns:1fr;
 <div class="required-desc">最大スタック数を指定します。</div>
 
 <label>最大スタック数</label>
-<input id="maxStack" type="number" min="1" max="99" value="64">
+<input id="maxStack" type="number" min="1" max="99" placeholder="64">
 </div>
 
 </div>
@@ -321,7 +328,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>堆肥化確率</label>
-<input data-key="chance" type="number" min="0" max="1" step="0.01" value="1">
+<input data-key="chance" type="number" min="0" max="1" step="0.01" placeholder="1">
 </div>
 </div>
 
@@ -333,10 +340,10 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>カテゴリ</label>
-<input data-key="category" value="default">
+<input data-key="category" placeholder="default">
 
 <label>クールダウン時間</label>
-<input data-key="duration" type="number" min="0" step="0.1" value="1">
+<input data-key="duration" type="number" min="0" step="0.1" placeholder="1">
 </div>
 </div>
 
@@ -348,7 +355,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>ダメージ</label>
-<input data-key="value" type="number" min="0" step="1" value="1">
+<input data-key="value" type="number" min="0" step="1" placeholder="1">
 </div>
 </div>
 
@@ -360,7 +367,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>吸収量</label>
-<input data-key="absorption" type="number" min="0" step="0.1" value="1">
+<input data-key="absorption" type="number" min="0" step="0.1" placeholder="1">
 </div>
 </div>
 
@@ -371,6 +378,7 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.30+</span>
 </div>
 <div class="component-body">
+
 <div class="boolean-setting">
 <label>
 <input data-key="use_efficiency" type="checkbox">
@@ -382,7 +390,7 @@ grid-template-columns:1fr;
 <input data-key="block" placeholder="minecraft:stone">
 
 <label>破壊速度</label>
-<input data-key="speed" type="number" min="0" step="0.1" value="1">
+<input data-key="speed" type="number" min="0" step="0.1" placeholder="1">
 </div>
 </div>
 
@@ -394,7 +402,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>表示名</label>
-<input data-key="value" value="テストアイテム">
+<input data-key="value" placeholder="テストアイテム">
 </div>
 </div>
 
@@ -405,14 +413,16 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.0+</span>
 </div>
 <div class="component-body">
+
 <label>最大耐久値</label>
-<input data-key="max_durability" type="number" min="1" value="100">
+<input data-key="max_durability" type="number" min="1" placeholder="100">
 
 <label>ダメージ発生確率 最小</label>
-<input data-key="min_damage_chance" type="number" min="0" max="100" value="100">
+<input data-key="min_damage_chance" type="number" min="0" max="100" placeholder="100">
 
 <label>ダメージ発生確率 最大</label>
-<input data-key="max_damage_chance" type="number" min="0" max="100" value="100">
+<input data-key="max_damage_chance" type="number" min="0" max="100" placeholder="100">
+
 </div>
 </div>
 
@@ -423,8 +433,10 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.0+</span>
 </div>
 <div class="component-body">
+
 <label>エンチャントスロット</label>
 <select data-key="slot">
+<option value="">選択してください</option>
 <option>armor_head</option>
 <option>armor_chest</option>
 <option>armor_legs</option>
@@ -443,7 +455,8 @@ grid-template-columns:1fr;
 </select>
 
 <label>エンチャント値</label>
-<input data-key="value" type="number" min="0" value="10">
+<input data-key="value" type="number" min="0" placeholder="10">
+
 </div>
 </div>
 
@@ -462,11 +475,12 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.30+</span>
 </div>
 <div class="component-body">
+
 <label>栄養値</label>
-<input data-key="nutrition" type="number" min="0" value="1">
+<input data-key="nutrition" type="number" min="0" placeholder="1">
 
 <label>満腹度倍率</label>
-<input data-key="saturation_modifier" type="number" min="0" step="0.1" value="1">
+<input data-key="saturation_modifier" type="number" min="0" step="0.1" placeholder="1">
 
 <div class="boolean-setting">
 <label>
@@ -477,6 +491,7 @@ grid-template-columns:1fr;
 
 <label>使用後に変換されるアイテム</label>
 <input data-key="using_converts_to" placeholder="minecraft:bowl">
+
 </div>
 </div>
 
@@ -488,7 +503,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>燃焼時間</label>
-<input data-key="duration" type="number" min="0" step="0.1" value="1">
+<input data-key="duration" type="number" min="0" step="0.1" placeholder="1">
 </div>
 </div>
 
@@ -524,7 +539,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>色</label>
-<input data-key="color" value="#FFFFFF">
+<input data-key="color" placeholder="#FFFFFF">
 </div>
 </div>
 
@@ -548,7 +563,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>攻撃倍率</label>
-<input data-key="damage_multiplier" type="number" min="0" step="0.1" value="1">
+<input data-key="damage_multiplier" type="number" min="0" step="0.1" placeholder="1">
 </div>
 </div>
 
@@ -559,11 +574,13 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.10+</span>
 </div>
 <div class="component-body">
+
 <label>投射物エンティティ</label>
 <input data-key="projectile_entity" placeholder="minecraft:arrow">
 
 <label>最小クリティカルパワー</label>
-<input data-key="minimum_critical_power" type="number" min="0" step="0.1" value="0">
+<input data-key="minimum_critical_power" type="number" min="0" step="0.1" placeholder="0">
+
 </div>
 </div>
 
@@ -576,6 +593,7 @@ grid-template-columns:1fr;
 <div class="component-body">
 <label>レアリティ</label>
 <select data-key="value">
+<option value="">選択してください</option>
 <option>common</option>
 <option>uncommon</option>
 <option>rare</option>
@@ -591,14 +609,16 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.10+</span>
 </div>
 <div class="component-body">
+
 <label>サウンドイベント</label>
 <input data-key="sound_event" placeholder="record.13">
 
 <label>再生時間</label>
-<input data-key="duration" type="number" min="0" step="0.1" value="178">
+<input data-key="duration" type="number" min="0" step="0.1" placeholder="178">
 
 <label>説明</label>
-<input data-key="comparator_signal" type="number" min="0" max="15" value="1">
+<input data-key="comparator_signal" type="number" min="0" max="15" placeholder="1">
+
 </div>
 </div>
 
@@ -609,11 +629,13 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.0+</span>
 </div>
 <div class="component-body">
+
 <label>修理アイテム</label>
 <input data-key="items" placeholder="minecraft:iron_ingot">
 
 <label>修理量</label>
-<input data-key="repair_amount" type="number" min="1" value="10">
+<input data-key="repair_amount" type="number" min="1" placeholder="10">
+
 </div>
 </div>
 
@@ -624,22 +646,24 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.10+</span>
 </div>
 <div class="component-body">
+
 <label>弾薬アイテム</label>
 <input data-key="item" placeholder="minecraft:arrow">
 
 <div class="boolean-setting">
 <label>
-<input data-key="search_inventory" type="checkbox" checked>
+<input data-key="search_inventory" type="checkbox">
 インベントリから弾薬を検索
 </label>
 </div>
 
 <div class="boolean-setting">
 <label>
-<input data-key="use_in_creative" type="checkbox" checked>
+<input data-key="use_in_creative" type="checkbox">
 クリエイティブで使用
 </label>
 </div>
+
 </div>
 </div>
 
@@ -650,12 +674,14 @@ grid-template-columns:1fr;
 <span class="component-version">1.21.40+</span>
 </div>
 <div class="component-body">
+
 <div class="boolean-setting">
 <label>
 <input data-key="allow_nested_storage_items" type="checkbox">
 収納アイテムを収納可能
 </label>
 </div>
+
 </div>
 </div>
 
@@ -667,7 +693,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>重量上限</label>
-<input data-key="max_weight" type="number" min="0" value="64">
+<input data-key="max_weight" type="number" min="0" placeholder="64">
 </div>
 </div>
 
@@ -679,7 +705,7 @@ grid-template-columns:1fr;
 </div>
 <div class="component-body">
 <label>重量倍率</label>
-<input data-key="weight_multiplier" type="number" min="0" step="0.1" value="1">
+<input data-key="weight_multiplier" type="number" min="0" step="0.1" placeholder="1">
 </div>
 </div>
 
@@ -702,8 +728,14 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.10+</span>
 </div>
 <div class="component-body">
-<label>投射物エンティティ</label>
+
+<div class="boolean-setting">
+<label>
 <input data-key="do_swing_animation" type="checkbox">
+投げるときにスイングアニメーション
+</label>
+</div>
+
 </div>
 </div>
 
@@ -714,11 +746,12 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.50+</span>
 </div>
 <div class="component-body">
+
 <label>使用時間</label>
-<input data-key="use_duration" type="number" min="0" step="0.1" value="1">
+<input data-key="use_duration" type="number" min="0" step="0.1" placeholder="1">
 
 <label>移動速度倍率</label>
-<input data-key="movement_modifier" type="number" min="0" step="0.1" value="0.2">
+<input data-key="movement_modifier" type="number" min="0" step="0.1" placeholder="0.2">
 
 <div class="boolean-setting">
 <label>
@@ -729,6 +762,7 @@ grid-template-columns:1fr;
 
 <label>使用開始音</label>
 <input data-key="start_sound" placeholder="random.eat">
+
 </div>
 </div>
 
@@ -739,8 +773,10 @@ grid-template-columns:1fr;
 <span class="component-version">1.20.0+</span>
 </div>
 <div class="component-body">
+
 <label>装備スロット</label>
 <select data-key="slot">
+<option value="">選択してください</option>
 <option>slot.armor.head</option>
 <option>slot.armor.chest</option>
 <option>slot.armor.legs</option>
@@ -750,7 +786,7 @@ grid-template-columns:1fr;
 </select>
 
 <label>防御力</label>
-<input data-key="protection" type="number" min="0" value="0">
+<input data-key="protection" type="number" min="0" placeholder="0">
 
 <div class="boolean-setting">
 <label>
@@ -765,6 +801,7 @@ grid-template-columns:1fr;
 プレイヤー位置を隠す
 </label>
 </div>
+
 </div>
 </div>
 
@@ -833,9 +870,10 @@ component.classList.toggle("active",checkbox.checked);
 });
 });
 
-document.getElementById("version").addEventListener("change",()=>{
-refreshComponents();
-});
+document.getElementById("version").addEventListener(
+"change",
+refreshComponents
+);
 
 refreshComponents();
 
@@ -845,16 +883,13 @@ return input.checked;
 }
 
 if(input.type==="number"){
+if(input.value===""){
+return "";
+}
 return Number(input.value);
 }
 
 return input.value.trim();
-}
-
-function addIfValue(object,key,value){
-if(value!=="" && value!==null && value!==undefined){
-object[key]=value;
-}
 }
 
 function createComponent(component){
@@ -893,31 +928,39 @@ result[key]=value;
 });
 
 if(id==="minecraft:durability"){
-return {
-max_durability:result.max_durability,
-damage_chance:{
-min:result.min_damage_chance,
-max:result.max_damage_chance
-}
+const output={
+max_durability:result.max_durability
+};
+
+if(
+result.min_damage_chance!==undefined ||
+result.max_damage_chance!==undefined
+){
+output.damage_chance={
+min:result.min_damage_chance ?? 0,
+max:result.max_damage_chance ?? 100
 };
 }
 
+return output;
+}
+
 if(id==="minecraft:digger"){
-const output={
-destroy_speeds:[]
-};
+const output={};
 
 if(result.use_efficiency!==undefined){
 output.use_efficiency=result.use_efficiency;
 }
 
 if(result.block){
-output.destroy_speeds.push({
-"block":{
-"tags":`query.any_tag('${result.block}')`
+output.destroy_speeds=[
+{
+block:{
+tags:`query.any_tag('${result.block}')`
 },
-"speed":result.speed ?? 1
-});
+speed:result.speed ?? 1
+}
+];
 }
 
 return output;
@@ -939,8 +982,8 @@ return {
 ammunition:[
 {
 item:result.item || "minecraft:arrow",
-search_inventory:result.search_inventory ?? true,
-use_in_creative:result.use_in_creative ?? true
+search_inventory:result.search_inventory ?? false,
+use_in_creative:result.use_in_creative ?? false
 }
 ]
 };
@@ -980,7 +1023,9 @@ component.querySelector("input[type=checkbox]").checked;
 
 function validateComponents(){
 for(const id in dependencies){
-if(!isChecked(id))continue;
+if(!isChecked(id)){
+continue;
+}
 
 for(const required of dependencies[id]){
 if(!isChecked(required)){
@@ -1022,8 +1067,11 @@ const icon=
 document.getElementById("icon").value.trim() ||
 "item_texture";
 
+const maxStackValue=
+document.getElementById("maxStack").value;
+
 const maxStack=
-Number(document.getElementById("maxStack").value)||64;
+maxStackValue==="" ? 64 : Number(maxStackValue);
 
 const components={
 "minecraft:icon":icon,
