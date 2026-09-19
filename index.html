@@ -75,7 +75,9 @@ min-height:90px;
 resize:vertical
 }
 
-input:focus,select:focus,textarea:focus{
+input:focus,
+select:focus,
+textarea:focus{
 border-color:#666
 }
 
@@ -954,9 +956,11 @@ placeholder=""
 ){
 
 const wrap=document.createElement("div");
+
 wrap.className="field";
 
 const l=document.createElement("label");
+
 l.textContent=label;
 
 const input=document.createElement("input");
@@ -982,9 +986,11 @@ value
 ){
 
 const wrap=document.createElement("div");
+
 wrap.className="field";
 
 const l=document.createElement("label");
+
 l.textContent=label;
 
 const select=document.createElement("select");
@@ -1018,6 +1024,7 @@ checked=false
 ){
 
 const wrap=document.createElement("div");
+
 wrap.className="boolean-setting";
 
 const input=document.createElement("input");
@@ -1026,6 +1033,7 @@ input.type="checkbox";
 input.checked=checked;
 
 const span=document.createElement("span");
+
 span.textContent=label;
 
 wrap.appendChild(input);
@@ -1044,11 +1052,13 @@ secondsValue=1
 ){
 
 const row=document.createElement("div");
+
 row.className="digger-row";
 
 const blockWrap=document.createElement("div");
 
 const blockLabel=document.createElement("div");
+
 blockLabel.className="digger-label";
 blockLabel.textContent="対象ブロックID";
 
@@ -1066,6 +1076,7 @@ blockWrap.appendChild(block);
 const timeWrap=document.createElement("div");
 
 const timeLabel=document.createElement("div");
+
 timeLabel.className="digger-label";
 timeLabel.textContent="破壊時間（秒）";
 
@@ -1665,13 +1676,12 @@ input.dataset.field="json";
 
 function renderComponents(){
 
-const version=document.getElementById(
-"formatVersion"
-).value;
+const version=document
+.getElementById("formatVersion")
+.value;
 
-const grid=document.getElementById(
-"componentGrid"
-);
+const grid=document
+.getElementById("componentGrid");
 
 grid.innerHTML="";
 
@@ -2118,7 +2128,6 @@ collectComponent(c,box);
 const output={
 
 format_version:
-
 format_version,
 
 "minecraft:item":{
@@ -2198,7 +2207,6 @@ button.textContent=old;
 );
 
 renderComponents();
-generate();
 
 </script>
 
