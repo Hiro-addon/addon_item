@@ -229,19 +229,6 @@ cursor:pointer;
 display:none!important;
 }
 
-.component.disabled{
-opacity:.55;
-}
-
-.component.disabled .component-header{
-cursor:not-allowed;
-}
-
-.component.disabled .component-name,
-.component.disabled .component-version{
-color:#777;
-}
-
 @media(max-width:700px){
 .grid,
 .component-grid{
@@ -955,80 +942,6 @@ enableDependencies(requiredId,visited);
 });
 }
 
-function getRequiredComponents(){
-const required=new Set();
-
-function collect(id,visited=new Set()){
-if(visited.has(id)){
-return;
-}
-
-visited.add(id);
-
-const requiredIds=dependencies[id]||[];
-
-requiredIds.forEach(requiredId=>{
-required.add(requiredId);
-collect(requiredId,visited);
-});
-}
-
-document.querySelectorAll(".component").forEach(component=>{
-if(
-component.classList.contains("hidden") ||
-!component.querySelector("input[type=checkbox]").checked
-){
-return;
-}
-
-collect(component.dataset.id);
-});
-
-return required;
-}
-
-function disableUnusedAutoDependencies(){
-let changed=true;
-
-while(changed){
-changed=false;
-
-const required=getRequiredComponents();
-
-for(const id of [...autoEnabledDependencies]){
-if(required.has(id)){
-continue;
-}
-
-const component=getComponent(id);
-
-if(component){
-const checkbox=component.querySelector(
-"input[type=checkbox]"
-);
-
-checkbox.checked=false;
-component.classList.remove("active");
-}
-
-autoEnabledDependencies.delete(id);
-changed=true;
-}
-}
-}
-
-function refreshComponents(){
-document.querySelectorAll(".component").forEach(component=>{
-component.classList.toggle(
-"hidden",
-!versionOK(component.dataset.min)
-);
-});
-
-disableUnusedAutoDependencies();
-updateComponentLocks();
-}
-
 function updateComponentLocks(){
 const conflictDisabled=new Set();
 
@@ -1058,7 +971,6 @@ const requiredLabel=component.querySelector(
 
 if(component.classList.contains("hidden")){
 checkbox.disabled=false;
-component.classList.remove("disabled");
 
 if(requiredLabel){
 requiredLabel.classList.add("hidden");
@@ -1070,12 +982,9 @@ return;
 const autoRequired=autoEnabledDependencies.has(id);
 const conflictLocked=conflictDisabled.has(id);
 
-const locked=
+checkbox.disabled=
 autoRequired ||
 conflictLocked;
-
-checkbox.disabled=locked;
-component.classList.toggle("disabled",locked);
 
 if(requiredLabel){
 requiredLabel.classList.toggle(
@@ -1113,12 +1022,14 @@ const id=component.dataset.id;
 
 if(checkbox.checked){
 autoEnabledDependencies.delete(id);
+
 component.classList.add("active");
+
 enableDependencies(id);
 }else{
 autoEnabledDependencies.delete(id);
+
 component.classList.remove("active");
-disableUnusedAutoDependencies();
 }
 
 updateComponentLocks();
@@ -1127,10 +1038,26 @@ updateComponentLocks();
 
 document.getElementById("version").addEventListener(
 "change",
-refreshComponents
+()=>{
+document.querySelectorAll(".component").forEach(component=>{
+component.classList.toggle(
+"hidden",
+!versionOK(component.dataset.min)
+);
+});
+
+updateComponentLocks();
+}
 );
 
-refreshComponents();
+document.querySelectorAll(".component").forEach(component=>{
+component.classList.toggle(
+"hidden",
+!versionOK(component.dataset.min)
+);
+});
+
+updateComponentLocks();
 
 function getValue(input){
 if(input.type==="checkbox"){
