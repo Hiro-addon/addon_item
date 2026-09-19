@@ -580,6 +580,7 @@ grid-template-columns:1fr;
 <input type="checkbox">
 <span class="component-name">投射物</span>
 <span class="component-version">1.20.10+</span>
+<span class="component-required hidden">🔒 必須</span>
 </div>
 <div class="component-body">
 
@@ -873,15 +874,13 @@ const conflicts=[
 ]
 ];
 
-const autoEnabledDependencies=new Set();
-
 function getComponent(id){
 return document.querySelector(
 `.component[data-id="${id}"]`
 );
 }
 
-function setComponentState(id,checked,automatic=false){
+function setComponentState(id,checked){
 const component=getComponent(id);
 
 if(!component){
@@ -896,22 +895,8 @@ const checkbox=component.querySelector(
 "input[type=checkbox]"
 );
 
-if(checkbox.checked===checked){
-return;
-}
-
 checkbox.checked=checked;
 component.classList.toggle("active",checked);
-
-if(checked){
-if(automatic){
-autoEnabledDependencies.add(id);
-}else{
-autoEnabledDependencies.delete(id);
-}
-}else{
-autoEnabledDependencies.delete(id);
-}
 }
 
 function enableDependencies(id,visited=new Set()){
@@ -935,11 +920,63 @@ const requiredCheckbox=requiredComponent.querySelector(
 );
 
 if(!requiredCheckbox.checked){
-setComponentState(requiredId,true,true);
+setComponentState(requiredId,true);
 }
 
 enableDependencies(requiredId,visited);
 });
+}
+
+function getRequiredDependencies(){
+const required=new Set();
+
+function addDependencies(id,visited=new Set()){
+if(visited.has(id)){
+return;
+}
+
+visited.add(id);
+
+const list=dependencies[id]||[];
+
+list.forEach(requiredId=>{
+const component=getComponent(requiredId);
+
+if(!component){
+return;
+}
+
+if(component.classList.contains("hidden")){
+return;
+}
+
+required.add(requiredId);
+
+addDependencies(requiredId,visited);
+});
+}
+
+document.querySelectorAll(".component").forEach(component=>{
+if(component.classList.contains("hidden")){
+return;
+}
+
+const checkbox=component.querySelector(
+"input[type=checkbox]"
+);
+
+if(!checkbox.checked){
+return;
+}
+
+addDependencies(component.dataset.id);
+});
+
+return required;
+}
+
+function isRequired(id){
+return getRequiredDependencies().has(id);
 }
 
 function updateComponentLocks(){
@@ -959,6 +996,9 @@ conflictDisabled.add(id);
 });
 });
 
+const requiredDependencies=
+getRequiredDependencies();
+
 document.querySelectorAll(".component").forEach(component=>{
 const id=component.dataset.id;
 const checkbox=component.querySelector(
@@ -970,26 +1010,32 @@ const requiredLabel=component.querySelector(
 );
 
 if(component.classList.contains("hidden")){
-checkbox.disabled=false;
-
 if(requiredLabel){
 requiredLabel.classList.add("hidden");
 }
 
+checkbox.dataset.required="false";
+checkbox.disabled=false;
+
 return;
 }
 
-const autoRequired=autoEnabledDependencies.has(id);
-const conflictLocked=conflictDisabled.has(id);
+const required=
+requiredDependencies.has(id);
+
+const conflictLocked=
+conflictDisabled.has(id);
+
+checkbox.dataset.required=
+required ? "true" : "false";
 
 checkbox.disabled=
-autoRequired ||
 conflictLocked;
 
 if(requiredLabel){
 requiredLabel.classList.toggle(
 "hidden",
-!autoRequired
+!required
 );
 }
 });
@@ -998,8 +1044,25 @@ requiredLabel.classList.toggle(
 document.querySelectorAll(".component-header").forEach(header=>{
 const checkbox=header.querySelector("input");
 
+checkbox.addEventListener("click",e=>{
+const component=header.parentElement;
+const id=component.dataset.id;
+
+if(isRequired(id)){
+e.preventDefault();
+return;
+}
+});
+
 header.addEventListener("click",e=>{
 if(e.target===checkbox){
+return;
+}
+
+const component=header.parentElement;
+const id=component.dataset.id;
+
+if(isRequired(id)){
 return;
 }
 
@@ -1013,22 +1076,24 @@ checkbox.dispatchEvent(new Event("change"));
 
 checkbox.addEventListener("change",()=>{
 const component=header.parentElement;
+const id=component.dataset.id;
 
 if(checkbox.disabled){
 return;
 }
 
-const id=component.dataset.id;
+if(isRequired(id)){
+checkbox.checked=true;
+component.classList.add("active");
+updateComponentLocks();
+return;
+}
 
 if(checkbox.checked){
-autoEnabledDependencies.delete(id);
-
 component.classList.add("active");
 
 enableDependencies(id);
 }else{
-autoEnabledDependencies.delete(id);
-
 component.classList.remove("active");
 }
 
